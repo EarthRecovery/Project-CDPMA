@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cdpma-common-pojo" />
+        <module name="core" />
+        <module name="auth" />
+        <module name="datasource" />
+        <module name="admin" />
+        <module name="job" />
+        <module name="user" />
+        <module name="gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pojo" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CDPMA" options="" />
+      <module name="admin" options="" />
+      <module name="auth" options="" />
+      <module name="common" options="" />
+      <module name="core" options="" />
+      <module name="datasource" options="" />
+      <module name="gateway" options="" />
+      <module name="job" options="" />
+      <module name="pojo" options="-parameters" />
+      <module name="system" options="" />
+      <module name="user" options="" />
+    </option>
+  </component>
+</project>
