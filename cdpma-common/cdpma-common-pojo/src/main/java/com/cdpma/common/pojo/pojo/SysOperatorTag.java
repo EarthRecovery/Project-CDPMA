@@ -1,6 +1,8 @@
 package com.cdpma.common.pojo.pojo;
 
-public class SysOperatorTag {
+import com.cdpma.common.core.web.domain.BaseEntity;
+
+public class SysOperatorTag extends BaseEntity {
     private Long operatorId;
     private Long tagId;
     private String tagName;

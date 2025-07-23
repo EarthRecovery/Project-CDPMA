@@ -277,7 +277,6 @@ DROP TABLE IF EXISTS cdpma_runtime_log;
 
 CREATE TABLE cdpma_runtime_log (
                                      log_id               BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '运行日志编号',
-                                     runtime_id         BIGINT(20)      NOT NULL                     COMMENT '运行id',
                                      runtime_time       DATETIME        NOT NULL    COMMENT '运行时间',
                                      method               VARCHAR(50)     NOT NULL                     COMMENT '运行方法',
                                      is_successful        BOOLEAN         NOT NULL                     COMMENT '是否成功',
@@ -296,7 +295,10 @@ DROP TABLE IF EXISTS cdpma_login_logout_log;
 CREATE TABLE cdpma_login_logout_log (
                                         log_id               BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '日志编号',
                                         operator_id          BIGINT(20)      NOT NULL                     COMMENT '操作者编号',
+                                        operator_name             VARCHAR(64)     NOT NULL                     COMMENT '操作者用户名',
+                                        message              TEXT            DEFAULT NULL                 COMMENT '日志消息',
                                         action               INT             NOT NULL                COMMENT '操作类型（登录/登出）',
                                         timestamp            DATETIME        NOT NULL     COMMENT '时间',
+                                        ip_address           VARCHAR(50)     DEFAULT NULL                 COMMENT 'IP地址',
                                         PRIMARY KEY (log_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录登出日志表';

@@ -1,13 +1,12 @@
 package com.cdpma.common.pojo.pojo;
 
+import com.cdpma.common.core.web.domain.BaseEntity;
+
 import java.util.Date;
 
-public class SysRuntimeLog {
+public class SysRuntimeLog extends BaseEntity {
     /** 运行日志编号 */
     private Long logId;
-
-    /** 运行 ID */
-    private Long runtimeId;
 
     /** 运行时间 */
     private Date runtimeTime;
@@ -42,14 +41,6 @@ public class SysRuntimeLog {
 
     public void setLogId(Long logId) {
         this.logId = logId;
-    }
-
-    public Long getRuntimeId() {
-        return runtimeId;
-    }
-
-    public void setRuntimeId(Long runtimeId) {
-        this.runtimeId = runtimeId;
     }
 
     public Date getRuntimeTime() {
@@ -128,7 +119,6 @@ public class SysRuntimeLog {
     public String toString() {
         return "SysRuntimeLog{" +
                 "logId=" + logId +
-                ", runtimeId=" + runtimeId +
                 ", runtimeTime=" + runtimeTime +
                 ", method='" + method + '\'' +
                 ", isSuccessful=" + isSuccessful +

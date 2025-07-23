@@ -1,37 +1,62 @@
 package com.cdpma.common.pojo.pojo;
 
+import com.cdpma.common.core.constant.OperatorConstants;
+import com.cdpma.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.*;
 import java.util.Date;
 
-public class SysOperator {
+public class SysOperator extends BaseEntity {
 
-    private Long operatorId; // 操作员ID
+    private Long operatorId;
 
-    private String operatorName; // 操作员名称
+    @NotBlank(message = "操作员姓名不能为空")
+    @Size(max = OperatorConstants.MAX_OPERATOR_NAME_LENGTH, message = "姓名长度不能超过60个字符")
+    private String operatorName;
 
-    private String operatorNickname; // 操作员昵称
+    @Size(max = OperatorConstants.MAX_OPERATOR_NAME_LENGTH, message = "昵称长度不能超过60个字符")
+    private String operatorNickname;
 
-    private String operatorIdCard; // 操作员身份证
+    @NotBlank(message = "身份证号不能为空")
+    @Pattern(regexp = "^[1-9]\\d{5}(18|19|20)?\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{3}[\\dXx]$",
+            message = "身份证号格式不正确")
+    private String operatorIdCard;
 
-    private String operatorPhone; // 操作员电话
+    @NotBlank(message = "电话不能为空")
+    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "电话格式不正确")
+    private String operatorPhone;
 
-    private String operatorGender; // 操作员性别（默认 'O'）
+    @NotBlank(message = "性别不能为空")
+    @Pattern(regexp = "^[MFO]$", message = "性别必须为 M（男）, F（女）或 O（其他）")
+    private String operatorGender;
 
-    private Integer operatorAge; // 操作员年龄
+    @NotNull(message = "年龄不能为空")
+    @Max(value = OperatorConstants.MAX_AGE, message = "年龄不能大于200岁")
+    private Integer operatorAge;
 
-    private String operatorEmail; // 操作员邮箱
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
+    private String operatorEmail;
 
-    private String operatorRole; // 操作员角色
+    @NotBlank(message = "角色不能为空")
+    private String operatorRole;
 
-    private String operatorRegion; // 操作员所属大区
+    @NotBlank(message = "所属大区不能为空")
+    private String operatorRegion;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createdAt; // 操作员创建时间
+    private Date createdAt;
 
-    private Boolean isDisabled; // 是否停用
+    private Boolean isDisabled;
 
-    private String passwordHash; // 操作员密码（哈希加盐）
+    @NotBlank(message = "密码不能为空")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\\$%\\^&\\*]).{8,}$",
+            message = "密码必须包含大小写字母、数字和特殊字符，且长度不少于8位"
+    )
+    private String passwordHash;
 
     public Long getOperatorId() {
         return operatorId;

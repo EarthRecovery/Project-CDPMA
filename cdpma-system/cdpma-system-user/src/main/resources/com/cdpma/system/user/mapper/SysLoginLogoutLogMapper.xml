@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysLoginLogoutLogMapper">
+
+    <resultMap id="LogResultMap" type="com.cdpma.common.pojo.pojo.SysLoginLogoutLog">
+        <id     property="logId"      column="log_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="action"     column="action"/>
+        <result property="timestamp"  column="timestamp"/>
+        <result property="ipAddress"  column="ip_address"/>
+        <result property="operatorName" column="operator_name"/>
+        <result property="message"     column="message"/>
+    </resultMap>
+
+    <sql id="selectLogColumns">
+        SELECT log_id, operator_id, action, timestamp, ip_address, operator_name, message
+        FROM cdpma_login_logout_log
+    </sql>
+
+    <select id="selectLogById" resultMap="LogResultMap" parameterType="Long">
+        <include refid="selectLogColumns"/>
+        WHERE log_id = #{logId}
+    </select>
+
+    <select id="selectLogList" resultMap="LogResultMap" parameterType="com.cdpma.common.pojo.pojo.SysLoginLogoutLog">
+        <include refid="selectLogColumns"/>
+        <where>
+            <if test="operatorId != null">AND operator_id = #{operatorId}</if>
+            <if test="action != null">AND action = #{action}</if>
+        </where>
+        ORDER BY timestamp DESC
+    </select>
+
+    <insert id="insertLog" parameterType="com.cdpma.common.pojo.pojo.SysLoginLogoutLog">
+        INSERT INTO cdpma_login_logout_log (
+            operator_id, action, timestamp, ip_address, operator_name, message
+        ) VALUES (
+            #{operatorId}, #{action}, #{timestamp}, #{ipAddress}, #{operatorName}, #{message}
+        )
+    </insert>
+
+    <delete id="deleteLogByIds" parameterType="Long">
+        DELETE FROM cdpma_login_logout_log
+        WHERE log_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

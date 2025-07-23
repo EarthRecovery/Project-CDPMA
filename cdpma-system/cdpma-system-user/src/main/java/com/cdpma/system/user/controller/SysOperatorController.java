@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/operator")
 public class SysOperatorController {
@@ -26,9 +28,30 @@ public class SysOperatorController {
     }
 
     @PostMapping
-    public AjaxResult addOperator(@Validated @RequestBody SysOperator operator) {
-        sysOperatorService.insertOperator(operator);
-        return AjaxResult.success("操作员添加成功");
+    public AjaxResult addOperator(@Valid @RequestBody SysOperator operator) {
+        Long OperatorId = sysOperatorService.insertOperator(operator);
+        return AjaxResult.success("操作员添加成功").put("operatorId", OperatorId);
     }
+
+    @GetMapping("/name/{operatorName}")
+    public AjaxResult getOperatorByName(@PathVariable String operatorName) {
+        SysOperator operator = sysOperatorService.selectOperatorByOperatorName(operatorName);
+        return AjaxResult.success(operator);
+    }
+
+    @GetMapping("/email/{operatorEmail}")
+    public AjaxResult getOperatorByEmail(@PathVariable String operatorEmail) {
+        SysOperator operator = sysOperatorService.selectOperatorByOperatorEmail(operatorEmail);
+        return AjaxResult.success(operator);
+    }
+
+    @GetMapping("/phone/{operatorPhone}")
+    public AjaxResult getOperatorByPhone(@PathVariable String operatorPhone) {
+        System.out.println(operatorPhone);
+        SysOperator operator = sysOperatorService.selectOperatorByOperatorPhone(operatorPhone);
+        System.out.println(operator.toString());
+        return AjaxResult.success(operator);
+    }
+
 
 }

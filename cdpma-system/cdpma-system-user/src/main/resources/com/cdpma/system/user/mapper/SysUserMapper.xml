@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysUserMapper">
+
+    <resultMap id="UserResultMap" type="com.cdpma.common.pojo.pojo.SysUser">
+        <id     property="userId"         column="user_id"/>
+        <result property="operatorId"     column="operator_id"/>
+        <result property="accountBalance" column="account_balance"/>
+        <result property="points"         column="points"/>
+        <result property="coupons"        column="coupons"/>
+        <result property="orders"         column="orders"/>
+        <result property="userLevel"      column="user_level"/>
+        <result property="rfm"            column="rfm"/>
+        <result property="lifecycle"      column="lifecycle"/>
+        <result property="createdAt"      column="created_at"/>
+        <result property="updatedAt"      column="updated_at"/>
+        <result property="isDisabled"     column="is_disabled"/>
+    </resultMap>
+
+    <sql id="selectUserColumns">
+        SELECT user_id, operator_id, account_balance, points, coupons, orders,
+               user_level, rfm, lifecycle, created_at, updated_at, is_disabled
+        FROM cdpma_user
+    </sql>
+
+    <select id="selectUserById" resultMap="UserResultMap" parameterType="Long">
+        <include refid="selectUserColumns"/>
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectUserList" resultMap="UserResultMap" parameterType="com.cdpma.common.pojo.pojo.SysUser">
+        <include refid="selectUserColumns"/>
+        <where>
+            <if test="operatorId != null">AND operator_id = #{operatorId}</if>
+            <if test="userLevel != null">AND user_level = #{userLevel}</if>
+            <if test="lifecycle != null and lifecycle != ''">
+                AND lifecycle LIKE CONCAT('%', #{lifecycle}, '%')
+            </if>
+            <if test="isDisabled != null">AND is_disabled = #{isDisabled}</if>
+        </where>
+        ORDER BY user_id DESC
+    </select>
+
+    <insert id="insertUser" parameterType="com.cdpma.common.pojo.pojo.SysUser">
+        INSERT INTO cdpma_user (
+            operator_id, account_balance, points, coupons, orders,
+            user_level, rfm, lifecycle, created_at, updated_at, is_disabled
+        ) VALUES (
+                     #{operatorId}, #{accountBalance}, #{points}, #{coupons}, #{orders},
+                     #{userLevel}, #{rfm}, #{lifecycle}, #{createdAt}, #{updatedAt}, #{isDisabled}
+                 )
+    </insert>
+
+    <update id="updateUser" parameterType="com.cdpma.common.pojo.pojo.SysUser">
+        UPDATE cdpma_user SET
+                              operator_id = #{operatorId},
+                              account_balance = #{accountBalance},
+                              points = #{points},
+                              coupons = #{coupons},
+                              orders = #{orders},
+                              user_level = #{userLevel},
+                              rfm = #{rfm},
+                              lifecycle = #{lifecycle},
+                              updated_at = #{updatedAt},
+                              is_disabled = #{isDisabled}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserByIds" parameterType="Long">
+        DELETE FROM cdpma_user
+        WHERE user_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

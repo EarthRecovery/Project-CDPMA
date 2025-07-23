@@ -7,7 +7,6 @@
 
     <resultMap id="RuntimeLogResultMap" type="com.cdpma.common.pojo.pojo.SysRuntimeLog">
         <id     property="logId"             column="log_id" />
-        <result property="runtimeId"         column="runtime_id" />
         <result property="runtimeTime"       column="runtime_time" />
         <result property="method"            column="method" />
         <result property="isSuccessful"      column="is_successful" />
@@ -20,7 +19,7 @@
     </resultMap>
 
     <sql id="BaseSelectSql">
-        SELECT log_id, runtime_id, runtime_time, method, is_successful,
+        SELECT log_id, runtime_time, method, is_successful,
                error_code, response_parameters, runtime_parameters,
                operator_id, operator_ip, runtime_duration
         FROM cdpma_runtime_log
@@ -49,10 +48,10 @@
 
     <insert id="insertRuntimeLog" parameterType="com.cdpma.common.pojo.pojo.SysRuntimeLog">
         INSERT INTO cdpma_runtime_log (
-            runtime_id, runtime_time, method, is_successful, error_code,
+            runtime_time, method, is_successful, error_code,
             response_parameters, runtime_parameters, operator_id, operator_ip, runtime_duration
         ) VALUES (
-                     #{runtimeId}, #{runtimeTime}, #{method}, #{isSuccessful}, #{errorCode},
+                     #{runtimeTime}, #{method}, #{isSuccessful}, #{errorCode},
                      #{responseParameters}, #{runtimeParameters}, #{operatorId}, #{operatorIp}, #{runtimeDuration}
                  )
     </insert>

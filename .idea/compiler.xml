@@ -13,9 +13,11 @@
         <module name="log" />
         <module name="datasource" />
         <module name="admin" />
+        <module name="systemuser" />
         <module name="job" />
         <module name="user" />
         <module name="gateway" />
+        <module name="redis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -27,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="CDPMA" options="" />
       <module name="admin" options="" />
+      <module name="api" options="" />
       <module name="auth" options="" />
       <module name="common" options="" />
       <module name="core" options="" />
@@ -35,8 +38,10 @@
       <module name="job" options="" />
       <module name="log" options="" />
       <module name="pojo" options="-parameters" />
+      <module name="redis" options="" />
       <module name="security" options="" />
       <module name="system" options="" />
+      <module name="systemuser" options="" />
       <module name="user" options="" />
     </option>
   </component>

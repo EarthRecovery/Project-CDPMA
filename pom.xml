@@ -221,6 +221,12 @@
                 <version>1.0.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.cdpma</groupId>
+                <artifactId>cdpma-common-redis</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
 
             <!-- gateway -->
             <dependency>
@@ -256,6 +262,13 @@
                 <artifactId>cdpma-system-admin</artifactId>
                 <version>${cdpma.version}</version>
             </dependency>
+
+            <!--system-user-api-->
+            <dependency>
+                <groupId>com.cdpma</groupId>
+                <artifactId>cdpma-api-system-user</artifactId>
+                <version>${cdpma.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -266,6 +279,7 @@
         <module>cdpma-gateway</module>
         <module>cdpma-auth</module>
         <module>cdpma-job</module>
+        <module>cdpma-api</module>
     </modules>
     <packaging>pom</packaging>
 

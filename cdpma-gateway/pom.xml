@@ -61,6 +61,30 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

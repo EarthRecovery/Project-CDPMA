@@ -28,7 +28,7 @@
     </sql>
 
     <!-- 插入操作员记录 -->
-    <insert id="insertOperator" parameterType="com.cdpma.common.pojo.pojo.SysOperator">
+    <insert id="insertOperator" parameterType="com.cdpma.common.pojo.pojo.SysOperator" useGeneratedKeys="true" keyProperty="operatorId">
         INSERT INTO cdpma_operator (
             operator_name, operator_nickname, operator_id_card, operator_phone,
             operator_gender, operator_age, operator_email, operator_role,
@@ -50,6 +50,9 @@
             </if>
             <if test="operatorPhone != null and operatorPhone != ''">
                 AND operator_phone LIKE CONCAT('%', #{operatorPhone}, '%')
+            </if>
+            <if test="operatorEmail != null and operatorEmail != ''">
+                AND operator_Email LIKE CONCAT('%', #{operatorEmail}, '%')
             </if>
             <if test="operatorRegion != null and operatorRegion != ''">
                 AND operator_region = #{operatorRegion}
@@ -83,6 +86,24 @@
             #{id}
         </foreach>
     </delete>
+
+    <!-- 根据操作员name 查询操作员信息 -->
+    <select id="selectOperatorByOperatorName" parameterType="String" resultMap="SysOperatorResult">
+        <include refid="selectOperatorVo"/>
+        WHERE operator_name = #{operatorName}
+    </select>
+
+    <!-- 根据操作员邮箱查看操作员信息 -->
+    <select id="selectOperatorByOperatorEmail" parameterType="String" resultMap="SysOperatorResult">
+        <include refid="selectOperatorVo"/>
+        WHERE operator_email = #{operatorEmail}
+    </select>
+
+    <!-- 根据操作员手机号查看操作员信息 -->
+    <select id="selectOperatorByOperatorPhone" parameterType="String" resultMap="SysOperatorResult">
+        <include refid="selectOperatorVo"/>
+        WHERE operator_phone = #{operatorPhone}
+    </select>
 
 
 
