@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cdpma-common-pojo" />
         <module name="core" />
+        <module name="security" />
         <module name="auth" />
         <module name="datasource" />
         <module name="admin" />
@@ -31,6 +32,7 @@
       <module name="gateway" options="" />
       <module name="job" options="" />
       <module name="pojo" options="-parameters" />
+      <module name="security" options="" />
       <module name="system" options="" />
       <module name="user" options="" />
     </option>

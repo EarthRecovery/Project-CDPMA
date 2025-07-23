@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-datasource/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-pojo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-pojo/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-gateway/src/main/java" charset="UTF-8" />

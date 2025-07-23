@@ -209,6 +209,12 @@
                 <version>${cdpma.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.cdpma</groupId>
+                <artifactId>cdpma-common-security</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
             <!-- gateway -->
             <dependency>
                 <groupId>com.cdpma</groupId>

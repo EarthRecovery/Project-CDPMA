@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-datasource/pom.xml" />
         <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-pojo/pom.xml" />
         <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-core/pom.xml" />
+        <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-security/pom.xml" />
       </list>
     </option>
   </component>

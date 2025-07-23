@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdpma.system.user.mapper.SysOperatorTagMapper">
+
+    <!-- 根据操作员ID查询标签ID列表 -->
+    <select id="selectTagIdsByOperatorId" parameterType="Long" resultType="Long">
+        SELECT tag_id
+        FROM cdpma_operator_tag
+        WHERE operator_id = #{operatorId}
+    </select>
+
+    <!-- 批量插入操作员标签关系 -->
+    <insert id="batchInsertOperatorTags" parameterType="java.util.List">
+        INSERT INTO cdpma_operator_tag (operator_id, tag_id, tag_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.operatorId}, #{item.tagId}, #{item.tagName})
+        </foreach>
+    </insert>
+
+    <!-- 插入操作员标签关系 -->
+    <insert id="insertOperatorTag" parameterType="com.cdpma.common.pojo.pojo.SysOperatorTag">
+        INSERT INTO cdpma_operator_tag (operator_id, tag_id, tag_name)
+        VALUES (#{operatorId}, #{tagId}, #{tagName})
+    </insert>
+
+    <!-- 删除某操作员的所有标签 -->
+    <delete id="deleteTagsByOperatorId" parameterType="Long">
+        DELETE FROM cdpma_operator_tag
+        WHERE operator_id = #{operatorId}
+    </delete>
+
+</mapper>

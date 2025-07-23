@@ -12,6 +12,7 @@
         <module>cdpma-common-datasource</module>
         <module>cdpma-common-pojo</module>
         <module>cdpma-common-core</module>
+        <module>cdpma-common-security</module>
     </modules>
 
     <artifactId>cdpma-common</artifactId>

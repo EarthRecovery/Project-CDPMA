@@ -25,18 +25,13 @@ CREATE TABLE cdpma_operator (
                                 PRIMARY KEY (operator_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作员表';
 
-DROP TABLE IF EXISTS cdpma_authority;
-CREATE TABLE cdpma_authority (
-                                 authority_id         BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '权限ID',
-                                 authority_name       VARCHAR(64)     NOT NULL                     COMMENT '权限名称',
-                                 authority_code       VARCHAR(64)     NOT NULL                     COMMENT '权限编号',
-                                 created_by           BIGINT(20)      NOT NULL                     COMMENT '创建者ID',
-                                 created_at           DATETIME        NOT NULL                     COMMENT '创建时间',
-                                 updated_by           BIGINT(20)      DEFAULT NULL                 COMMENT '更新者ID',
-                                 updated_at           DATETIME        DEFAULT NULL                 COMMENT '更新时间',
-                                 is_disabled          BOOLEAN         DEFAULT FALSE                COMMENT '是否停用',
-                                 PRIMARY KEY (authority_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+DROP TABLE IF EXISTS cdpma_operator_tag;
+CREATE TABLE cdpma_operator_tag(
+                                    operator_id       BIGINT(20)      NOT NULL                     COMMENT '操作员ID',
+                                    tag_id            BIGINT(20)     NOT NULL                     COMMENT '标签ID',
+                                    tag_name          VARCHAR(64)     NOT NULL                     COMMENT '标签名称',
+                                    PRIMARY KEY (operator_id, tag_id)
+)
 
 DROP TABLE IF EXISTS cdpma_menu;
 CREATE TABLE cdpma_menu (
@@ -70,20 +65,6 @@ CREATE TABLE cdpma_user (
                             is_disabled          BOOLEAN         DEFAULT FALSE                COMMENT '是否停用',
                             PRIMARY KEY (user_id),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-
-DROP TABLE IF EXISTS cdpma_resource_authority;
-CREATE TABLE cdpma_resource_authority (
-                                           authority_id        BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '权限ID',
-                                           resource_name        VARCHAR(255)    NOT NULL                    COMMENT '资源名称',
-                                           PRIMARY KEY (authority_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源权限表';
-
-DROP TABLE IF EXISTS cdpma_menu_authority;
-CREATE TABLE cdpma_menu_authority (
-                                       authority_id        BIGINT(20)      NOT NULL                     COMMENT '权限ID',
-                                       menu_id             BIGINT(20)      NOT NULL                     COMMENT '菜单ID',
-                                       PRIMARY KEY (authority_id, menu_id),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单权限表';
 
 DROP TABLE IF EXISTS cdpma_coupons;
 
