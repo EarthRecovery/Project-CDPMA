@@ -51,7 +51,6 @@ public class PreAuthorizeAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable
     {
         // 注解鉴权
-        System.out.println("PreAuthorizeAspect around");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         checkMethodAnnotation(signature.getMethod());
         // 执行原有逻辑

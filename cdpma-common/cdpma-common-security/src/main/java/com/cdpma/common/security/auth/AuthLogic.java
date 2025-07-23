@@ -1,5 +1,6 @@
 package com.cdpma.common.security.auth;
 
+import com.cdpma.common.core.exception.auth.NoPermissionException;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.security.annotation.Logical;
 import com.cdpma.common.security.annotation.RequiresTags;
@@ -46,7 +47,7 @@ public class AuthLogic {
         for (Integer tags : Tags)
         {
             if(!hasTag(tagsList, tags)){
-                throw new SecurityException("<UNK>");
+                throw new NoPermissionException("没有权限访问该资源，请联系管理员！");
             }
         }
     }
@@ -72,7 +73,7 @@ public class AuthLogic {
         }
         if (tags.length > 0)
         {
-            throw new SecurityException("<UNK>");
+            throw new NoPermissionException("没有权限访问该资源，请联系管理员！");
         }
     }
 
@@ -93,7 +94,7 @@ public class AuthLogic {
 //            return new HashSet<>();
 //        }
         HashSet<Integer> tags = new HashSet<>(); //测试数据，以后要换成接口
-        tags.add(Tag.ADMIN);
+        tags.add(Tag.USER);
         return tags;
     }
 
