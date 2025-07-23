@@ -1,6 +1,8 @@
 package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.log.annotation.Log;
+import com.cdpma.common.log.enums.BusinessType;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperatorTag;
 import com.cdpma.common.security.annotation.Logical;
@@ -48,6 +50,7 @@ public class SysOperatorTagController {
      */
     @PostMapping
     @RequiresTags(value={Tag.ADMIN})
+    @Log(businessType = BusinessType.INSERT)
     public AjaxResult addOperatorTag(@RequestBody SysOperatorTag operatorTag) {
         operatorTagService.insertOperatorTag(operatorTag);
         return AjaxResult.success("标签关联添加成功");

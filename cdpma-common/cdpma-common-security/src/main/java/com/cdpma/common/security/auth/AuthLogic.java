@@ -94,7 +94,7 @@ public class AuthLogic {
 //            return new HashSet<>();
 //        }
         HashSet<Integer> tags = new HashSet<>(); //测试数据，以后要换成接口
-        tags.add(Tag.USER);
+        tags.add(Tag.ADMIN);
         return tags;
     }
 

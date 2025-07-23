@@ -10,6 +10,7 @@
         <module name="core" />
         <module name="security" />
         <module name="auth" />
+        <module name="log" />
         <module name="datasource" />
         <module name="admin" />
         <module name="job" />
@@ -18,6 +19,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CDPMA" target="1.8" />
       <module name="pojo" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -31,6 +33,7 @@
       <module name="datasource" options="" />
       <module name="gateway" options="" />
       <module name="job" options="" />
+      <module name="log" options="" />
       <module name="pojo" options="-parameters" />
       <module name="security" options="" />
       <module name="system" options="" />

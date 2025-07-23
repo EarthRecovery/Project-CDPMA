@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysRuntimeLogMapper">
+
+    <resultMap id="RuntimeLogResultMap" type="com.cdpma.common.pojo.pojo.SysRuntimeLog">
+        <id     property="logId"             column="log_id" />
+        <result property="runtimeId"         column="runtime_id" />
+        <result property="runtimeTime"       column="runtime_time" />
+        <result property="method"            column="method" />
+        <result property="isSuccessful"      column="is_successful" />
+        <result property="errorCode"         column="error_code" />
+        <result property="responseParameters" column="response_parameters" />
+        <result property="runtimeParameters" column="runtime_parameters" />
+        <result property="operatorId"        column="operator_id" />
+        <result property="operatorIp"        column="operator_ip" />
+        <result property="runtimeDuration"   column="runtime_duration" />
+    </resultMap>
+
+    <sql id="BaseSelectSql">
+        SELECT log_id, runtime_id, runtime_time, method, is_successful,
+               error_code, response_parameters, runtime_parameters,
+               operator_id, operator_ip, runtime_duration
+        FROM cdpma_runtime_log
+    </sql>
+
+    <select id="selectRuntimeLogById" parameterType="Long" resultMap="RuntimeLogResultMap">
+        <include refid="BaseSelectSql"/>
+        WHERE log_id = #{logId}
+    </select>
+
+    <select id="selectRuntimeLogList" parameterType="com.cdpma.common.pojo.pojo.SysRuntimeLog" resultMap="RuntimeLogResultMap">
+        <include refid="BaseSelectSql"/>
+        <where>
+            <if test="method != null and method != ''">
+                AND method LIKE CONCAT('%', #{method}, '%')
+            </if>
+            <if test="operatorId != null">
+                AND operator_id = #{operatorId}
+            </if>
+            <if test="isSuccessful != null">
+                AND is_successful = #{isSuccessful}
+            </if>
+        </where>
+        ORDER BY runtime_time DESC
+    </select>
+
+    <insert id="insertRuntimeLog" parameterType="com.cdpma.common.pojo.pojo.SysRuntimeLog">
+        INSERT INTO cdpma_runtime_log (
+            runtime_id, runtime_time, method, is_successful, error_code,
+            response_parameters, runtime_parameters, operator_id, operator_ip, runtime_duration
+        ) VALUES (
+                     #{runtimeId}, #{runtimeTime}, #{method}, #{isSuccessful}, #{errorCode},
+                     #{responseParameters}, #{runtimeParameters}, #{operatorId}, #{operatorIp}, #{runtimeDuration}
+                 )
+    </insert>
+
+    <delete id="deleteRuntimeLogByIds" parameterType="Long">
+        DELETE FROM cdpma_runtime_log
+        WHERE log_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

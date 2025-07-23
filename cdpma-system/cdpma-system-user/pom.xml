@@ -66,6 +66,11 @@
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-security</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-log</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

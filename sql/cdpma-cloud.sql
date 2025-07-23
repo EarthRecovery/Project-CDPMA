@@ -273,19 +273,6 @@ CREATE TABLE cdpma_notification (
                                     PRIMARY KEY (notification_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='提示表';
 
-
-DROP TABLE IF EXISTS cdpma_runtime;
-
-CREATE TABLE cdpma_runtime (
-                               runtime_id             BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '编号',
-                                 url                  VARCHAR(255)    NOT NULL                     COMMENT '地址',
-                                 request_method       INT             NOT NULL COMMENT '请求方式',
-                                 is_disabled          BOOLEAN         DEFAULT FALSE                COMMENT '是否停用',
-                                 business_type        VARCHAR(100)    DEFAULT NULL                 COMMENT '业务类型',
-                                 PRIMARY KEY (runtime_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='运行表';
-
-
 DROP TABLE IF EXISTS cdpma_runtime_log;
 
 CREATE TABLE cdpma_runtime_log (
@@ -298,6 +285,7 @@ CREATE TABLE cdpma_runtime_log (
                                      response_parameters  TEXT            DEFAULT NULL                 COMMENT '返回参数',
                                      runtime_parameters TEXT            DEFAULT NULL                 COMMENT '运行参数',
                                      operator_id          BIGINT(20)      NOT NULL                     COMMENT '操作者编号',
+                                     operator_ip       VARCHAR(50)     DEFAULT NULL                 COMMENT '操作者IP',
                                      runtime_duration   INT             DEFAULT NULL                 COMMENT '运行耗时（毫秒）',
                                      PRIMARY KEY (log_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='运行日志表';
