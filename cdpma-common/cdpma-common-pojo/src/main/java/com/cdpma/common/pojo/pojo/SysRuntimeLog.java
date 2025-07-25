@@ -5,50 +5,45 @@ import com.cdpma.common.core.web.domain.BaseEntity;
 import java.util.Date;
 
 public class SysRuntimeLog extends BaseEntity {
-    /** 运行日志编号 */
-    private Long logId;
-
-    /** 运行时间 */
-    private Date runtimeTime;
-
-    /** 运行方法 */
+    private Long operationId;
+    private String title;
+    private Integer businessType;
     private String method;
-
-    /** 是否成功 */
-    private int isSuccessful;
-
-    /** 错误代码 */
-    private String errorCode;
-
-    /** 返回参数 */
-    private String responseParameters;
-
-    /** 运行参数 */
-    private String runtimeParameters;
-
-    /** 操作者编号 */
+    private String requestMethod;
+    private Integer operatorType;
+    private String operatorName;
     private Long operatorId;
-
-    /** 操作者ip */
+    private String operationUrl;
     private String operatorIp;
+    private String operationParam;
+    private String jsonResult;
+    private Integer status;
+    private String errorMsg;
+    private Long costTime;
+    private Date createTime;
 
-    /** 运行耗时（毫秒） */
-    private Long runtimeDuration;
-
-    public Long getLogId() {
-        return logId;
+    public Long getOperationId() {
+        return operationId;
     }
 
-    public void setLogId(Long logId) {
-        this.logId = logId;
+    public void setOperationId(Long operationId) {
+        this.operationId = operationId;
     }
 
-    public Date getRuntimeTime() {
-        return runtimeTime;
+    public String getTitle() {
+        return title;
     }
 
-    public void setRuntimeTime(Date runtimeTime) {
-        this.runtimeTime = runtimeTime;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(Integer businessType) {
+        this.businessType = businessType;
     }
 
     public String getMethod() {
@@ -59,44 +54,36 @@ public class SysRuntimeLog extends BaseEntity {
         this.method = method;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getRequestMethod() {
+        return requestMethod;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
 
-    public String getResponseParameters() {
-        return responseParameters;
+    public Integer getOperatorType() {
+        return operatorType;
     }
 
-    public void setResponseParameters(String responseParameters) {
-        this.responseParameters = responseParameters;
+    public void setOperatorType(Integer operatorType) {
+        this.operatorType = operatorType;
     }
 
-    public String getRuntimeParameters() {
-        return runtimeParameters;
+    public String getOperatorName() {
+        return operatorName;
     }
 
-    public void setRuntimeParameters(String runtimeParameters) {
-        this.runtimeParameters = runtimeParameters;
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 
-    public Long getOperatorId() {
-        return operatorId;
+    public String getOperationUrl() {
+        return operationUrl;
     }
 
-    public void setOperatorId(Long operatorId) {
-        this.operatorId = operatorId;
-    }
-
-    public Long getRuntimeDuration() {
-        return runtimeDuration;
-    }
-
-    public void setRuntimeDuration(Long runtimeDuration) {
-        this.runtimeDuration = runtimeDuration;
+    public void setOperationUrl(String operationUrl) {
+        this.operationUrl = operationUrl;
     }
 
     public String getOperatorIp() {
@@ -107,27 +94,81 @@ public class SysRuntimeLog extends BaseEntity {
         this.operatorIp = operatorIp;
     }
 
-    public int getIsSuccessful() {
-        return isSuccessful;
+    public String getOperationParam() {
+        return operationParam;
     }
 
-    public void setIsSuccessful(int isSuccessful) {
-        this.isSuccessful = isSuccessful;
+    public void setOperationParam(String operationParam) {
+        this.operationParam = operationParam;
+    }
+
+    public String getJsonResult() {
+        return jsonResult;
+    }
+
+    public void setJsonResult(String jsonResult) {
+        this.jsonResult = jsonResult;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public Long getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime) {
+        this.costTime = costTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getOperatorId() {
+        return operatorId;
+    }
+
+    public void setOperatorId(Long operatorId) {
+        this.operatorId = operatorId;
     }
 
     @Override
     public String toString() {
         return "SysRuntimeLog{" +
-                "logId=" + logId +
-                ", runtimeTime=" + runtimeTime +
+                "operationId=" + operationId +
+                ", title='" + title + '\'' +
+                ", businessType=" + businessType +
                 ", method='" + method + '\'' +
-                ", isSuccessful=" + isSuccessful +
-                ", errorCode='" + errorCode + '\'' +
-                ", responseParameters='" + responseParameters + '\'' +
-                ", runtimeParameters='" + runtimeParameters + '\'' +
+                ", requestMethod='" + requestMethod + '\'' +
+                ", operatorType=" + operatorType +
+                ", operatorName='" + operatorName + '\'' +
                 ", operatorId=" + operatorId +
+                ", operationUrl='" + operationUrl + '\'' +
                 ", operatorIp='" + operatorIp + '\'' +
-                ", runtimeDuration=" + runtimeDuration +
+                ", operationParam='" + operationParam + '\'' +
+                ", jsonResult='" + jsonResult + '\'' +
+                ", status=" + status +
+                ", errorMsg='" + errorMsg + '\'' +
+                ", costTime=" + costTime +
+                ", createTime=" + createTime +
                 '}';
     }
 }

@@ -276,18 +276,23 @@ CREATE TABLE cdpma_notification (
 DROP TABLE IF EXISTS cdpma_runtime_log;
 
 CREATE TABLE cdpma_runtime_log (
-                                     log_id               BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '运行日志编号',
-                                     runtime_time       DATETIME        NOT NULL    COMMENT '运行时间',
-                                     method               VARCHAR(50)     NOT NULL                     COMMENT '运行方法',
-                                     is_successful        BOOLEAN         NOT NULL                     COMMENT '是否成功',
-                                     error_code           VARCHAR(50)     DEFAULT NULL                 COMMENT '错误代码',
-                                     response_parameters  TEXT            DEFAULT NULL                 COMMENT '返回参数',
-                                     runtime_parameters TEXT            DEFAULT NULL                 COMMENT '运行参数',
-                                     operator_id          BIGINT(20)      NOT NULL                     COMMENT '操作者编号',
-                                     operator_ip       VARCHAR(50)     DEFAULT NULL                 COMMENT '操作者IP',
-                                     runtime_duration   INT             DEFAULT NULL                 COMMENT '运行耗时（毫秒）',
-                                     PRIMARY KEY (log_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='运行日志表';
+                                   operation_id      BIGINT AUTO_INCREMENT PRIMARY KEY   COMMENT '操作ID',
+                                   title             VARCHAR(100) DEFAULT ""             COMMENT '操作名称（方法作用）',
+                                   business_type     INT NOT NULL                        COMMENT '业务类型（如 INSERT=1, UPDATE=2）',
+                                   method            VARCHAR(255) DEFAULT ""             COMMENT  '调用方法',
+                                   request_method    VARCHAR(10) DEFAULT ""              COMMENT '请求方式（GET/POST/PUT）',
+                                   operator_type     INT                                 COMMENT '操作人类别（USER/ADMIN/ASSISTANT/UNKNOWN）',
+                                   operator_name     VARCHAR(50)                         COMMENT '操作人名称',
+                                   operation_url     VARCHAR(255)                        COMMENT '请求URL',
+                                   operator_ip       VARCHAR(45)                         COMMENT '操作IP',
+                                   operator_id       Long                         COMMENT '操作ID',
+                                   operation_param   TEXT                                COMMENT '请求参数',
+                                   json_result       TEXT                                COMMENT '返回结果',
+                                   status            INT NOT NULL DEFAULT 0              COMMENT '操作状态（0成功 1失败）',
+                                   error_msg         VARCHAR(500)                        COMMENT '错误消息',
+                                   cost_time         BIGINT                              COMMENT '消耗时间（毫秒）',
+                                   create_time       DATETIME                            COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志记录表';
 
 
 DROP TABLE IF EXISTS cdpma_login_logout_log;

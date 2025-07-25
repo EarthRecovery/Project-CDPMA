@@ -23,9 +23,9 @@ public @interface Log {
     public BusinessType businessType() default BusinessType.OTHER;
 
     /**
-     * 操作人类别
+     * 运行方法
      */
-    public OperatorType operatorType() default OperatorType.UNKNOWN;
+    public String method() default "";
 
     /**
      * 是否保存请求的参数

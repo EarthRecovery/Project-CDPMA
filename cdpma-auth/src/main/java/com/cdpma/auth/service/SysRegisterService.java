@@ -8,6 +8,7 @@ import com.cdpma.common.core.constant.SecurityConstants;
 import com.cdpma.common.core.domain.R;
 import com.cdpma.common.core.exception.ServiceException;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.pojo.enums.LoginLogout;
 import com.cdpma.common.pojo.enums.OperatorRoles;
 import com.cdpma.common.pojo.enums.UserLifeCycle;
 import com.cdpma.common.pojo.pojo.SysOperator;
@@ -28,6 +29,9 @@ public class SysRegisterService {
     private RemoteOperatorService remoteOperatorService;
     @Autowired
     private RemoteUserService remoteUserService;
+
+    @Autowired
+    private SysRecordAuthService sysRecordAuthService;
 
     /**
      * 注册
@@ -67,8 +71,9 @@ public class SysRegisterService {
             user.setLifecycle(UserLifeCycle.NEW_USER);
             user.setIsDisabled(false);
 
+            sysRecordAuthService.recordinfo(operator.getOperatorName(), operatorId.longValue(),
+                    LoginLogout.REGISTER, "注册成功" );
             remoteUserService.insertUser(user, SecurityConstants.INNER);
         }
-        // TODO:登陆登出日志服务
     }
 }

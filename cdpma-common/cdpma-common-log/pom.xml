@@ -29,5 +29,9 @@
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-security</artifactId>
+        </dependency>
     </dependencies>
 </project>

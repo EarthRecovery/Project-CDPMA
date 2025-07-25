@@ -8,6 +8,7 @@ import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.auth.LoginRequest;
 import com.cdpma.common.pojo.enums.LoginLogout;
 import com.cdpma.common.pojo.pojo.SysOperator;
+import com.cdpma.common.security.service.TokenService;
 import com.cdpma.common.security.utils.PasswordUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class SysLoginService {
 
     @Autowired
     private SysRecordAuthService sysRecordAuthService;
+
+    @Autowired
+    private TokenService tokenService;
 
     public SysOperator login(LoginRequest loginRequest){
 
@@ -98,6 +102,11 @@ public class SysLoginService {
 
         return targetOperator;
 
+    }
+
+    public void logout(String userkey, String operatorName, Long operatorId) {
+        sysRecordAuthService.recordinfo(operatorName, operatorId, LoginLogout.LOGOUT, "退出成功");
+        tokenService.deleteToken(userkey);
     }
 
 }

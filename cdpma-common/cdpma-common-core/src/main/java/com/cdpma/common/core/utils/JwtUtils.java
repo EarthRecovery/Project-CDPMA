@@ -63,7 +63,7 @@ public class JwtUtils
     public static String getUserKey(String token)
     {
         Claims claims = parseToken(token);
-        return getValue(claims, SecurityConstants.USER_KEY);
+        return getValue(claims, SecurityConstants.OPERATOR_KEY);
     }
 
     /**
@@ -74,7 +74,7 @@ public class JwtUtils
      */
     public static String getUserKey(Claims claims)
     {
-        return getValue(claims, SecurityConstants.USER_KEY);
+        return getValue(claims, SecurityConstants.OPERATOR_KEY);
     }
 
     /**
@@ -86,7 +86,7 @@ public class JwtUtils
     public static String getUserId(String token)
     {
         Claims claims = parseToken(token);
-        return getValue(claims, SecurityConstants.DETAILS_USER_ID);
+        return getValue(claims, SecurityConstants.DETAILS_OPERATOR_ID);
     }
 
     /**
@@ -97,7 +97,7 @@ public class JwtUtils
      */
     public static String getUserId(Claims claims)
     {
-        return getValue(claims, SecurityConstants.DETAILS_USER_ID);
+        return getValue(claims, SecurityConstants.DETAILS_OPERATOR_ID);
     }
     /**
      * 根据令牌获取用户名
@@ -108,7 +108,7 @@ public class JwtUtils
     public static String getUserName(String token)
     {
         Claims claims = parseToken(token);
-        return getValue(claims, SecurityConstants.DETAILS_USERNAME);
+        return getValue(claims, SecurityConstants.DETAILS_OPERATOR_NAME);
     }
 
     /**
@@ -119,7 +119,7 @@ public class JwtUtils
      */
     public static String getUserName(Claims claims)
     {
-        return getValue(claims, SecurityConstants.DETAILS_USERNAME);
+        return getValue(claims, SecurityConstants.DETAILS_OPERATOR_NAME);
     }
 
 }

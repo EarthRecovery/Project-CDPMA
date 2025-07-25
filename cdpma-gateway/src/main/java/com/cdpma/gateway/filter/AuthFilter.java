@@ -85,14 +85,16 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
 
         // 设置用户信息到请求
-        addHeader(mutate, SecurityConstants.USER_KEY, userkey);
-        addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
-        addHeader(mutate, SecurityConstants.DETAILS_USERNAME, username);
+        addHeader(mutate, SecurityConstants.OPERATOR_KEY, userkey);
+        addHeader(mutate, SecurityConstants.DETAILS_OPERATOR_ID, userid);
+        addHeader(mutate, SecurityConstants.DETAILS_OPERATOR_NAME, username);
         // 内部请求来源参数清除
         removeHeader(mutate, SecurityConstants.FROM_SOURCE);
+        ServerHttpRequest mutatedRequest = mutate.build();
+        ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
         // 更新Session Token 有效期
         tokenService.extendTokenExpireTime(userkey);
-        return chain.filter(exchange.mutate().request(mutate.build()).build());
+        return chain.filter(mutatedExchange );
     }
 
     private void addHeader(ServerHttpRequest.Builder mutate, String name, Object value)

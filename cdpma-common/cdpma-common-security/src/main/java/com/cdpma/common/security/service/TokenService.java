@@ -48,9 +48,9 @@ public class TokenService {
         refreshToken(sessionToken);
 
         Map<String, Object> claimsMap = new HashMap<>();
-        claimsMap.put(SecurityConstants.USER_KEY, token);
-        claimsMap.put(SecurityConstants.DETAILS_USER_ID, operator.getOperatorId());
-        claimsMap.put(SecurityConstants.DETAILS_USERNAME, operator.getOperatorName());
+        claimsMap.put(SecurityConstants.OPERATOR_KEY, token);
+        claimsMap.put(SecurityConstants.DETAILS_OPERATOR_ID, operator.getOperatorId());
+        claimsMap.put(SecurityConstants.DETAILS_OPERATOR_NAME, operator.getOperatorName());
 
         Map<String, Object> rspMap = new HashMap<String, Object>();
         rspMap.put("access_token", JwtUtils.createToken(claimsMap));
@@ -105,6 +105,13 @@ public class TokenService {
     public void extendTokenExpireTime(String token) {
         System.out.println(token);
         redisService.expire(getTokenKey(token), TOKEN_EXPIRE_TIME, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 删除token
+     */
+    public void deleteToken(String userkey) {
+        redisService.deleteObject(getTokenKey(userkey));
     }
 
 
