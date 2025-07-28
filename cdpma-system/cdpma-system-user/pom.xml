@@ -71,6 +71,11 @@
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-log</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-swagger</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

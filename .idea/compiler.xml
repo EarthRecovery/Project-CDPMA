@@ -7,17 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cdpma-common-pojo" />
-        <module name="core" />
-        <module name="security" />
         <module name="auth" />
         <module name="log" />
-        <module name="datasource" />
         <module name="admin" />
+        <module name="redis" />
+        <module name="swagger" />
+        <module name="core" />
+        <module name="security" />
+        <module name="datasource" />
         <module name="systemuser" />
         <module name="job" />
         <module name="user" />
         <module name="gateway" />
-        <module name="redis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -40,6 +41,7 @@
       <module name="pojo" options="-parameters" />
       <module name="redis" options="" />
       <module name="security" options="" />
+      <module name="swagger" options="" />
       <module name="system" options="" />
       <module name="systemuser" options="" />
       <module name="user" options="" />

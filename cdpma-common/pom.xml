@@ -15,6 +15,7 @@
         <module>cdpma-common-security</module>
         <module>cdpma-common-log</module>
         <module>cdpma-common-redis</module>
+        <module>cdpma-common-swagger</module>
     </modules>
 
     <artifactId>cdpma-common</artifactId>
