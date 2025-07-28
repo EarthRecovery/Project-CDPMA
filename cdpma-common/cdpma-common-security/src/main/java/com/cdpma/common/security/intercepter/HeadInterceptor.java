@@ -31,6 +31,11 @@ public class HeadInterceptor implements AsyncHandlerInterceptor {
             return true;
         }
 
+        String fromInternal = request.getHeader(SecurityConstants.FROM_SOURCE);
+        if (SecurityConstants.INNER.equalsIgnoreCase(fromInternal)) {
+            return true; // 内部调用直接放行
+        }
+
         SecurityContextHolder.setOperatorId(ServletUtils.getHeader(request, SecurityConstants.DETAILS_OPERATOR_ID));
         SecurityContextHolder.setOperatorName(ServletUtils.getHeader(request, SecurityConstants.DETAILS_OPERATOR_NAME));
         SecurityContextHolder.setOperatorKey(ServletUtils.getHeader(request, SecurityConstants.OPERATOR_KEY));

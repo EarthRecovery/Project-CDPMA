@@ -2,7 +2,9 @@ package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.log.annotation.Log;
+import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperator;
+import com.cdpma.common.security.annotation.RequiresTags;
 import com.cdpma.system.user.service.impl.SysOperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ public class SysOperatorController {
      */
     @GetMapping("/{operatorId}")
     @Log(title = "获取操作员", businessType = BusinessType.QUERY)
+    @RequiresTags(value = {Tag.ADMIN})
     public AjaxResult getOperator(@PathVariable Long operatorId) {
         SysOperator operator = sysOperatorService.selectOperatorById(operatorId);
         return AjaxResult.success(operator);

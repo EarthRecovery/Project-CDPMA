@@ -1,16 +1,26 @@
 package com.cdpma.common.security.auth;
 
+import com.cdpma.api.systemuser.RemoteTagService;
+import com.cdpma.common.core.constant.SecurityConstants;
+import com.cdpma.common.core.context.SecurityContextHolder;
 import com.cdpma.common.core.exception.auth.NoPermissionException;
+import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.security.annotation.Logical;
 import com.cdpma.common.security.annotation.RequiresTags;
+import com.cdpma.common.security.context.TagContext;
+import com.cdpma.common.security.utils.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+@Component
 public class AuthLogic {
 
     /**
@@ -84,17 +94,16 @@ public class AuthLogic {
      */
     public Set<Integer> getTagsList()
     {
-//        try
-//        {
-//            LoginUser loginUser = getLoginUser();
-//            return loginUser.getPermissions();
-//        }
-//        catch (Exception e)
-//        {
-//            return new HashSet<>();
-//        }
-        HashSet<Integer> tags = new HashSet<>(); //测试数据，以后要换成接口
-        tags.add(Tag.ADMIN);
+        Long id = SecurityUtils.getOperatorId();
+        Long[] tagsList = SecurityContextHolder.getTags();
+        HashSet<Integer> tags = new HashSet<>();
+        for(Long tag : tagsList)
+        {
+            if(tag != null && tag > 0)
+            {
+                tags.add(tag.intValue());
+            }
+        }
         return tags;
     }
 
