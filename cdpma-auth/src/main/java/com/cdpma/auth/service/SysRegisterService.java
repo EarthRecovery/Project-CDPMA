@@ -2,6 +2,7 @@ package com.cdpma.auth.service;
 
 import com.alibaba.nacos.common.utils.StringUtils;
 import com.cdpma.api.systemuser.RemoteOperatorService;
+import com.cdpma.api.systemuser.RemoteTagService;
 import com.cdpma.api.systemuser.RemoteUserService;
 import com.cdpma.common.core.constant.OperatorConstants;
 import com.cdpma.common.core.constant.SecurityConstants;
@@ -10,8 +11,10 @@ import com.cdpma.common.core.exception.ServiceException;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.enums.LoginLogout;
 import com.cdpma.common.pojo.enums.OperatorRoles;
+import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.enums.UserLifeCycle;
 import com.cdpma.common.pojo.pojo.SysOperator;
+import com.cdpma.common.pojo.pojo.SysOperatorTag;
 import com.cdpma.common.pojo.pojo.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,9 @@ public class SysRegisterService {
 
     @Autowired
     private SysRecordAuthService sysRecordAuthService;
+
+    @Autowired
+    private RemoteTagService remoteTagService;
 
     /**
      * 注册
@@ -74,6 +80,24 @@ public class SysRegisterService {
             sysRecordAuthService.recordinfo(operator.getOperatorName(), operatorId.longValue(),
                     LoginLogout.REGISTER, "注册成功" );
             remoteUserService.insertUser(user, SecurityConstants.INNER);
+        }
+
+        SysOperatorTag sysOperatorTag = new SysOperatorTag();
+        Integer operatorId = (Integer) operatorResult.get("operatorId");
+        sysOperatorTag.setOperatorId(operatorId.longValue());
+        //为新增的operator 注册对应的tag
+        if(Objects.equals(operator.getOperatorRole(), OperatorRoles.USER)){
+            sysOperatorTag.setTagId((long) Tag.USER);
+            sysOperatorTag.setTagName(OperatorRoles.USER);
+            remoteTagService.addTagToOperator(sysOperatorTag, SecurityConstants.INNER);
+        }else if(Objects.equals(operator.getOperatorRole(), OperatorRoles.ADMIN)){
+            sysOperatorTag.setTagId((long) Tag.ADMIN);
+            sysOperatorTag.setTagName(OperatorRoles.ADMIN);
+            remoteTagService.addTagToOperator(sysOperatorTag, SecurityConstants.INNER);
+        }else if(Objects.equals(operator.getOperatorRole(), OperatorRoles.ASSISTANT)){
+            sysOperatorTag.setTagId((long) Tag.ASSISTANT);
+            sysOperatorTag.setTagName(OperatorRoles.ASSISTANT);
+            remoteTagService.addTagToOperator(sysOperatorTag, SecurityConstants.INNER);
         }
     }
 }

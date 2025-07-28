@@ -50,7 +50,7 @@ public class SysOperatorTagController {
      */
     @PostMapping
     @RequiresTags(value={Tag.ADMIN})
-    @Log(businessType = BusinessType.INSERT)
+    @Log(title = "为操作员添加标签", businessType = BusinessType.INSERT)
     public AjaxResult addOperatorTag(@RequestBody SysOperatorTag operatorTag) {
         operatorTagService.insertOperatorTag(operatorTag);
         return AjaxResult.success("标签关联添加成功");

@@ -125,7 +125,7 @@ public class LogAspect {
             if (e != null)
             {
                 sysRuntimeLog.setStatus(BusinessStatus.FAIL.ordinal());
-                sysRuntimeLog.setErrorMsg(StringUtils.substring(Convert.toStr(e.getMessage(), ExceptionUtil.getExceptionMessage(e)), 0, 2000));
+                sysRuntimeLog.setErrorMsg(StringUtils.substring(Convert.toStr(e.getMessage(), ExceptionUtil.getExceptionMessage(e)), 0, 490));
             }else{
                 sysRuntimeLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             }
