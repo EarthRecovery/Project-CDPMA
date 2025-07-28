@@ -3,6 +3,7 @@ package com.cdpma.auth.service;
 import com.cdpma.api.systemuser.RemoteOperatorService;
 import com.cdpma.common.core.constant.OperatorConstants;
 import com.cdpma.common.core.constant.SecurityConstants;
+import com.cdpma.common.core.context.SecurityContextHolder;
 import com.cdpma.common.core.exception.ServiceException;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.auth.LoginRequest;
@@ -10,6 +11,7 @@ import com.cdpma.common.pojo.enums.LoginLogout;
 import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.security.service.TokenService;
 import com.cdpma.common.security.utils.PasswordUtil;
+import com.cdpma.common.security.utils.SecurityUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,7 +100,6 @@ public class SysLoginService {
                     LoginLogout.LOGIN_FAIL, "登录失败，密码错误");
             throw new ServiceException("登录失败，密码错误");
         }
-
 
         return targetOperator;
 

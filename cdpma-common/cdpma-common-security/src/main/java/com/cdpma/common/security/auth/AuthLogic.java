@@ -99,7 +99,7 @@ public class AuthLogic {
         HashSet<Integer> tags = new HashSet<>();
         for(Long tag : tagsList)
         {
-            if(tag != null && tag > 0)
+            if(tag != null)
             {
                 tags.add(tag.intValue());
             }

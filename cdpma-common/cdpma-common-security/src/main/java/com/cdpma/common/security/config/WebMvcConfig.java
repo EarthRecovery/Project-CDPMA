@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     /** 不需要拦截地址 */
-    public static final String[] excludeUrls = {};
+    public static final String[] excludeUrls = {"/auth/login", "/login", "/auth/register", "/register"};
 
     @Autowired
     private HeadInterceptor headInterceptor;

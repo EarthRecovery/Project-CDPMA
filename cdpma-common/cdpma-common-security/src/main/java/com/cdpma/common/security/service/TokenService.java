@@ -2,6 +2,7 @@ package com.cdpma.common.security.service;
 
 import com.cdpma.common.core.constant.CacheConstants;
 import com.cdpma.common.core.constant.SecurityConstants;
+import com.cdpma.common.core.context.SecurityContextHolder;
 import com.cdpma.common.core.utils.JwtUtils;
 import com.cdpma.common.core.utils.StringUtils;
 import com.cdpma.common.core.utils.ip.IpUtils;
@@ -10,6 +11,7 @@ import com.cdpma.common.pojo.auth.SessionToken;
 import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.pojo.pojo.SysUser;
 import com.cdpma.common.redis.service.RedisService;
+import com.cdpma.common.security.context.TagContext;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,9 @@ public class TokenService {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private TagContext tagContext;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -51,6 +56,12 @@ public class TokenService {
         claimsMap.put(SecurityConstants.OPERATOR_KEY, token);
         claimsMap.put(SecurityConstants.DETAILS_OPERATOR_ID, operator.getOperatorId());
         claimsMap.put(SecurityConstants.DETAILS_OPERATOR_NAME, operator.getOperatorName());
+
+        SecurityContextHolder.setOperatorName(operator.getOperatorName());
+        SecurityContextHolder.setOperatorId(Long.toString(operator.getOperatorId()));
+        SecurityContextHolder.setOperatorKey(token);
+
+        tagContext.getTags(operator.getOperatorId());
 
         Map<String, Object> rspMap = new HashMap<String, Object>();
         rspMap.put("access_token", JwtUtils.createToken(claimsMap));

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysGoodCategoryMapper">
+
+    <resultMap id="CategoryResultMap" type="com.cdpma.common.pojo.pojo.SysGoodCategory">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="parentCategory" column="parent_category"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        category_id, category_name, parent_category
+    </sql>
+
+    <select id="selectCategoryById" resultMap="CategoryResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_good_category
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="selectCategoryList" resultMap="CategoryResultMap" parameterType="com.cdpma.common.pojo.pojo.SysGoodCategory">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_good_category
+        <where>
+            <if test="categoryName != null and categoryName != ''">
+                AND category_name LIKE CONCAT('%', #{categoryName}, '%')
+            </if>
+            <if test="parentCategory != null">
+                AND parent_category = #{parentCategory}
+            </if>
+        </where>
+        ORDER BY category_id ASC
+    </select>
+
+    <insert id="insertCategory" parameterType="com.cdpma.common.pojo.pojo.SysGoodCategory">
+        INSERT INTO cdpma_good_category (category_name, parent_category)
+        VALUES (#{categoryName}, #{parentCategory})
+    </insert>
+
+    <update id="updateCategory" parameterType="com.cdpma.common.pojo.pojo.SysGoodCategory">
+        UPDATE cdpma_good_category
+        SET category_name = #{categoryName},
+            parent_category = #{parentCategory}
+        WHERE category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteCategoryByIds" parameterType="Long">
+        DELETE FROM cdpma_good_category
+        WHERE category_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

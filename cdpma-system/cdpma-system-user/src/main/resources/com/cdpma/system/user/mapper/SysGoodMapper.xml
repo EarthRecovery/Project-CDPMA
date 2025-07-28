@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysGoodMapper">
+
+    <resultMap id="GoodResultMap" type="com.cdpma.common.pojo.pojo.SysGood">
+        <id property="goodId" column="good_id"/>
+        <result property="goodName" column="good_name"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="isDisabled" column="is_disabled"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        good_id, good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price
+    </sql>
+
+    <select id="selectGoodById" resultMap="GoodResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_good
+        WHERE good_id = #{goodId}
+    </select>
+
+    <select id="selectGoodList" resultMap="GoodResultMap" parameterType="com.cdpma.common.pojo.pojo.SysGood">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_good
+        <where>
+            <if test="goodName != null and goodName != ''">
+                AND good_name LIKE CONCAT('%', #{goodName}, '%')
+            </if>
+            <if test="isDisabled != null">
+                AND is_disabled = #{isDisabled}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+
+    <insert id="insertGood" parameterType="com.cdpma.common.pojo.pojo.SysGood">
+        INSERT INTO cdpma_good (good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price)
+        VALUES (#{goodName}, #{categoryId}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt}, #{isDisabled}, #{price})
+    </insert>
+
+    <update id="updateGood" parameterType="com.cdpma.common.pojo.pojo.SysGood">
+        UPDATE cdpma_good
+        SET good_name = #{goodName},
+            category_id = #{categoryId},
+            updated_by = #{updatedBy},
+            updated_at = #{updatedAt},
+            is_disabled = #{isDisabled},
+            price = #{price}
+        WHERE good_id = #{goodId}
+    </update>
+
+    <delete id="deleteGoodByIds" parameterType="Long">
+        DELETE FROM cdpma_good
+        WHERE good_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS cdpma_good_category;
 CREATE TABLE cdpma_good_category (
                                      category_id         BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '种类ID',
                                      category_name       VARCHAR(255)    NOT NULL                     COMMENT '种类名称',
-                                     parent_category     VARCHAR(255)    DEFAULT NULL                 COMMENT '大类名称',
+                                     parent_category     BIGINT(20)      DEFAULT -1                 COMMENT '父类ID,如果是最高级就是-1',
                                      PRIMARY KEY (category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品种类表';
 

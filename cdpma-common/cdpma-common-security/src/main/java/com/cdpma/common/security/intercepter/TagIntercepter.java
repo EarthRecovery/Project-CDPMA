@@ -23,7 +23,11 @@ public class TagIntercepter implements AsyncHandlerInterceptor {
             return true; // 内部调用直接放行
         }
 
-        Long ID = Long.valueOf(ServletUtils.getHeader(request, SecurityConstants.DETAILS_OPERATOR_ID));
+        String sId = ServletUtils.getHeader(request, SecurityConstants.DETAILS_OPERATOR_ID);
+        if(sId == null){
+            throw new IllegalArgumentException("Operator ID is required in the request header.");
+        }
+        Long ID = Long.valueOf(sId);
         tagContext.getTags(ID);
 
         return true;
