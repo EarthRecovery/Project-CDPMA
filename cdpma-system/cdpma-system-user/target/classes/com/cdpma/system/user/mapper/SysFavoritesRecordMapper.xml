@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysFavoritesRecordMapper">
+
+    <resultMap id="FavoritesRecordResultMap" type="com.cdpma.common.pojo.pojo.SysFavoritesRecord">
+        <id property="recordId" column="record_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="goodId" column="good_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        record_id, operator_id, good_id, created_at, is_deleted
+    </sql>
+
+    <select id="selectFavoritesRecordById" resultMap="FavoritesRecordResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_favorites_record
+        WHERE record_id = #{recordId}
+    </select>
+
+    <select id="selectFavoritesRecordList" resultMap="FavoritesRecordResultMap" parameterType="com.cdpma.common.pojo.pojo.SysFavoritesRecord">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_favorites_record
+        <where>
+            <if test="operatorId != null">
+                AND operator_id = #{operatorId}
+            </if>
+            <if test="goodId != null">
+                AND good_id = #{goodId}
+            </if>
+            <if test="isDeleted != null">
+                AND is_deleted = #{isDeleted}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+
+    <insert id="insertFavoritesRecord" parameterType="com.cdpma.common.pojo.pojo.SysFavoritesRecord">
+        INSERT INTO cdpma_favorites_record (operator_id, good_id, created_at, is_deleted)
+        VALUES (#{operatorId}, #{goodId}, #{createdAt}, #{isDeleted})
+    </insert>
+
+    <update id="updateFavoritesRecord" parameterType="com.cdpma.common.pojo.pojo.SysFavoritesRecord">
+        UPDATE cdpma_favorites_record
+        SET operator_id = #{operatorId},
+            good_id = #{goodId},
+            created_at = #{createdAt},
+            is_deleted = #{isDeleted}
+        WHERE record_id = #{recordId}
+    </update>
+
+    <delete id="deleteFavoritesRecordByIds" parameterType="Long">
+        DELETE FROM cdpma_favorites_record
+        WHERE record_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
