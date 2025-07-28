@@ -1,0 +1,3 @@
+com\cdpma\common\redis\config\RedisConfig.class
+com\cdpma\common\redis\service\RedisService.class
+com\cdpma\common\redis\config\FastJson2JsonRedisSerializer.class

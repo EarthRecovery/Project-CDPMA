@@ -30,9 +30,9 @@ public class SecurityContextHolder
         return Convert.toStr(map.getOrDefault(key, StringUtils.EMPTY));
     }
 
-    public static String[] getStringArray(String key) {
+    public static Long[] getLongArray(String key) {
         Object val = getLocalMap().get(key);
-        return val instanceof String[] ? (String[]) val : new String[0];
+        return val instanceof Long[] ? (Long[]) val : new Long[0];
     }
 
     public static <T> T get(String key, Class<T> clazz)
@@ -59,7 +59,9 @@ public class SecurityContextHolder
 
     public static Long getOperatorId()
     {
-        return Convert.toLong(get(SecurityConstants.DETAILS_OPERATOR_ID), 0L);
+        String idStr = get(SecurityConstants.DETAILS_OPERATOR_ID);
+        Long id = Convert.toLong(idStr , 0L);
+        return id;
     }
 
     public static void setOperatorId(String account)
@@ -87,12 +89,12 @@ public class SecurityContextHolder
         set(SecurityConstants.OPERATOR_KEY, OperatorKey);
     }
 
-    public static String[] getTags()
+    public static Long[] getTags()
     {
-        return getStringArray(SecurityConstants.OPERATOR_TAGS);
+        return getLongArray(SecurityConstants.OPERATOR_TAGS);
     }
 
-    public static void setTags(String[] tags)
+    public static void setTags(Long[] tags)
     {
         set(SecurityConstants.OPERATOR_TAGS, tags);
     }

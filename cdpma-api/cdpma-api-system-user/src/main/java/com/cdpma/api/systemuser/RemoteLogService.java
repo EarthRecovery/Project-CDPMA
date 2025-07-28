@@ -7,6 +7,7 @@ import com.cdpma.common.core.constant.ServiceNameConstants;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysLoginLogoutLog;
 import com.cdpma.common.pojo.pojo.SysOperator;
+import com.cdpma.common.pojo.pojo.SysRuntimeLog;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,4 +28,8 @@ public interface RemoteLogService {
     @PostMapping("/logio")
     public AjaxResult insertLog(@RequestBody SysLoginLogoutLog sysLoginLogoutLog,
                                 @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @PostMapping("/log/runtime")
+    public AjaxResult insertOperation(@RequestBody SysRuntimeLog sysRuntimeLog,
+                                      @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

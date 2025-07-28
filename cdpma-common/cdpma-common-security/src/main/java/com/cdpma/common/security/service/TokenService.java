@@ -103,7 +103,6 @@ public class TokenService {
      * 延长token有效期
      */
     public void extendTokenExpireTime(String token) {
-        System.out.println(token);
         redisService.expire(getTokenKey(token), TOKEN_EXPIRE_TIME, TimeUnit.MINUTES);
     }
 

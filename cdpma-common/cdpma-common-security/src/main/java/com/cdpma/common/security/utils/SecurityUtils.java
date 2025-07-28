@@ -27,7 +27,7 @@ public class SecurityUtils {
     /**
      * 获取用户Tags
      */
-    public static String[] getOperatorTags()
+    public static Long[] getOperatorTags()
     {
         return SecurityContextHolder.getTags();
     }

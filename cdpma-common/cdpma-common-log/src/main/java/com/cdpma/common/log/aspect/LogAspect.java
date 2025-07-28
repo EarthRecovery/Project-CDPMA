@@ -12,6 +12,7 @@ import com.cdpma.common.log.enums.OperatorType;
 import com.cdpma.common.log.filter.PropertyPreExcludeFilter;
 import com.cdpma.common.log.service.LogService;
 import com.cdpma.common.pojo.enums.OperatorRoles;
+import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysRuntimeLog;
 import com.cdpma.common.security.context.TagContext;
 import com.cdpma.common.security.utils.SecurityUtils;
@@ -113,7 +114,7 @@ public class LogAspect {
             //8. ip
             sysRuntimeLog.setOperatorIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
             //8.5 id
-            sysRuntimeLog.setOperationId(SecurityContextHolder.getOperatorId());
+            sysRuntimeLog.setOperatorId(SecurityContextHolder.getOperatorId());
             //10. json result
             if (isSaveResponseData && StringUtils.isNotNull(jsonResult))
             {
@@ -188,12 +189,16 @@ public class LogAspect {
     }
 
     private void setOperatorType(SysRuntimeLog sysRuntimeLog, Long operatorId) {
-        String[] tags = tagContext.getTags(operatorId);
+        Long[] tags = tagContext.getTags(operatorId);
         int operatorType = OperatorType.UNKNOWN.ordinal();
-        for(String tag : tags){
-            if(Objects.equals(tag, OperatorRoles.ADMIN)) operatorType = OperatorType.ADMIN.ordinal();
-            if(Objects.equals(tag, OperatorRoles.ASSISTANT)) operatorType = OperatorType.ASSISTANT.ordinal();
-            if(Objects.equals(tag, OperatorRoles.USER)) operatorType = OperatorType.USER.ordinal();
+        if(tags == null || tags.length == 0) {
+            sysRuntimeLog.setOperatorType(operatorType);
+            return;
+        }
+        for(Long tag : tags){
+            if(tag == Tag.ADMIN) operatorType = OperatorType.ADMIN.ordinal();
+            if(tag == Tag.ASSISTANT) operatorType = OperatorType.ASSISTANT.ordinal();
+            if(tag == Tag.USER) operatorType = OperatorType.USER.ordinal();
         }
         sysRuntimeLog.setOperatorType(operatorType);
     }
