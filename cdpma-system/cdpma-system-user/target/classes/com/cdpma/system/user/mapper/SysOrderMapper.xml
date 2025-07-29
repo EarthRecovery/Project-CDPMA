@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdpma.system.user.mapper.SysOrderMapper">
+
+    <resultMap id="SysOrderResultMap" type="com.cdpma.common.pojo.pojo.SysOrder">
+        <id property="orderId" column="order_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="goodId" column="good_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="isPaid" column="is_paid"/>
+        <result property="isCancelled" column="is_cancelled"/>
+        <result property="feedback" column="feedback"/>
+        <result property="feedbackScore" column="feedback_score"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.cdpma.common.pojo.pojo.SysOrder">
+        INSERT INTO cdpma_order (operator_id, good_id, quantity, unit_price, order_time, is_paid, is_cancelled, feedback, feedback_score)
+        VALUES (#{operatorId}, #{goodId}, #{quantity}, #{unitPrice}, #{orderTime}, #{isPaid}, #{isCancelled}, #{feedback}, #{feedbackScore})
+    </insert>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM cdpma_order WHERE order_id = #{orderId}
+    </delete>
+
+    <update id="updateById" parameterType="com.cdpma.common.pojo.pojo.SysOrder">
+        UPDATE cdpma_order
+        SET operator_id = #{operatorId},
+            good_id = #{goodId},
+            quantity = #{quantity},
+            unit_price = #{unitPrice},
+            order_time = #{orderTime},
+            is_paid = #{isPaid},
+            is_cancelled = #{isCancelled},
+            feedback = #{feedback},
+            feedback_score = #{feedbackScore}
+        WHERE order_id = #{orderId}
+    </update>
+
+    <select id="selectById" resultMap="SysOrderResultMap" parameterType="long">
+        SELECT * FROM cdpma_order WHERE order_id = #{orderId}
+    </select>
+
+    <select id="selectAll" resultMap="SysOrderResultMap">
+        SELECT * FROM cdpma_order
+    </select>
+
+</mapper>
