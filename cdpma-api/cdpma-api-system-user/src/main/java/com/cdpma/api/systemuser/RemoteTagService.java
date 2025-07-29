@@ -17,7 +17,7 @@ public interface RemoteTagService {
     /**
      * 根据operatorId查询tags
      */
-    @GetMapping("/operator/tag/{operatorId}")
+    @GetMapping("/operator-tag/{operatorId}")
     public AjaxResult getTagsByOperatorID(@PathVariable("operatorId") Long operatorId,
                                      @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
@@ -25,7 +25,7 @@ public interface RemoteTagService {
     /**
      * 为特定的operatorId添加tag
      */
-    @PostMapping("/operator/tag")
+    @PostMapping("/operator-tag")
     public AjaxResult addTagToOperator(@RequestBody SysOperatorTag operatorTag,
                                    @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 

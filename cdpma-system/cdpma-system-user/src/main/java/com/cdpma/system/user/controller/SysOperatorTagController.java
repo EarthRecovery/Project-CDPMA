@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/operator/tag")
+@RequestMapping("/operator-tag")
 public class SysOperatorTagController {
 
     @Autowired

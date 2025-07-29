@@ -2,6 +2,8 @@ package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.constant.SecurityConstants;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.log.annotation.UserAction;
+import com.cdpma.common.log.enums.UserActionType;
 import com.cdpma.common.pojo.pojo.SysLikeRecord;
 import com.cdpma.common.security.utils.SecurityUtils;
 import com.cdpma.system.user.service.ISysLikeRecordService;
@@ -30,6 +32,7 @@ public class SysLikeRecordController {
     }
 
     @PostMapping
+    @UserAction(value= UserActionType.LIKERECORD_ADD)
     public AjaxResult add(@RequestBody SysLikeRecord record) {
         record.setOperatorId(SecurityUtils.getOperatorId());
         record.setCreatedAt(new Date());

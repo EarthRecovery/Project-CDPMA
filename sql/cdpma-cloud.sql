@@ -173,17 +173,20 @@ CREATE TABLE cdpma_user_behavior_record (
 
 DROP TABLE IF EXISTS cdpma_user_behavior;
 
-CREATE TABLE cdpma_user_behavior (
-                                     behavior_id         BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '用户行为编号',
-                                     behavior_type       INT             NOT NULL                     COMMENT '用户操作类型（注册/登陆/访问/购买/加入购物车/等级变动）',
+CREATE TABLE cdpma_user_action (
+                                     action_id          BIGINT(20)      NOT NULL AUTO_INCREMENT      COMMENT '用户行为ID',
+                                     operator_id         BIGINT(20)      NOT NULL      COMMENT '用户编号',
+                                     action_type       VARCHAR(100)    NOT NULL                     COMMENT '用户操作类型（注册/登陆/访问/购买/加入购物车/等级变动）',
+                                     action_time       DATETIME        NOT NULL                     COMMENT '用户操作时间',
+                                     action_status     INT             DEFAULT 0                    COMMENT '用户操作状态（0成功1失败）',
                                      webpage             VARCHAR(255)    DEFAULT NULL                 COMMENT '用户操作对象-网页',
                                      good_id             BIGINT(20)      DEFAULT NULL                 COMMENT '用户操作对象-商品',
                                      total_price         DECIMAL(10, 2)  DEFAULT NULL                 COMMENT '用户操作对象-商品-总价',
                                      order_id            BIGINT(20)      DEFAULT NULL                 COMMENT '用户操作对象-商品-订单号',
                                      category_name       VARCHAR(100)    DEFAULT NULL                 COMMENT '用户操作对象-商品种类',
                                      level_change        VARCHAR(100)    DEFAULT NULL                 COMMENT '用户操作对象-等级变动',
-                                     explanation         TEXT            DEFAULT NULL                 COMMENT '解释',
-                                     PRIMARY KEY (behavior_id),
+                                     target_id           BIGINT(20)      DEFAULT NULL                 COMMENT '用户操作对象-目标ID（用于后续扩展）',
+                                     PRIMARY KEY (action_id),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为表';
 
 DROP TABLE IF EXISTS cdpma_sales_assistant;

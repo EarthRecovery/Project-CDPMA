@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/good/category")
+@RequestMapping("/good-category")
 public class SysGoodCategoryController {
 
     @Autowired

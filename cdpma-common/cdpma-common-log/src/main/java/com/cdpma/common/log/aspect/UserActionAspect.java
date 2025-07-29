@@ -1,0 +1,98 @@
+package com.cdpma.common.log.aspect;
+
+import com.cdpma.api.systemuser.RemoteLogService;
+import com.cdpma.common.core.constant.SecurityConstants;
+import com.cdpma.common.log.annotation.Log;
+import com.cdpma.common.log.annotation.UserAction;
+import com.cdpma.common.log.enums.ActionStatus;
+import com.cdpma.common.pojo.pojo.SysLikeRecord;
+import com.cdpma.common.pojo.pojo.SysUserAction;
+import com.cdpma.common.security.utils.SecurityUtils;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.NamedThreadLocal;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Aspect
+@Component
+public class UserActionAspect {
+
+    @Autowired
+    private RemoteLogService remoteLogService;
+
+    /**
+     * 处理请求前执行
+     */
+    @Before(value = "@annotation(userAction)")
+    public void doBefore(JoinPoint joinPoint, UserAction userAction){
+
+    }
+
+    /**
+     * 处理完请求后执行
+     *
+     * @param joinPoint 切点
+     */
+    @AfterReturning(pointcut = "@annotation(userAction)", returning = "jsonResult")
+    public void doAfterReturning(JoinPoint joinPoint, UserAction userAction, Object jsonResult)
+    {
+        handleLog(joinPoint, userAction, null, jsonResult);
+    }
+
+    /**
+     * 拦截异常操作
+     *
+     * @param joinPoint 切点
+     * @param e 异常
+     */
+    @AfterThrowing(value = "@annotation(userAction)", throwing = "e")
+    public void doAfterThrowing(JoinPoint joinPoint, UserAction userAction, Exception e)
+    {
+        handleLog(joinPoint, userAction, e, null);
+    }
+
+    /**
+     * 处理日志记录
+     *
+     * @param joinPoint 切点
+     * @param userAction 日志注解
+     * @param e 异常信息
+     * @param jsonResult 返回结果
+     */
+    protected void handleLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult){
+        //记录进用户日志
+        recordUserActionLog(joinPoint, userAction, e, jsonResult);
+        // 触发后续操作（进入MQ）
+    }
+
+    protected void recordUserActionLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult) {
+        SysUserAction sysUserAction = new SysUserAction();
+        if(e == null){
+            sysUserAction.setActionStatus(ActionStatus.SUCCESS.ordinal());
+            sysUserAction.setActionTime(new Date());
+            sysUserAction.setActionType(userAction.value().name());
+            sysUserAction.setOperatorId(SecurityUtils.getOperatorId());
+            recordUserActionTarget(joinPoint, sysUserAction, userAction);
+        }else{
+            sysUserAction.setActionStatus(ActionStatus.FAIL.ordinal());
+        }
+
+        remoteLogService.insertUserAction(sysUserAction, SecurityConstants.INNER);
+    }
+
+    protected void recordUserActionTarget(final JoinPoint joinPoint, SysUserAction sysUserAction, UserAction userAction) {
+        String actionName = userAction.value().name();
+        if (actionName.startsWith("LIKERECORD")) {
+            SysLikeRecord sysLikeRecord = (SysLikeRecord) joinPoint.getArgs()[0];
+            sysUserAction.setGoodId(sysLikeRecord.getGoodId());
+        }
+    }
+
+
+}

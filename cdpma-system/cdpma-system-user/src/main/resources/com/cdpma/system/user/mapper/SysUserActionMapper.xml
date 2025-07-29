@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysUserActionMapper">
+
+    <resultMap id="UserActionResultMap" type="com.cdpma.common.pojo.pojo.SysUserAction">
+        <id property="actionId" column="action_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="actionType" column="action_type"/>
+        <result property="actionTime" column="action_time"/>
+        <result property="actionStatus" column="action_status"/>
+        <result property="webpage" column="webpage"/>
+        <result property="goodId" column="good_id"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="orderId" column="order_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="levelChange" column="level_change"/>
+        <result property="targetId" column="target_id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        action_id, operator_id, action_type, action_time, action_status,
+        webpage, good_id, total_price, order_id, category_name, level_change, target_id
+    </sql>
+
+    <select id="selectUserActionById" resultMap="UserActionResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_user_action
+        WHERE action_id = #{actionId}
+    </select>
+
+    <select id="selectUserActionList" resultMap="UserActionResultMap" parameterType="com.cdpma.common.pojo.pojo.SysUserAction">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_user_action
+        <where>
+            <if test="operatorId != null">AND operator_id = #{operatorId}</if>
+            <if test="actionType != null and actionType != ''">AND action_type LIKE CONCAT('%', #{actionType}, '%')</if>
+            <if test="actionStatus != null">AND action_status = #{actionStatus}</if>
+        </where>
+        ORDER BY action_time DESC
+    </select>
+
+    <insert id="insertUserAction" parameterType="com.cdpma.common.pojo.pojo.SysUserAction">
+        INSERT INTO cdpma_user_action (operator_id, action_type, action_time, action_status, webpage, good_id,
+                                       total_price, order_id, category_name, level_change, target_id)
+        VALUES (#{operatorId}, #{actionType}, #{actionTime}, #{actionStatus}, #{webpage}, #{goodId},
+                #{totalPrice}, #{orderId}, #{categoryName}, #{levelChange}, #{targetId})
+    </insert>
+
+    <update id="updateUserAction" parameterType="com.cdpma.common.pojo.pojo.SysUserAction">
+        UPDATE cdpma_user_action
+        SET operator_id = #{operatorId},
+            action_type = #{actionType},
+            action_time = #{actionTime},
+            action_status = #{actionStatus},
+            webpage = #{webpage},
+            good_id = #{goodId},
+            total_price = #{totalPrice},
+            order_id = #{orderId},
+            category_name = #{categoryName},
+            level_change = #{levelChange},
+            target_id = #{targetId}
+        WHERE action_id = #{actionId}
+    </update>
+
+    <delete id="deleteUserActionByIds" parameterType="Long">
+        DELETE FROM cdpma_user_action
+        WHERE action_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
