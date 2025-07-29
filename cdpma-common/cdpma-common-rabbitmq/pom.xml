@@ -9,33 +9,30 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cdpma-common-log</artifactId>
+    <artifactId>cdpma-common-rabbitmq</artifactId>
 
     <description>
-        cdpma-common-log日志系统
+        cdpma-common-rabbitmq队列类
     </description>
 
     <dependencies>
+        <!-- SpringBoot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
+        <!-- SpringDoc webmvc -->
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
+
+        <!-- 消息队列 -->
         <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-pojo</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-rabbitmq</artifactId>
-        </dependency>
+
     </dependencies>
 </project>

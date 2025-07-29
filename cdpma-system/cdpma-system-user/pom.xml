@@ -74,6 +74,11 @@
 
         <dependency>
             <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-rabbitmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-swagger</artifactId>
         </dependency>
     </dependencies>

@@ -10,6 +10,7 @@
         <module name="auth" />
         <module name="log" />
         <module name="admin" />
+        <module name="rabbitmq" />
         <module name="redis" />
         <module name="swagger" />
         <module name="core" />
@@ -39,6 +40,7 @@
       <module name="job" options="" />
       <module name="log" options="" />
       <module name="pojo" options="-parameters" />
+      <module name="rabbitmq" options="" />
       <module name="redis" options="" />
       <module name="security" options="" />
       <module name="swagger" options="" />

@@ -6,7 +6,10 @@ import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.log.annotation.UserAction;
 import com.cdpma.common.log.enums.ActionStatus;
 import com.cdpma.common.pojo.pojo.SysLikeRecord;
+import com.cdpma.common.pojo.pojo.SysUser;
 import com.cdpma.common.pojo.pojo.SysUserAction;
+import com.cdpma.common.rabbitmq.config.RabbitMQConfig;
+import com.cdpma.common.rabbitmq.handler.RabbitHandler;
 import com.cdpma.common.security.utils.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -25,6 +28,9 @@ public class UserActionAspect {
 
     @Autowired
     private RemoteLogService remoteLogService;
+
+    @Autowired
+    private RabbitHandler rabbitHandler;
 
     /**
      * 处理请求前执行
@@ -67,11 +73,12 @@ public class UserActionAspect {
      */
     protected void handleLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult){
         //记录进用户日志
-        recordUserActionLog(joinPoint, userAction, e, jsonResult);
+        SysUserAction sysUserAction = recordUserActionLog(joinPoint, userAction, e, jsonResult);
         // 触发后续操作（进入MQ）
+        rabbitHandler.sengMessage(RabbitMQConfig.RABBITMQ_EXCHANGE, RabbitMQConfig.RABBITMQ_USER_ACTION_ROUTING, sysUserAction);
     }
 
-    protected void recordUserActionLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult) {
+    protected SysUserAction recordUserActionLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult) {
         SysUserAction sysUserAction = new SysUserAction();
         if(e == null){
             sysUserAction.setActionStatus(ActionStatus.SUCCESS.ordinal());
@@ -84,6 +91,7 @@ public class UserActionAspect {
         }
 
         remoteLogService.insertUserAction(sysUserAction, SecurityConstants.INNER);
+        return sysUserAction;
     }
 
     protected void recordUserActionTarget(final JoinPoint joinPoint, SysUserAction sysUserAction, UserAction userAction) {
