@@ -1,6 +1,8 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.pojo.pojo.SysLoginLogoutLog;
 import com.cdpma.system.user.service.ISysLoginLogoutLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/logio")
-public class SysLoginLogoutLogController {
+public class SysLoginLogoutLogController extends BaseController {
 
     @Autowired
     private ISysLoginLogoutLogService logService;
@@ -27,9 +29,10 @@ public class SysLoginLogoutLogController {
      * 查询日志列表
      */
     @GetMapping("/list")
-    public AjaxResult list(SysLoginLogoutLog log) {
+    public TableDataInfo list(SysLoginLogoutLog log) {
+        startPage();
         List<SysLoginLogoutLog> list = logService.selectLogList(log);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     /**

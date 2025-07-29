@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.pojo.pojo.SysUser;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-public class SysUserController {
+public class SysUserController extends BaseController {
 
     @Autowired
     private ISysUserService userService;

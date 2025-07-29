@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.system.user.service.ISysUserActionService;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user-action")
-public class SysUserActionController {
+public class SysUserActionController extends BaseController {
 
 
     @Autowired

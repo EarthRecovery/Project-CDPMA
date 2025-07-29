@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysFavoritesRecord;
 import com.cdpma.common.security.utils.SecurityUtils;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
-public class SysFavoritesRecordController {
+public class SysFavoritesRecordController extends BaseController {
     @Autowired
     private ISysFavoritesRecordService favoritesRecordService;
 

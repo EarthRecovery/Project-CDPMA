@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.pojo.enums.Tag;
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/operator")
-public class SysOperatorController {
+public class SysOperatorController extends BaseController {
 
     @Autowired
     private SysOperatorService sysOperatorService;

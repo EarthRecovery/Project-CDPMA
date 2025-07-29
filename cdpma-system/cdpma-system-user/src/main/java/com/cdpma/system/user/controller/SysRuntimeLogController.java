@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysRuntimeLog;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/log-runtime")
-public class SysRuntimeLogController {
+public class SysRuntimeLogController extends BaseController {
     @Autowired
     private ISysRuntimeLogService runtimeLogService;
 

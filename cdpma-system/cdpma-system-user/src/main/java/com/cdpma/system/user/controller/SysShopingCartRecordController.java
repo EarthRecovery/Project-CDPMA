@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysShoppingCartRecord;
 import com.cdpma.system.user.service.ISysShoppingCartRecordService;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cart-record")
-public class SysShopingCartRecordController {
+public class SysShopingCartRecordController extends BaseController {
 
     @Autowired
     private ISysShoppingCartRecordService recordService;

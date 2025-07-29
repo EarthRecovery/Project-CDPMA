@@ -1,5 +1,6 @@
 package com.cdpma.system.user.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysOrder;
 import com.cdpma.system.user.service.ISysOrderService;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
-public class SysOrderController {
+public class SysOrderController extends BaseController {
 
     @Resource
     private ISysOrderService sysOrderService;

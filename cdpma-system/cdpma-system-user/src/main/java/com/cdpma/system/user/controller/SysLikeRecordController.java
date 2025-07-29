@@ -1,6 +1,7 @@
 package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.constant.SecurityConstants;
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.log.annotation.UserAction;
 import com.cdpma.common.log.enums.UserActionType;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/like")
-public class SysLikeRecordController {
+public class SysLikeRecordController extends BaseController {
 
     @Autowired
     private ISysLikeRecordService likeRecordService;

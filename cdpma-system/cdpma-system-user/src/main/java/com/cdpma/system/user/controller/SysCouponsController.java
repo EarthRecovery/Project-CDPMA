@@ -1,6 +1,7 @@
 package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.utils.uuid.UUID;
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.log.enums.BusinessType;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/coupons")
-public class SysCouponsController {
+public class SysCouponsController extends BaseController {
 
     @Autowired
     private ISysCouponsService couponsService;
