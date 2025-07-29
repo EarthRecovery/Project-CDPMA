@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.user.mapper.SysCouponsMapper">
+
+    <resultMap id="CouponsResultMap" type="com.cdpma.common.pojo.pojo.SysCoupons">
+        <id property="couponId" column="coupon_id"/>
+        <result property="couponName" column="coupon_name"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="isDisabled" column="is_disabled"/>
+        <result property="isIssued" column="is_issued"/>
+        <result property="issuanceTarget" column="issuance_target"/>
+        <result property="discountEffect" column="discount_effect"/>
+        <result property="expirationDuration" column="expiration_duration"/>
+        <result property="issuanceTime" column="issuance_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        coupon_id, coupon_name, created_by, created_at, updated_by, updated_at,
+        is_disabled, is_issued, issuance_target, discount_effect, expiration_duration, issuance_time
+    </sql>
+
+    <select id="selectCouponsById" resultMap="CouponsResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_coupons
+        WHERE coupon_id = #{couponId}
+    </select>
+
+    <select id="selectCouponsList" resultMap="CouponsResultMap" parameterType="com.cdpma.common.pojo.pojo.SysCoupons">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_coupons
+        <where>
+            <if test="couponName != null and couponName != ''">
+                AND coupon_name LIKE CONCAT('%', #{couponName}, '%')
+            </if>
+            <if test="isDisabled != null">
+                AND is_disabled = #{isDisabled}
+            </if>
+            <if test="isIssued != null">
+                AND is_issued = #{isIssued}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+
+    <insert id="insertCoupons" parameterType="com.cdpma.common.pojo.pojo.SysCoupons">
+        INSERT INTO cdpma_coupons (coupon_name, created_by, created_at, updated_by, updated_at,
+                                   is_disabled, is_issued, issuance_target, discount_effect, expiration_duration, issuance_time)
+        VALUES (#{couponName}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt},
+                #{isDisabled}, #{isIssued}, #{issuanceTarget}, #{discountEffect}, #{expirationDuration}, #{issuanceTime})
+    </insert>
+
+    <update id="updateCoupons" parameterType="com.cdpma.common.pojo.pojo.SysCoupons">
+        UPDATE cdpma_coupons
+        SET coupon_name = #{couponName},
+            created_by = #{createdBy},
+            created_at = #{createdAt},
+            updated_by = #{updatedBy},
+            updated_at = #{updatedAt},
+            is_disabled = #{isDisabled},
+            is_issued = #{isIssued},
+            issuance_target = #{issuanceTarget},
+            discount_effect = #{discountEffect},
+            expiration_duration = #{expirationDuration},
+            issuance_time = #{issuanceTime}
+        WHERE coupon_id = #{couponId}
+    </update>
+
+    <delete id="deleteCouponsByIds" parameterType="Long">
+        DELETE FROM cdpma_coupons
+        WHERE coupon_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
