@@ -17,6 +17,7 @@
         <module>cdpma-common-redis</module>
         <module>cdpma-common-swagger</module>
         <module>cdpma-common-rabbitmq</module>
+        <module>cdpma-common-operation</module>
     </modules>
 
     <artifactId>cdpma-common</artifactId>

@@ -15,4 +15,6 @@ public interface SysOperationTriggerConditionMapper {
     int updateCondition(SysOperationTriggerCondition condition);
 
     int deleteConditionByIds(Long[] conditionIds);
+
+    List<SysOperationTriggerCondition> selectAllCondition();
 }

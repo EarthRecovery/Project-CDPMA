@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysOperationTriggerConditionService implements ISysOperationTriggerConditionService {
@@ -37,5 +38,10 @@ public class SysOperationTriggerConditionService implements ISysOperationTrigger
     @Override
     public int deleteConditionByIds(Long[] conditionIds) {
         return conditionMapper.deleteConditionByIds(conditionIds);
+    }
+
+    @Override
+    public List<SysOperationTriggerCondition> selectAllCondition() {
+        return conditionMapper.selectAllCondition();
     }
 }

@@ -71,4 +71,15 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getOperationMap" resultType="java.util.HashMap">
+        SELECT
+            tc.condition_name AS conditionName,
+            r.response_name   AS responseName
+        FROM cdpma_operation o
+                 JOIN cdpma_operation_trigger_condition tc
+                      ON o.trigger_condition_id = tc.condition_id
+                 JOIN cdpma_operation_response r
+                      ON o.operation_response = r.response_id
+    </select>
 </mapper>

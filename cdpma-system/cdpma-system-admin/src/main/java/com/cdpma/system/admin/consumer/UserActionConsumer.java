@@ -1,5 +1,6 @@
 package com.cdpma.system.admin.consumer;
 
+import com.cdpma.system.admin.handler.TriggerHandler;
 import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.common.rabbitmq.config.RabbitMQConfig;
 import com.cdpma.common.rabbitmq.constant.BaseDTO;
@@ -13,10 +14,13 @@ public class UserActionConsumer {
     @Autowired
     RabbitHandler rabbitHandler;
 
+    @Autowired
+    TriggerHandler triggerHandler;
+
     @RabbitListener(queues = RabbitMQConfig.RABBITMQ_USER_ACTION_TOPIC)
     public void handleUserAction(BaseDTO<SysUserAction> dto) {
         SysUserAction sysUserAction = dto.getData();
-        System.out.println("Received User Action: " + sysUserAction.toString());
+        triggerHandler.trigger(sysUserAction);
     }
 
 }

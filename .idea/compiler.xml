@@ -19,6 +19,7 @@
         <module name="systemuser" />
         <module name="job" />
         <module name="user" />
+        <module name="operation" />
         <module name="gateway" />
       </profile>
     </annotationProcessing>
@@ -39,6 +40,7 @@
       <module name="gateway" options="" />
       <module name="job" options="" />
       <module name="log" options="" />
+      <module name="operation" options="" />
       <module name="pojo" options="-parameters" />
       <module name="rabbitmq" options="" />
       <module name="redis" options="" />

@@ -22,6 +22,7 @@
         <option value="$PROJECT_DIR$/cdpma-api/cdpma-api-system-user/pom.xml" />
         <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-swagger/pom.xml" />
         <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-rabbitmq/pom.xml" />
+        <option value="$PROJECT_DIR$/cdpma-common/cdpma-common-operation/pom.xml" />
       </list>
     </option>
   </component>

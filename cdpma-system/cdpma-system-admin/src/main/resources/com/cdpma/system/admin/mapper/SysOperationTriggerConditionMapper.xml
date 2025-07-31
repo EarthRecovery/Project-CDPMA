@@ -22,6 +22,12 @@
         WHERE condition_id = #{conditionId}
     </select>
 
+    <select id="selectAllCondition"
+            resultType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_trigger_condition
+    </select>
+
     <select id="selectConditionList" resultMap="ConditionResultMap" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
         SELECT <include refid="Base_Column_List"/>
         FROM cdpma_operation_trigger_condition
@@ -56,4 +62,6 @@
             #{id}
         </foreach>
     </delete>
+
+
 </mapper>

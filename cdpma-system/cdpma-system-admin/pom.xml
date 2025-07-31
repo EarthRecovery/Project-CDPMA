@@ -80,6 +80,10 @@
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-swagger</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-operation</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -3,6 +3,7 @@ package com.cdpma.system.admin.service;
 import com.cdpma.common.pojo.pojo.SysOperation;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ISysOperationService {
 
@@ -15,4 +16,6 @@ public interface ISysOperationService {
     int updateOperation(SysOperation operation);
 
     int deleteOperationByIds(Long[] operationIds);
+
+    Map<String, List<String>> getOperationMap();
 }
