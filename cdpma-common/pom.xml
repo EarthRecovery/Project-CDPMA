@@ -18,6 +18,7 @@
         <module>cdpma-common-swagger</module>
         <module>cdpma-common-rabbitmq</module>
         <module>cdpma-common-operation</module>
+        <module>cdpma-common-job</module>
     </modules>
 
     <artifactId>cdpma-common</artifactId>

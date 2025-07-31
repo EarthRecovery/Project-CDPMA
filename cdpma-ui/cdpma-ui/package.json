@@ -10,6 +10,8 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "element-plus": "^2.10.4",
+    "js-cookie": "^3.0.5",
+    "jsencrypt": "^3.3.2",
     "vue": "^3.2.13",
     "vue-router": "^4.5.1"
   },

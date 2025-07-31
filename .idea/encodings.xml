@@ -11,6 +11,8 @@
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-datasource/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-datasource/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-job/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-log/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-log/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-common/cdpma-common-operation/src/main/java" charset="UTF-8" />

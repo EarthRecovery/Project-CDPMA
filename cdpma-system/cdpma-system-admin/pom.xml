@@ -84,6 +84,10 @@
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-operation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-job</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

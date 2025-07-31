@@ -11,6 +11,7 @@
         <module name="log" />
         <module name="admin" />
         <module name="rabbitmq" />
+        <module name="job (1) (com.cdpma.common)" />
         <module name="redis" />
         <module name="swagger" />
         <module name="core" />
@@ -39,6 +40,7 @@
       <module name="datasource" options="" />
       <module name="gateway" options="" />
       <module name="job" options="" />
+      <module name="job (1) (com.cdpma.common)" options="" />
       <module name="log" options="" />
       <module name="operation" options="" />
       <module name="pojo" options="-parameters" />
