@@ -1,9 +1,14 @@
 package com.cdpma.common.rabbitmq.constant;
+import org.aspectj.lang.JoinPoint;
 
 public class BaseDTO<T> {
     private String id;
 
     private String createTime;
+
+    private T data;
+
+    private Object args;
 
     public String getId() {
         return id;
@@ -29,6 +34,11 @@ public class BaseDTO<T> {
         this.createTime = createTime;
     }
 
-    private T data;
+    public Object getArgs() {
+        return args;
+    }
 
+    public void setArgs(Object args) {
+        this.args = args;
+    }
 }

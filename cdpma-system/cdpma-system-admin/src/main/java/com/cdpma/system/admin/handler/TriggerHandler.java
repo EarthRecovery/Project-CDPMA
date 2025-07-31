@@ -3,6 +3,7 @@ package com.cdpma.system.admin.handler;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.pojo.pojo.SysOperationTriggerCondition;
 import com.cdpma.common.pojo.pojo.SysUserAction;
+import com.cdpma.system.admin.executor.StartUpExecutor;
 import com.cdpma.system.admin.service.impl.SysOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,10 @@ public class TriggerHandler {
     @Autowired
     private SysOperationService sysOperationService;
 
-    public void trigger(SysUserAction action) {
+    @Autowired
+    private StartUpExecutor startUpExecutor;
+
+    public void trigger(SysUserAction action, Object args) {
         // 处理触发逻辑
         // 这里可以添加具体的业务逻辑代码
 
@@ -31,7 +35,7 @@ public class TriggerHandler {
             if (Objects.equals(entry.getKey(), action.getActionType())) {
                 // 执行相应的操作
                 for(String value : entry.getValue()) {
-                    System.out.println("触发操作: " + value);
+                    startUpExecutor.execute(value, args);
                 }
                 // 成功触发
                 isTrigger = true;

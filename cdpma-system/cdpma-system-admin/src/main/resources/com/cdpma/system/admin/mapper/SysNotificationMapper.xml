@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.admin.mapper.SysNotificationMapper">
+
+    <resultMap id="NotificationResultMap" type="com.cdpma.common.pojo.pojo.SysNotification">
+        <id property="notificationId" column="notification_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="sender" column="sender"/>
+        <result property="receiver" column="receiver"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="notificationType" column="notification_type"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        notification_id, operator_id, timestamp, sender, receiver, send_time, notification_type, content
+    </sql>
+
+    <select id="selectNotificationById" resultMap="NotificationResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_notification
+        WHERE notification_id = #{notificationId}
+    </select>
+
+    <select id="selectNotificationList" resultMap="NotificationResultMap" parameterType="com.cdpma.common.pojo.pojo.SysNotification">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_notification
+        <where>
+            <if test="operatorId != null">
+                AND operator_id = #{operatorId}
+            </if>
+            <if test="notificationType != null">
+                AND notification_type = #{notificationType}
+            </if>
+        </where>
+        ORDER BY timestamp DESC
+    </select>
+
+    <insert id="insertNotification" parameterType="com.cdpma.common.pojo.pojo.SysNotification">
+        INSERT INTO cdpma_notification (operator_id, timestamp, sender, receiver, send_time, notification_type, content)
+        VALUES (#{operatorId}, #{timestamp}, #{sender}, #{receiver}, #{sendTime}, #{notificationType}, #{content})
+    </insert>
+
+    <update id="updateNotification" parameterType="com.cdpma.common.pojo.pojo.SysNotification">
+        UPDATE cdpma_notification
+        SET operator_id = #{operatorId},
+            timestamp = #{timestamp},
+            sender = #{sender},
+            receiver = #{receiver},
+            send_time = #{sendTime},
+            notification_type = #{notificationType},
+            content = #{content}
+        WHERE notification_id = #{notificationId}
+    </update>
+
+    <delete id="deleteNotificationByIds" parameterType="Long">
+        DELETE FROM cdpma_notification
+        WHERE notification_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

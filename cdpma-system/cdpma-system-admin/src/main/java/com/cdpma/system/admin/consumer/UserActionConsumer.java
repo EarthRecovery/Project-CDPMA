@@ -5,6 +5,8 @@ import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.common.rabbitmq.config.RabbitMQConfig;
 import com.cdpma.common.rabbitmq.constant.BaseDTO;
 import com.cdpma.common.rabbitmq.handler.RabbitHandler;
+import org.aopalliance.intercept.Joinpoint;
+import org.aspectj.lang.JoinPoint;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,8 @@ public class UserActionConsumer {
     @RabbitListener(queues = RabbitMQConfig.RABBITMQ_USER_ACTION_TOPIC)
     public void handleUserAction(BaseDTO<SysUserAction> dto) {
         SysUserAction sysUserAction = dto.getData();
-        triggerHandler.trigger(sysUserAction);
+        Object args = dto.getArgs();
+        triggerHandler.trigger(sysUserAction, args);
     }
 
 }

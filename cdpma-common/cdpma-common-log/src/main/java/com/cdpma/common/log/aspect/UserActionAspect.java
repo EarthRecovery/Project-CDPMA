@@ -5,12 +5,15 @@ import com.cdpma.common.core.constant.SecurityConstants;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.log.annotation.UserAction;
 import com.cdpma.common.log.enums.ActionStatus;
+import com.cdpma.common.pojo.bo.SysNotificationBO;
+import com.cdpma.common.pojo.enums.NotificationType;
 import com.cdpma.common.pojo.pojo.SysLikeRecord;
 import com.cdpma.common.pojo.pojo.SysUser;
 import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.common.rabbitmq.config.RabbitMQConfig;
 import com.cdpma.common.rabbitmq.handler.RabbitHandler;
 import com.cdpma.common.security.utils.SecurityUtils;
+import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -20,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @Aspect
@@ -74,8 +78,10 @@ public class UserActionAspect {
     protected void handleLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult){
         //记录进用户日志
         SysUserAction sysUserAction = recordUserActionLog(joinPoint, userAction, e, jsonResult);
+        Object args = Arrays.asList(joinPoint.getArgs());
         // 触发后续操作（进入MQ）
-        rabbitHandler.sengMessage(RabbitMQConfig.RABBITMQ_EXCHANGE, RabbitMQConfig.RABBITMQ_USER_ACTION_ROUTING, sysUserAction);
+        rabbitHandler.sengMessage(RabbitMQConfig.RABBITMQ_EXCHANGE,
+                RabbitMQConfig.RABBITMQ_USER_ACTION_ROUTING, sysUserAction,args);
     }
 
     protected SysUserAction recordUserActionLog(final JoinPoint joinPoint, UserAction userAction, final Exception e, Object jsonResult) {
