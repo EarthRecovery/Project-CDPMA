@@ -12,7 +12,6 @@
         cdpma-system-admin管理模块
     </description>
     <dependencies>
-        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -43,9 +42,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-rabbitmq</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-pojo</artifactId>
@@ -53,7 +53,32 @@
 
         <dependency>
             <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-log</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-rabbitmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-swagger</artifactId>
         </dependency>
     </dependencies>
 

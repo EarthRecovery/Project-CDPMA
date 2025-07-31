@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.admin.mapper.SysOperationMapper">
+
+    <resultMap id="OperationResultMap" type="com.cdpma.common.pojo.pojo.SysOperation">
+        <id property="operationId" column="operation_id"/>
+        <result property="triggerConditionId" column="trigger_condition_id"/>
+        <result property="operationResponse" column="operation_response"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="operationPermission" column="operation_permission"/>
+        <result property="operationDescription" column="operation_description"/>
+        <result property="isEnabled" column="is_enabled"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        operation_id, trigger_condition_id, operation_response, create_time, created_by,
+        update_time, updated_by, operation_permission, operation_description, is_enabled
+    </sql>
+
+    <select id="selectOperationById" resultMap="OperationResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation
+        WHERE operation_id = #{operationId}
+    </select>
+
+    <select id="selectOperationList" resultMap="OperationResultMap" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation
+        <where>
+            <if test="operationPermission != null">
+                AND operation_permission = #{operationPermission}
+            </if>
+            <if test="isEnabled != null">
+                AND is_enabled = #{isEnabled}
+            </if>
+        </where>
+        ORDER BY operation_id DESC
+    </select>
+
+    <insert id="insertOperation" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
+        INSERT INTO cdpma_operation (trigger_condition_id, operation_response, create_time, created_by,
+                                     update_time, updated_by, operation_permission, operation_description, is_enabled)
+        VALUES (#{triggerConditionId}, #{operationResponse}, #{createTime}, #{createdBy},
+                #{updateTime}, #{updatedBy}, #{operationPermission}, #{operationDescription}, #{isEnabled})
+    </insert>
+
+    <update id="updateOperation" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
+        UPDATE cdpma_operation
+        SET trigger_condition_id = #{triggerConditionId},
+            operation_response = #{operationResponse},
+            create_time = #{createTime},
+            created_by = #{createdBy},
+            update_time = #{updateTime},
+            updated_by = #{updatedBy},
+            operation_permission = #{operationPermission},
+            operation_description = #{operationDescription},
+            is_enabled = #{isEnabled}
+        WHERE operation_id = #{operationId}
+    </update>
+
+    <delete id="deleteOperationByIds" parameterType="Long">
+        DELETE FROM cdpma_operation
+        WHERE operation_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

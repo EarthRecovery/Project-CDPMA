@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.admin.mapper.SysOperationTriggerConditionMapper">
+
+    <resultMap id="ConditionResultMap" type="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+        <id property="conditionId" column="condition_id"/>
+        <result property="conditionName" column="condition_name"/>
+        <result property="isUrgent" column="is_urgent"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        condition_id, condition_name, is_urgent, description
+    </sql>
+
+    <select id="selectConditionById" resultMap="ConditionResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_trigger_condition
+        WHERE condition_id = #{conditionId}
+    </select>
+
+    <select id="selectConditionList" resultMap="ConditionResultMap" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_trigger_condition
+        <where>
+            <if test="conditionName != null and conditionName != ''">
+                AND condition_name LIKE CONCAT('%', #{conditionName}, '%')
+            </if>
+            <if test="isUrgent != null">
+                AND is_urgent = #{isUrgent}
+            </if>
+        </where>
+        ORDER BY condition_id DESC
+    </select>
+
+    <insert id="insertCondition" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+        INSERT INTO cdpma_operation_trigger_condition (condition_name, is_urgent, description)
+        VALUES (#{conditionName}, #{isUrgent}, #{description})
+    </insert>
+
+    <update id="updateCondition" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+        UPDATE cdpma_operation_trigger_condition
+        SET condition_name = #{conditionName},
+            is_urgent = #{isUrgent},
+            description = #{description}
+        WHERE condition_id = #{conditionId}
+    </update>
+
+    <delete id="deleteConditionByIds" parameterType="Long">
+        DELETE FROM cdpma_operation_trigger_condition
+        WHERE condition_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

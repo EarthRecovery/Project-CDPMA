@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdpma.system.admin.mapper.SysOperationResponseMapper">
+
+    <resultMap id="ResponseResultMap" type="com.cdpma.common.pojo.pojo.SysOperationResponse">
+        <id property="responseId" column="response_id"/>
+        <result property="responseName" column="response_name"/>
+        <result property="isUrgent" column="is_urgent"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        response_id, response_name, is_urgent, description
+    </sql>
+
+    <select id="selectResponseById" resultMap="ResponseResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_response
+        WHERE response_id = #{responseId}
+    </select>
+
+    <select id="selectResponseList" resultMap="ResponseResultMap" parameterType="com.cdpma.common.pojo.pojo.SysOperationResponse">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_response
+        <where>
+            <if test="responseName != null and responseName != ''">
+                AND response_name LIKE CONCAT('%', #{responseName}, '%')
+            </if>
+            <if test="isUrgent != null">
+                AND is_urgent = #{isUrgent}
+            </if>
+        </where>
+        ORDER BY response_id DESC
+    </select>
+
+    <insert id="insertResponse" parameterType="com.cdpma.common.pojo.pojo.SysOperationResponse">
+        INSERT INTO cdpma_operation_response (response_name, is_urgent, description)
+        VALUES (#{responseName}, #{isUrgent}, #{description})
+    </insert>
+
+    <update id="updateResponse" parameterType="com.cdpma.common.pojo.pojo.SysOperationResponse">
+        UPDATE cdpma_operation_response
+        SET response_name = #{responseName},
+            is_urgent = #{isUrgent},
+            description = #{description}
+        WHERE response_id = #{responseId}
+    </update>
+
+    <delete id="deleteResponseByIds" parameterType="Long">
+        DELETE FROM cdpma_operation_response
+        WHERE response_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
