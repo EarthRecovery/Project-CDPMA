@@ -38,4 +38,14 @@ public class LoginRequest {
     public void setOperator_password(String operator_password) {
         this.operator_password = operator_password;
     }
+
+    @Override
+    public String toString() {
+        return "LoginRequest{" +
+                "operator_name='" + operator_name + '\'' +
+                ", operator_phone='" + operator_phone + '\'' +
+                ", operator_email='" + operator_email + '\'' +
+                ", operator_password='" + operator_password + '\'' +
+                '}';
+    }
 }

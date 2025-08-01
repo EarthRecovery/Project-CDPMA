@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+    <el-form ref="loginFormRef"  :model="loginForm" :rules="loginRules" class="login-form">
       <h3 class="title">{{ title }}</h3>
       <el-form-item prop="username">
         <el-input
@@ -59,114 +59,134 @@
   </div>
 </template>
 
-<script>
-import Cookies from "js-cookie"
+<script setup>
+import { ref, reactive, watch, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
-const atLeastOneValidator = (vm) => (rule, value, callback) => {
-  console.log(vm.loginForm)
-  const username = vm.loginForm.username
-  const phoneNumber = vm.loginForm.phoneNumber
-  const email = vm.loginForm.email
+// 1. 初始化 store 和 router
+const store = useStore()
+const router = useRouter()
+const route = useRoute()
 
+// 2. 登录表单数据
+const loginForm = reactive({
+  username: 'admin',
+  password: 'admin123',
+  phoneNumber: '18989352240',
+  email: 'ssyyl35@nottingham.ac.uk',
+  rememberMe: false,
+  uuid: ''
+})
+
+// 3. 其他状态
+const title = ref('CDP-MA')
+const loading = ref(false)
+const redirect = ref(undefined)
+
+// 4. 表单引用
+const loginFormRef = ref(null)
+
+const atLeastOneValidator = (rule, value, callback) => {
+  const { username, phoneNumber, email } = loginForm
+  console.log("validator")
+  // 仅在全部为空时报错
   if (!username && !phoneNumber && !email) {
-    callback(new Error('用户名、手机号或邮箱，至少填写一项'))
-  } else {
-    // 如果当前字段有值，再额外做格式校验
-    if (rule.field === 'phoneNumber' && value) {
-      const phoneRegex = /^1[3-9]\d{9}$/
-      if (!phoneRegex.test(value)) {
-        callback(new Error('请输入正确的手机号'))
-        return
-      }
-    }
-    if (rule.field === 'email' && value) {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-      if (!emailRegex.test(value)) {
-        callback(new Error('请输入正确的邮箱地址'))
-        return
-      }
-    }
-    // 通过校验
-    callback()
+    return callback(new Error('用户名、手机号或邮箱至少填写一项'))
   }
+  // 如果当前字段有值，单独校验格式
+  if (rule.field === 'phoneNumber' && value) {
+    const phoneRegex = /^1[3-9]\d{9}$/
+    if (!phoneRegex.test(value)) return callback(new Error('请输入正确的手机号'))
+  }
+  if (rule.field === 'email' && value) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    if (!emailRegex.test(value)) return callback(new Error('请输入正确的邮箱地址'))
+  }
+  callback()
 }
 
-export default {
-  name: "LoginView",
-  data() {
-    return {
-      title: "CDP-MA",
-      loginForm: {
-        username: "admin",
-        password: "admin123",
-        phoneNumber: "18989352240",
-        email: "ssyyl35@nottingham.ac.uk",
-        rememberMe: false,
-        uuid: ""
-      },
-      loginRules: {
-        username: [
-          { validator: atLeastOneValidator(this), trigger: 'blur' }
-        ],
-        phoneNumber: [
-          { validator: atLeastOneValidator(this), trigger: 'blur' }
-        ],
-        email: [
-          { validator: atLeastOneValidator(this), trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入您的密码', trigger: 'blur' }
-        ]
-      },
-      loading: false,
-      register: false,
-      redirect: undefined
-    }
+
+// 6. 校验规则
+const loginRules = {
+  username: [{ validator: atLeastOneValidator, trigger: 'blur' }],
+  phoneNumber: [{ validator: atLeastOneValidator, trigger: 'blur' }],
+  email: [{ validator: atLeastOneValidator, trigger: 'blur' }],
+  password: [{ required: true, message: '请输入您的密码', trigger: 'blur' }]
+}
+
+// 7. Cookie 恢复数据
+const getCookie = () => {
+  // 仅在初次挂载时恢复，不在后续修改时覆盖
+  if (!loginForm.username) loginForm.username = Cookies.get('username') || ''
+  if (!loginForm.password) loginForm.password = Cookies.get('password') ? decrypt(Cookies.get('password')) : ''
+  if (!loginForm.email) loginForm.email = Cookies.get('email') || ''
+  if (!loginForm.phoneNumber) loginForm.phoneNumber = Cookies.get('phoneNumber') || ''
+  loginForm.rememberMe = Cookies.get('rememberMe') ? Boolean(Cookies.get('rememberMe')) : false
+}
+
+
+// 8. 监听路由变化
+watch(
+  () => route.query.redirect,
+  (val) => {
+    redirect.value = val
   },
-  watch: {
-    $route: {
-      handler(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  created() {
-    this.getCookie()
-  },
-  methods: {
-    getCookie() {
-      const username = Cookies.get("username")
-      const password = Cookies.get("password")
-      const rememberMe = Cookies.get("rememberMe")
-      this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      }
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          if (this.loginForm.rememberMe) {
-            Cookies.set("username", this.loginForm.username, { expires: 30 })
-            Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 })
-            Cookies.set("rememberMe", this.loginForm.rememberMe, { expires: 30 })
-          } else {
-            Cookies.remove("username")
-            Cookies.remove("password")
-            Cookies.remove("rememberMe")
-          }
-          // 这里写登录请求逻辑
-          console.log("登录请求", this.loginForm)
-        }
-      })
-    }
+  { immediate: true }
+)
+
+// 9. 组件挂载时获取 Cookie
+let initialized = false
+onMounted(() => {
+  if(!initialized) {
+    getCookie()
+    initialized = true
   }
+})
+
+// 10. 登录处理
+const handleLogin = () => {
+  loginFormRef.value.validate((valid) => {
+    if (valid) {
+      loading.value = true
+      if (loginForm.rememberMe) {
+        Cookies.set('username', loginForm.username, { expires: 30 })
+        Cookies.set('password', encrypt(loginForm.password), { expires: 30 })
+        Cookies.set('rememberMe', loginForm.rememberMe, { expires: 30 })
+        Cookies.set('email', loginForm.email, { expires: 30 })
+        Cookies.set('phoneNumber', loginForm.phoneNumber, { expires: 30 })
+      } else {
+        Cookies.remove('username')
+        Cookies.remove('password')
+        Cookies.remove('rememberMe')
+        Cookies.remove('email')
+        Cookies.remove('phoneNumber')
+      }
+      if(loginForm.username == undefined || loginForm.username == null) {
+        loginForm.username = null
+      }
+      if(loginForm.email == undefined || loginForm.email == null) {
+        loginForm.email = null
+      }
+      if(loginForm.phoneNumber == undefined || loginForm.phoneNumber == null) {
+        loginForm.phoneNumber = null
+      }
+      // 调用 Vuex action
+      console.log('Attempting login with loginForm:', loginForm)
+      store.dispatch('Login', loginForm)
+        .then(() => {
+          router.push({ path: redirect.value || '/' }).catch(() => {})
+        })
+        .catch(() => {
+          loading.value = false
+        })
+    }
+  })
 }
 </script>
+
 
 <style lang="scss" scoped>
 .login {

@@ -22,10 +22,12 @@
         <module name="user" />
         <module name="operation" />
         <module name="gateway" />
+        <module name="cdpma-common-job" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CDPMA" target="1.8" />
+      <module name="cdpma-stat" target="1.8" />
       <module name="pojo" target="17" />
     </bytecodeTargetLevel>
   </component>

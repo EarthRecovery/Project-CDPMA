@@ -35,7 +35,7 @@ public class SysLoginService {
     public SysOperator login(LoginRequest loginRequest){
 
         // 根据用户名称查询
-        if(loginRequest.getOperator_name() != null){
+        if(loginRequest.getOperator_name() != null && !loginRequest.getOperator_name().isEmpty()){
             String operatorName = loginRequest.getOperator_name();
             if(operatorName.length() > OperatorConstants.MAX_OPERATOR_NAME_LENGTH){
                 sysRecordAuthService.recordinfo(operatorName, null, LoginLogout.LOGIN_FAIL,
@@ -43,14 +43,14 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，用户名长度不能超过" + OperatorConstants.MAX_OPERATOR_NAME_LENGTH + "个字符");
             }
             AjaxResult result = remoteOperatorService.getOperatorByName(operatorName, SecurityConstants.INNER);
-            if(result.isSuccess()){
-                Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = result.get(AjaxResult.DATA_TAG);
+            if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorName, this.targetOperator.getOperatorId(),
                         LoginLogout.LOGIN_SUCCESS,"登录成功");
             }
         // 根据电话号码查询
-        }else if(loginRequest.getOperator_phone() != null){
+        }else if(loginRequest.getOperator_phone() != null && !loginRequest.getOperator_phone().isEmpty()){
             String operatorPhone = loginRequest.getOperator_phone();
             if(operatorPhone.length() != 11){
                 sysRecordAuthService.recordinfo(operatorPhone, null, LoginLogout.LOGIN_FAIL,
@@ -58,14 +58,14 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，电话号码必须为11位");
             }
             AjaxResult result = remoteOperatorService.getOperatorByPhone(operatorPhone, SecurityConstants.INNER);
-            if(result.isSuccess()){
-                Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = result.get(AjaxResult.DATA_TAG);
+            if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorPhone, this.targetOperator.getOperatorId(),
                         LoginLogout.LOGIN_SUCCESS,"登录成功");
             }
         //  根据邮箱查询
-        }else if(loginRequest.getOperator_email() != null){
+        }else if(loginRequest.getOperator_email() != null && !loginRequest.getOperator_email().isEmpty()){
             String operatorEmail = loginRequest.getOperator_email();
             if(!operatorEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")){
                 sysRecordAuthService.recordinfo(operatorEmail, null, LoginLogout.LOGIN_FAIL,
@@ -73,8 +73,8 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，邮箱格式不正确");
             }
             AjaxResult result = remoteOperatorService.getOperatorByEmail(operatorEmail, SecurityConstants.INNER);
-            if(result.isSuccess()){
-                Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = result.get(AjaxResult.DATA_TAG);
+            if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorEmail, this.targetOperator.getOperatorId(),
                         LoginLogout.LOGIN_SUCCESS,"登录成功");
@@ -82,8 +82,8 @@ public class SysLoginService {
         //  如果以上都没有，就抛出异常
         }else{
             sysRecordAuthService.recordinfo(null, null, LoginLogout.LOGIN_FAIL,
-                    "登录失败，用户名/电话号码/邮箱必须有一个");
-            throw new ServiceException("登录失败，用户名/电话号码/邮箱必须有一个");
+                    "登录失败，用户名/电话号码/邮箱必须有一个 或 密码错误");
+            throw new ServiceException("登录失败，用户名/电话号码/邮箱必须有一个 或 密码错误");
         }
         // 如果查询为空，抛出异常
         if(targetOperator == null){
