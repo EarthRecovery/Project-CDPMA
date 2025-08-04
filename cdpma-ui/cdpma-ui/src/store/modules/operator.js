@@ -1,7 +1,9 @@
 import { login } from '@/api/login'
+import {setToken, getToken} from '@/utils/auth'
 
 const operator = {
   state: {
+    token: getToken(),
     id: '',
     operatorName: '',
     nickName: '',
@@ -35,7 +37,10 @@ const operator = {
     },
     SET_TAGS: (state, tags) => {
       state.tags = tags
-    }
+    }, 
+    SET_TOKEN: (state, token) => {
+      state.token = token
+    },
   },
 
   actions: {
@@ -51,7 +56,9 @@ const operator = {
       return new Promise((resolve, reject) => {
         login(operatorName, operatorPhone, operatorEmail, operatorPassword)
           .then(res => {
-            console.log('Login successful:', res)
+            let data = res.data
+            setToken(data.access_token)
+            context.commit('SET_TOKEN', data.access_token)
             resolve()
           })
           .catch(error => {

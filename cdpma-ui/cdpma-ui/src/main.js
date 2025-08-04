@@ -4,6 +4,7 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import registerSvgIcons from './assets/icons'
 import store from './store'
+import './permission'
 import 'element-plus/dist/index.css'
 
 const app = createApp(App)
