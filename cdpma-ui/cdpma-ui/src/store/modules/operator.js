@@ -1,5 +1,6 @@
-import { login } from '@/api/login'
+import { login, getInfo  } from '@/api/login'
 import {setToken, getToken} from '@/utils/auth'
+// import { isEmpty } from "@/utils/validate"
 
 const operator = {
   state: {
@@ -9,13 +10,19 @@ const operator = {
     nickName: '',
     phoneNumber: '',
     email: '',
-    avatar: '',
-    tags:[]
+    region:'',
+    idCard:'',
+    gender:'',
+    age:'',
+    role:''
   },
 
   mutations: {
     SET_ID: (state, id) => {
       state.id = id
+    },
+    SET_TOKEN: (state, token) => {
+      state.token = token
     },
     SET_OPERATOR_NAME: (state, operatorName) => {
       state.operatorName = operatorName
@@ -29,29 +36,30 @@ const operator = {
     SET_EMAIL: (state, email) => {
       state.email = email
     },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
+    SET_REGION: (state, region) => {
+      state.region = region
     },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
+    SET_ID_CARD: (state, idCard) => {
+      state.idCard = idCard
     },
-    SET_TAGS: (state, tags) => {
-      state.tags = tags
-    }, 
-    SET_TOKEN: (state, token) => {
-      state.token = token
+    SET_GENDER: (state, gender) => {
+      state.gender = gender
+    },
+    SET_AGE: (state, age) => {
+      state.age = age
+    },
+    SET_ROLE: (state, role) => {
+      state.role = role
     },
   },
 
   actions: {
     // 登录
     Login(context, userInfo) {
-      console.log('Login action called with userInfo:', userInfo)
       const operatorName = userInfo.username
       const operatorPhone = userInfo.phoneNumber
       const operatorEmail = userInfo.email
       const operatorPassword = userInfo.password
-      console.log('Login parameters:', operatorName, operatorPhone, operatorEmail, operatorPassword)
 
       return new Promise((resolve, reject) => {
         login(operatorName, operatorPhone, operatorEmail, operatorPassword)
@@ -65,7 +73,28 @@ const operator = {
             reject(error)
           })
       })
-    }
+    },
+
+    // 获取用户信息
+    GetInfo({ commit }) {
+      return new Promise((resolve, reject) => {
+        getInfo().then(res => {
+          commit('SET_ID', res.data.operatorId)
+          commit('SET_OPERATOR_NAME', res.data.operatorName)
+          commit('SET_NICK_NAME', res.data.operatorNickName)
+          commit('SET_PHONE_NUMBER', res.data.operatorPhone)
+          commit('SET_EMAIL', res.data.operatorEmail)
+          commit('SET_REGION', res.data.operatorRegion)
+          commit('SET_ID_CARD', res.data.operatorIdCard)
+          commit('SET_GENDER', res.data.operatorGender)
+          commit('SET_AGE', res.data.operatorAge)
+          commit('SET_ROLE', res.data.operatorRole)
+          resolve(res)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
   }
 }
 

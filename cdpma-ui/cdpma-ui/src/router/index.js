@@ -19,6 +19,19 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/system-user/operator',
+    component: Layout,
+    redirect: '/system-user/operator/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/operatorView.vue'),
+        name: 'admin-operator',
+        meta: { title: '操作者管理', icon: 'dashboard', affix: true }
+      }
+    ]
+  }
 ]
 
 const router = createRouter({

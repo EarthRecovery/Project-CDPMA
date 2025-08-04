@@ -22,6 +22,7 @@ public class SysOperatorService implements ISysOpratorService {
 
     @Override
     public List<SysOperator> selectOperatorList(SysOperator sysOperator) {
+        System.out.println("查询操作员列表: " + sysOperator.toString());
         return sysOperatorMapper.selectOperatorList(sysOperator);
     }
 

@@ -5,6 +5,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
 import { isPathMatch } from '@/utils/validate'
+import { computed } from 'vue'
 // import { isRelogin } from '@/utils/request'
 
 NProgress.configure({ showSpinner: false })
@@ -27,6 +28,14 @@ router.beforeEach((to, from, next) => {
             // 如果是白名单路径，直接放行
             next()
         }else{
+            const operatorId = computed(() => store.state.operator.id)
+            if(!operatorId.value) {
+                store.dispatch('GetInfo').then(() => {
+                    // 生成动态路由表,以后完成
+                }).catch(() => {
+                    // 这里可以添加错误处理逻辑
+                })
+            }
             next()
         }
         // } else {

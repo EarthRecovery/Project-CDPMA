@@ -161,4 +161,23 @@ public class SysOperator extends BaseEntity {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    @Override
+    public String toString() {
+        return "SysOperator{" +
+                "operatorId=" + operatorId +
+                ", operatorName='" + operatorName + '\'' +
+                ", operatorNickname='" + operatorNickname + '\'' +
+                ", operatorIdCard='" + operatorIdCard + '\'' +
+                ", operatorPhone='" + operatorPhone + '\'' +
+                ", operatorGender='" + operatorGender + '\'' +
+                ", operatorAge=" + operatorAge +
+                ", operatorEmail='" + operatorEmail + '\'' +
+                ", operatorRole='" + operatorRole + '\'' +
+                ", operatorRegion='" + operatorRegion + '\'' +
+                ", createdAt=" + createdAt +
+                ", isDisabled=" + isDisabled +
+                ", passwordHash='" + passwordHash + '\'' +
+                '}';
+    }
 }

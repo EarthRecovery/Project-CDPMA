@@ -63,11 +63,8 @@
             <if test="isDisabled != null">
                 AND is_disabled = #{isDisabled}
             </if>
-            <if test="params.beginTime != null and params.beginTime != ''">
-                AND created_at &gt;= #{params.beginTime}
-            </if>
-            <if test="params.endTime != null and params.endTime != ''">
-                AND created_at &lt;= #{params.endTime}
+            <if test="operatorRole != null and operatorRole != ''">
+                AND operator_role = #{operatorRole}
             </if>
         </where>
         ORDER BY operator_id DESC

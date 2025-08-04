@@ -6,12 +6,14 @@ import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.security.annotation.RequiresTags;
+import com.cdpma.common.security.utils.SecurityUtils;
 import com.cdpma.system.user.service.impl.SysOperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.cdpma.common.log.enums.BusinessType;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/operator")
@@ -19,6 +21,19 @@ public class SysOperatorController extends BaseController {
 
     @Autowired
     private SysOperatorService sysOperatorService;
+
+    @GetMapping("/getInfo")
+    public AjaxResult getOperatorInfo() {
+        Long operatorId = SecurityUtils.getOperatorId();
+        SysOperator operator = sysOperatorService.selectOperatorById(operatorId);
+        return AjaxResult.success(operator);
+    }
+
+    @PostMapping("/selectList")
+    public AjaxResult selectList(@RequestBody SysOperator sysOperator) {
+        List<SysOperator> operatorList = sysOperatorService.selectOperatorList(sysOperator);
+        return AjaxResult.success(operatorList);
+    }
 
     /**
      * 根据ID获取操作员信息

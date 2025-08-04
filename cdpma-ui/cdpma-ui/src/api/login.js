@@ -17,3 +17,10 @@ export function login(operatorName, operatorPhone, operatorEmail, operatorPasswo
     }
   })
 }
+
+export function getInfo(){
+  return request({
+    url: '/system-user/operator/getInfo',
+    method: 'get'
+  })
+}
