@@ -9,8 +9,6 @@
           default-active="2"
           text-color="#fff"
           @select="handleSelect"
-          @open="handleOpen"
-          @close="handleClose"
         >
           <el-sub-menu index="1">
             <template #title>
@@ -50,12 +48,6 @@ export default {
     Setting
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    },
     handleSelect(key) {
       if(key === '1-1'){
         this.$router.push({ path: '/system-user/operator' })

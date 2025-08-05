@@ -13,6 +13,7 @@ public class PageUtils extends PageHelper {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Integer pageNum = pageDomain.getPageNum();
         Integer pageSize = pageDomain.getPageSize();
+        System.out.println("PageUtils startPage: pageNum=" + pageNum + ", pageSize=" + pageSize);
         String orderBy = SqlUtils.escapeOrderBySql(pageDomain.getOrderBy());
         Boolean reasonable = pageDomain.getReasonable();
         PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);

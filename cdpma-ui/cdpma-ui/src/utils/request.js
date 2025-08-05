@@ -5,6 +5,7 @@ import errorCode from '@/utils/errorCode'
 import { tansParams} from "@/utils/cdpma"
 import cache from '@/plugins/cache'
 import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 // 是否显示重新登录
 export let isRelogin = { show: false }
@@ -99,7 +100,11 @@ service.interceptors.response.use(res => {
       ElMessage({ message: msg, type: 'warning' })
       return Promise.reject('error')
     } else if (code !== 200) {
-      Notification.error({ title: msg })
+      ElNotification({
+        title: '错误',
+        message: msg,
+        type: 'error',
+      })
       return Promise.reject('error')
     } else {
       return res.data

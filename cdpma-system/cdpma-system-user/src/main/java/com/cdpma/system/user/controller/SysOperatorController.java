@@ -8,6 +8,7 @@ import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.security.annotation.RequiresTags;
 import com.cdpma.common.security.utils.SecurityUtils;
 import com.cdpma.system.user.service.impl.SysOperatorService;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.cdpma.common.log.enums.BusinessType;
@@ -30,9 +31,10 @@ public class SysOperatorController extends BaseController {
     }
 
     @PostMapping("/selectList")
-    public AjaxResult selectList(@RequestBody SysOperator sysOperator) {
+    public TableDataInfo selectList(@RequestBody SysOperator sysOperator) {
+        startPage();
         List<SysOperator> operatorList = sysOperatorService.selectOperatorList(sysOperator);
-        return AjaxResult.success(operatorList);
+        return getDataTable(operatorList);
     }
 
     /**
@@ -51,6 +53,22 @@ public class SysOperatorController extends BaseController {
     public AjaxResult addOperator(@Valid @RequestBody SysOperator operator) {
         Long OperatorId = sysOperatorService.insertOperator(operator);
         return AjaxResult.success("操作员添加成功").put("operatorId", OperatorId);
+    }
+
+    @DeleteMapping("/single/{operatorId}")
+    @Log(title = "删除操作员", businessType = BusinessType.DELETE)
+    @RequiresTags(value = {Tag.ADMIN})
+    public AjaxResult deleteOperator(@PathVariable Long operatorId) {
+        int operatorNum = sysOperatorService.deleteOperatorByIds(new Long[]{operatorId});
+        return AjaxResult.success("操作员删除成功，删除").put("operatorNum", operatorNum);
+    }
+
+    @DeleteMapping("/batch/{operatorIds}")
+    @Log(title = "批量删除操作员", businessType = BusinessType.DELETE)
+    @RequiresTags(value = {Tag.ADMIN})
+    public AjaxResult deleteOperator(@PathVariable Long[] operatorIds) {
+        int operatorNum = sysOperatorService.deleteOperatorByIds(operatorIds);
+        return AjaxResult.success("操作员删除成功，删除").put("operatorNum", operatorNum);
     }
 
     @GetMapping("/name/{operatorName}")
