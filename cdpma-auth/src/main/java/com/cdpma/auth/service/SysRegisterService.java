@@ -62,6 +62,9 @@ public class SysRegisterService {
         AjaxResult operatorResult = remoteOperatorService.insertOperator(operator, SecurityConstants.INNER);
 
         // 检查角色，如果是用户就创建用户表
+        System.out.println(operator.getOperatorRole());
+        System.out.println(OperatorRoles.USER);
+        System.out.println(Objects.equals(operator.getOperatorRole(), OperatorRoles.USER));
         if(Objects.equals(operator.getOperatorRole(), OperatorRoles.USER)){
             SysUser user = new SysUser();
             Integer operatorId = (Integer) operatorResult.get("operatorId");

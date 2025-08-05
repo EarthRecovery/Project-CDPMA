@@ -1,5 +1,6 @@
 package com.cdpma.system.user.service;
 
+import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.pojo.pojo.SysUser;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface ISysUserService {
     int updateUser(SysUser user);
 
     int deleteUserByIds(Long[] userIds);
+
+    SysUser selectUserByOperatorId(Long operatorId);
 }

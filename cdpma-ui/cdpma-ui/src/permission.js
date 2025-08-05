@@ -16,7 +16,7 @@ const isWhiteList = (path) => {
   return whiteList.some(pattern => isPathMatch(pattern, path))
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     NProgress.start()
     if(getToken()){
         console.log('Token exists:', getToken())
@@ -29,19 +29,25 @@ router.beforeEach((to, from, next) => {
             next()
         }else{
             const operatorId = computed(() => store.state.operator.id)
-            if(!operatorId.value) {
-                store.dispatch('GetInfo').then(() => {
-                    // 生成动态路由表,以后完成
-                }).catch(() => {
-                    // 这里可以添加错误处理逻辑
-                })
+            console.log('Operator ID:', operatorId.value)
+            console.log(!operatorId.value || operatorId.value == '')
+            if (!operatorId.value || operatorId.value === '') {
+                try {
+                // 等待 dispatch 完成
+                await store.dispatch('GetInfo');
+                // 获取角色信息
+                const operatorRole = computed(() => store.state.operator.role);
+                if(operatorRole.value == 'USER'){
+                    await store.dispatch('GetUserInfo', operatorId.value)
+                }
+                } catch (error) {
+                // 错误处理
+                console.error('获取信息失败:', error);
+                // 你可以在这里决定是否调用 next() 或者跳转到错误页面
+                }
             }
             next()
         }
-        // } else {
-        //     // 这里还有权限获取，生成路由表模块
-        // }
-        
     }else{
         // 没有 token
         if (isWhiteList(to.path)) {

@@ -1,5 +1,5 @@
-import { login, getInfo  } from '@/api/login'
-import {setToken, getToken} from '@/utils/auth'
+import { login, getInfo,logout } from '@/api/login'
+import {setToken, getToken, removeToken } from '@/utils/auth'
 // import { isEmpty } from "@/utils/validate"
 
 const operator = {
@@ -81,7 +81,7 @@ const operator = {
         getInfo().then(res => {
           commit('SET_ID', res.data.operatorId)
           commit('SET_OPERATOR_NAME', res.data.operatorName)
-          commit('SET_NICK_NAME', res.data.operatorNickName)
+          commit('SET_NICK_NAME', res.data.operatorNickname)
           commit('SET_PHONE_NUMBER', res.data.operatorPhone)
           commit('SET_EMAIL', res.data.operatorEmail)
           commit('SET_REGION', res.data.operatorRegion)
@@ -90,6 +90,28 @@ const operator = {
           commit('SET_AGE', res.data.operatorAge)
           commit('SET_ROLE', res.data.operatorRole)
           resolve(res)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    // 退出系统
+    LogOut({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        logout(state.token).then(() => {
+          commit('SET_ID', '')
+          commit('SET_OPERATOR_NAME', '')
+          commit('SET_NICK_NAME', '')
+          commit('SET_PHONE_NUMBER', '')
+          commit('SET_EMAIL', '')
+          commit('SET_REGION', '')
+          commit('SET_ID_CARD', '')
+          commit('SET_GENDER', '')
+          commit('SET_AGE', '')
+          commit('SET_ROLE', '')
+          removeToken()
+          resolve()
         }).catch(error => {
           reject(error)
         })

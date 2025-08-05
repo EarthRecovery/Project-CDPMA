@@ -38,4 +38,9 @@ public class SysUserService implements ISysUserService {
     public int deleteUserByIds(Long[] userIds) {
         return userMapper.deleteUserByIds(userIds);
     }
+
+    @Override
+    public SysUser selectUserByOperatorId(Long operatorId) {
+        return userMapper.selectUserByOperatorId(operatorId);
+    }
 }

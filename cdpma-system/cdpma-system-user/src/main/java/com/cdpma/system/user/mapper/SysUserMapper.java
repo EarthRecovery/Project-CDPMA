@@ -14,4 +14,6 @@ public interface SysUserMapper {
     int updateUser(SysUser user);
 
     int deleteUserByIds(Long[] userIds);
+
+    SysUser selectUserByOperatorId(Long operatorId);
 }

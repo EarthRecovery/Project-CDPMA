@@ -26,6 +26,18 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 根据operatorId获取用户信息
+     */
+    @GetMapping("/operator/{operatorId}")
+    public AjaxResult getUserByOperatorId(@PathVariable Long operatorId) {
+        SysUser sysUser = userService.selectUserByOperatorId(operatorId);
+        if (sysUser == null) {
+            return AjaxResult.error("未找到对应的用户信息");
+        }
+        return AjaxResult.success(sysUser);
+    }
+
+    /**
      * 查询用户列表
      */
     @GetMapping("/list")
