@@ -94,6 +94,10 @@ public class UserActionAspect {
             recordUserActionTarget(joinPoint, sysUserAction, userAction);
         }else{
             sysUserAction.setActionStatus(ActionStatus.FAIL.ordinal());
+            sysUserAction.setActionTime(new Date());
+            sysUserAction.setActionType(userAction.value().name());
+            sysUserAction.setOperatorId(SecurityUtils.getOperatorId());
+            recordUserActionTarget(joinPoint, sysUserAction, userAction);
         }
 
         remoteLogService.insertUserAction(sysUserAction, SecurityConstants.INNER);

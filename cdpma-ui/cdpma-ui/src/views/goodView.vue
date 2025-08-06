@@ -74,6 +74,7 @@
       <el-table-column label="ID" align="center" prop="goodId" width="100" />
       <el-table-column label="商品名" align="center" prop="goodName" :show-overflow-tooltip="true" />
       <el-table-column label="价格" align="center" prop="price" width="100" />
+      <el-table-column label="点赞数" align="center" prop="likeNum" width="100" />
       <el-table-column label="数量" align="center" prop="quantity" width="200">
         <template v-slot="scope">
             <el-input v-model="scope.row.quantity" placeholder="请输入数量" size="small" style="width: 80%;" />
@@ -93,9 +94,11 @@
           <delete />  
           收藏
           </el-button>
-          <el-button size="small" type="text"  @click="handleLike(row)">
-          <delete />  
+          <el-button size="small" type="text"  @click="addLike(row)">
           点赞
+          </el-button>
+          <el-button size="small" type="text"  @click="deleteLike(row)">
+          取消点赞
           </el-button>
         </template>
       </el-table-column>
@@ -138,6 +141,11 @@
             <span>{{ form.price }}</span>
             </el-form-item>
         </el-col>
+        <el-col :span="8">
+            <el-form-item label="点赞数">
+            <span>{{ form.likeNum }}</span>
+            </el-form-item>
+        </el-col>
         </el-row>
       </el-form>
     </el-dialog>
@@ -147,7 +155,8 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { getCategory, getGoodList, buyGood, favoriteGood, likeGood } from '@/api/good'
+import { getCategory, getGoodList, buyGood, favoriteGood } from '@/api/good'
+import { addLikeAPI, deleteLikeAPI } from '@/api/like'
 import { useStore } from 'vuex'
 import { buildCategoryTree} from '@/utils/category'
 
@@ -183,6 +192,7 @@ const form = reactive({
   updatedBy: null,
   updatedAt: null,
   isDisabled: false,
+  likeNum: 0,
   quantity: 0,
   price: null,
 })
@@ -204,12 +214,24 @@ const handleFavorite = (row) => {
   }
 }
 
-const handleLike = (row) => {
+const addLike = (row) => {
   if(row){
-    likeGood(row.goodId, store.state.operator.id).then(()=> {
+    addLikeAPI(store.state.operator.id, row.goodId).then(() => {
       ElMessage.success('点赞成功')
+      handleQuery() // 刷新商品列表
     }).catch(error => {
       ElMessage.error('点赞失败: ' + error.message)
+    })
+  }
+}
+
+const deleteLike = (row) => {
+  if(row){
+    deleteLikeAPI(store.state.operator.id, row.goodId).then(() => {
+      ElMessage.success('取消点赞成功')
+      handleQuery() // 刷新商品列表
+    }).catch(error => {
+      ElMessage.error('取消点赞失败: ' + error.message)
     })
   }
 }

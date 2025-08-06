@@ -15,10 +15,11 @@
         <result property="updatedAt" column="updated_at"/>
         <result property="isDisabled" column="is_disabled"/>
         <result property="price" column="price"/>
+        <result property="likeNum" column="like_num" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        good_id, good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price
+        good_id, good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price, like_num
     </sql>
 
     <select id="selectGoodById" resultMap="GoodResultMap" parameterType="Long">
@@ -54,8 +55,8 @@
     </select>
 
     <insert id="insertGood" parameterType="com.cdpma.common.pojo.pojo.SysGood">
-        INSERT INTO cdpma_good (good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price)
-        VALUES (#{goodName}, #{categoryId}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt}, #{isDisabled}, #{price})
+        INSERT INTO cdpma_good (good_name, category_id, created_by, created_at, updated_by, updated_at, is_disabled, price, like_num)
+        VALUES (#{goodName}, #{categoryId}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt}, #{isDisabled}, #{price}, #{likeNum})
     </insert>
 
     <update id="updateGood" parameterType="com.cdpma.common.pojo.pojo.SysGood">
@@ -76,4 +77,10 @@
             #{id}
         </foreach>
     </delete>
+
+    <update id="editGoodLike" parameterType="map">
+        UPDATE cdpma_good
+        SET like_num = like_num + #{likeDelta}
+        WHERE good_id = #{goodId}
+    </update>
 </mapper>

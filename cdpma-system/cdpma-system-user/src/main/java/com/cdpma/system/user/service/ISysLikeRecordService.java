@@ -14,4 +14,8 @@ public interface ISysLikeRecordService {
     int updateLikeRecord(SysLikeRecord record);
 
     int deleteLikeRecordByIds(Long[] recordIds);
+
+    boolean checkHasRecord(SysLikeRecord record);
+
+    void deleteLikeRecord(SysLikeRecord record);
 }

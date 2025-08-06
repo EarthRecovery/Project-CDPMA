@@ -9,5 +9,5 @@ public enum UserActionType {
     /**
      * 默认
      */
-    DEFAULT,
+    DEFAULT, LIKERECORD_DELETE,
 }

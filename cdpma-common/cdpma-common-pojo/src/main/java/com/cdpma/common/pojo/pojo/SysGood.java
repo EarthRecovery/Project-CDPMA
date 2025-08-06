@@ -14,6 +14,7 @@ public class SysGood extends BaseEntity {
     private Long updatedBy;
     private Date updatedAt;
     private Boolean isDisabled;
+    private int likeNum;
     private BigDecimal price;
 
     public Long getGoodId() {
@@ -88,6 +89,14 @@ public class SysGood extends BaseEntity {
         this.price = price;
     }
 
+    public int getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
+
     @Override
     public String toString() {
         return "SysGood{" +
@@ -100,6 +109,7 @@ public class SysGood extends BaseEntity {
                 ", updatedAt=" + updatedAt +
                 ", isDisabled=" + isDisabled +
                 ", price=" + price +
+                ", likeNum=" + likeNum +
                 '}';
     }
 }

@@ -87,4 +87,9 @@ public class SysGoodService implements ISysGoodService {
         }
         return goodMapper.searchGoods(queryDTO);
     }
+
+    @Override
+    public int editGoodLike(Long goodId, int likeDelta) {
+        return goodMapper.editGoodLike(goodId, likeDelta);
+    }
 }

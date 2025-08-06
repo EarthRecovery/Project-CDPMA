@@ -20,4 +20,6 @@ public interface ISysGoodService {
     SysGoodFullName getFullNameGood(Long goodId);
 
     List<SysGood> searchGoods(GoodQueryDTO queryDTO);
+
+    int editGoodLike(Long goodId, int likeDelta);
 }

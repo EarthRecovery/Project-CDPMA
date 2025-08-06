@@ -35,11 +35,25 @@ public class SysLikeRecordController extends BaseController {
     @PostMapping
     @UserAction(value= UserActionType.LIKERECORD_ADD)
     public AjaxResult add(@RequestBody SysLikeRecord record) {
+        if (likeRecordService.checkHasRecord(record)) {
+            return AjaxResult.error("已经存在点赞记录");
+        }
         record.setOperatorId(SecurityUtils.getOperatorId());
         record.setCreatedAt(new Date());
         record.setDeleted(false);
         likeRecordService.insertLikeRecord(record);
         return AjaxResult.success("新增点赞记录成功");
+    }
+
+
+    @DeleteMapping
+    @UserAction(value= UserActionType.LIKERECORD_DELETE)
+    public AjaxResult delete(@RequestBody SysLikeRecord record) {
+        if (!likeRecordService.checkHasRecord(record)) {
+            return AjaxResult.error("不存在点赞记录");
+        }
+        likeRecordService.deleteLikeRecord(record);
+        return AjaxResult.success("删除点赞成功");
     }
 
     @PutMapping
