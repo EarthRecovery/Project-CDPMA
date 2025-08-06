@@ -1,5 +1,6 @@
 package com.cdpma.system.user.service;
 
+import com.cdpma.common.pojo.dto.GoodQueryDTO;
 import com.cdpma.common.pojo.pojo.SysGood;
 import com.cdpma.common.pojo.pojo.SysGoodFullName;
 
@@ -17,4 +18,6 @@ public interface ISysGoodService {
     int deleteGoodByIds(Long[] goodIds);
 
     SysGoodFullName getFullNameGood(Long goodId);
+
+    List<SysGood> searchGoods(GoodQueryDTO queryDTO);
 }

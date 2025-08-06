@@ -1,5 +1,6 @@
 package com.cdpma.system.user.mapper;
 
+import com.cdpma.common.pojo.dto.GoodQueryDTO;
 import com.cdpma.common.pojo.pojo.SysGood;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface SysGoodMapper {
     int updateGood(SysGood good);
 
     int deleteGoodByIds(Long[] goodIds);
+
+    List<SysGood> searchGoods(GoodQueryDTO queryDTO);
 }

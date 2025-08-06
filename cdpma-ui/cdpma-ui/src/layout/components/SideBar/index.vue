@@ -17,8 +17,8 @@
               <span>Admin</span>
             </template>
             <el-menu-item index="1-1">operator-admin</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-            <el-menu-item index="1-3">item three</el-menu-item>
+            <el-menu-item index="1-2">good-admin</el-menu-item>
+            <el-menu-item index="1-3">template</el-menu-item>
           </el-sub-menu>
 
           <!-- Assistant -->
@@ -38,7 +38,7 @@
               <el-icon><IconMenu /></el-icon>
               <span>User</span>
             </template>
-            <el-menu-item index="3-1">item one</el-menu-item>
+            <el-menu-item index="3-1">Good</el-menu-item>
             <el-menu-item index="3-2">item two</el-menu-item>
             <el-menu-item index="3-3">item three</el-menu-item>
           </el-sub-menu>
@@ -93,7 +93,16 @@ onMounted(() => {
 
 const handleSelect = (key) => {
   if (key === '1-1') {
-    router.push({ path: '/system-user/operator' })
+    router.push({ path: '/admin/operator' })
+  }
+  else if (key === '1-2'){
+    router.push({ path: '/admin/good' })
+  }
+  else if (key === '1-3'){
+    router.push({ path: '/admin/template' })
+  }
+  else if (key === '3-1'){
+    router.push({ path: '/user/good' })
   }
 }
 </script>

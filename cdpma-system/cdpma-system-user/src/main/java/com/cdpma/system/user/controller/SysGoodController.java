@@ -2,8 +2,10 @@ package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.log.enums.BusinessType;
+import com.cdpma.common.pojo.dto.GoodQueryDTO;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysGood;
 import com.cdpma.common.pojo.pojo.SysGoodFullName;
@@ -35,6 +37,18 @@ public class SysGoodController extends BaseController {
     public AjaxResult getFullNameGood(@PathVariable Long goodId) {
         SysGoodFullName Fgood = goodService.getFullNameGood(goodId);
         return AjaxResult.success(Fgood);
+    }
+
+    @PostMapping("/search")
+    public TableDataInfo searchGoods(@RequestBody GoodQueryDTO queryDTO) {
+        startPage();
+        System.out.println("Received query: " + queryDTO.toString());
+        List<SysGood> list = goodService.searchGoods(queryDTO);
+        System.out.println(list);
+        for(SysGood good : list) {
+            System.out.println(good.toString());
+        }
+        return getDataTable(list);
     }
 
     @PostMapping

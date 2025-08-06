@@ -27,6 +27,18 @@
         WHERE good_id = #{goodId}
     </select>
 
+    <select id="searchGoods" resultMap="GoodResultMap" parameterType="com.cdpma.common.pojo.dto.GoodQueryDTO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cdpma_good
+        <where>
+            <if test="categoryId != 0 and categoryId != null">AND category_id = #{categoryId}</if>
+            <if test="goodName != null and goodName != ''">AND good_name LIKE CONCAT('%', #{goodName}, '%')</if>
+            <if test="priceLow != 0 and priceLow != null">AND price >= #{priceLow}</if>
+            <if test="priceHigh != 0 and priceHigh != null">AND price &lt;= #{priceHigh}</if>
+        </where>
+    </select>
+
     <select id="selectGoodList" resultMap="GoodResultMap" parameterType="com.cdpma.common.pojo.pojo.SysGood">
         SELECT <include refid="Base_Column_List"/>
         FROM cdpma_good

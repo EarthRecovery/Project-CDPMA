@@ -1,5 +1,6 @@
 package com.cdpma.system.user.service.impl;
 
+import com.cdpma.common.pojo.dto.GoodQueryDTO;
 import com.cdpma.common.pojo.pojo.SysGood;
 import com.cdpma.common.pojo.pojo.SysGoodCategory;
 import com.cdpma.common.pojo.pojo.SysGoodFullName;
@@ -9,6 +10,7 @@ import com.cdpma.system.user.service.ISysGoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -73,5 +75,16 @@ public class SysGoodService implements ISysGoodService {
             fullName.setFatherCategoryName("Null");
         }
         return fullName;
+    }
+
+    @Override
+    public List<SysGood> searchGoods(GoodQueryDTO queryDTO) {
+        if(queryDTO.getPriceHigh() == null){
+            queryDTO.setPriceHigh(BigDecimal.valueOf(Double.MAX_VALUE));
+        }
+        if(queryDTO.getPriceLow() == null){
+            queryDTO.setPriceLow(BigDecimal.ZERO);
+        }
+        return goodMapper.searchGoods(queryDTO);
     }
 }
