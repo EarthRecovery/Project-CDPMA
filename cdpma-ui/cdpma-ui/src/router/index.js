@@ -71,6 +71,19 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/user/favorite',
+    component: Layout,
+    redirect: '/user/favorite/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/favoriteView.vue'),
+        name: 'user-favorite',
+        meta: { title: '用户收藏', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({

@@ -1,6 +1,7 @@
 package com.cdpma.system.user.service;
 
 import com.cdpma.common.pojo.pojo.SysFavoritesRecord;
+import com.cdpma.common.pojo.pojo.SysGood;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ISysFavoritesRecordService {
     int updateFavoritesRecord(SysFavoritesRecord record);
 
     int deleteFavoritesRecordByIds(Long[] recordIds);
+
+    List<SysGood> selectGoodListByOperatorId(Long operatorId);
 }

@@ -44,3 +44,41 @@ export function createGood(data) {
         data: data
     })
 }
+
+export function likeGood(goodId, operatorId) {
+    return request({
+        url: `/system-user/like`,
+        method: 'post',
+        data: { 
+            "operatorId": operatorId,
+            "goodId": goodId
+        }
+    })
+}
+
+export function favoriteGood(goodId, operatorId) {
+    return request({
+        url: `/system-user/favorite`,
+        method: 'post',
+        data: { 
+            "operatorId": operatorId,
+            "goodId": goodId
+        }
+    })
+}
+
+export function buyGood(form, operatorId){
+    return request({
+        url: '/system-user/order',
+        method: 'post',
+        data: {
+            "operatorId": operatorId,
+            "goodId": form.goodId,
+            "quantity": form.quantity,
+            "unitPrice": form.price,
+            "isPaid": false,
+            "isCancelled": false,
+            "feedback": null,
+        }
+    })
+}

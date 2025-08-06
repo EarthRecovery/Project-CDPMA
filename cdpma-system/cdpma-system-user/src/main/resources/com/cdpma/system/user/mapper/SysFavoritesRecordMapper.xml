@@ -23,6 +23,12 @@
         WHERE record_id = #{recordId}
     </select>
 
+    <select id="selectFavoritesRecordListByOperatorId" resultMap="FavoritesRecordResultMap" parameterType="Long">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_favorites_record
+        WHERE operator_id = #{operatorId}
+    </select>
+
     <select id="selectFavoritesRecordList" resultMap="FavoritesRecordResultMap" parameterType="com.cdpma.common.pojo.pojo.SysFavoritesRecord">
         SELECT <include refid="Base_Column_List"/>
         FROM cdpma_favorites_record

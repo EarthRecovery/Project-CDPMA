@@ -8,30 +8,46 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="param1" prop="param1">
+      <el-form-item label="商品名" prop="goodName">
         <el-input
-          v-model="queryParams.param1"
-          placeholder="请输入param1"
+          v-model="queryParams.goodName"
+          placeholder="请输入商品名"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="param2" prop="param2">
-        <el-input
-          v-model="queryParams.param2"
-          placeholder="请输入param2"
+      <el-form-item label="商品种类" prop="categoryId">
+        <el-cascader
+          v-model="selectedCategories"
+          :options="categoryTree"
+          :props="cascaderProps"
+          placeholder="请选择商品分类"
           clearable
-          @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="param3" prop="param3">
-        <el-input
-          v-model="queryParams.param3"
-          placeholder="请输入param3"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+      <el-form-item label="价格范围" prop="priceRange">
+      <el-row gutter={10}>
+        <el-col :span="11">
+          <el-input-number
+            v-model="queryParams.priceLow"
+            :min="0"
+            label="最低价格"
+            placeholder="最低价格"
+            style="width: 100%;"
+          />
+        </el-col>
+        <el-col :span="2" class="text-center" style="line-height: 32px;">至</el-col>
+        <el-col :span="11">
+          <el-input-number
+            v-model="queryParams.priceHigh"
+            :min="0"
+            label="最高价格"
+            placeholder="最高价格"
+            style="width: 100%;"
+          />
+        </el-col>
+      </el-row>
+    </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="handleQuery">
         <search />
@@ -46,44 +62,40 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain size="small" @click="handleAdd">
+        <el-button type="primary" plain size="small" @click="handleBuyAll">
         <plus />
-        新增
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          size="small"
-          :disabled="multiple"
-          @click="handleDelete"
-        >
-        <delete />
-        删除
+        购买
         </el-button>
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="XXList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="goodList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="Id" width="100" />
-      <el-table-column label="名称" align="center" prop="Name" :show-overflow-tooltip="true" />
-      <el-table-column label="param1" align="center" prop="form1" />、
-      <el-table-column label="param2" align="center" prop="form2" />
-      <el-table-column label="param3" align="center" prop="form3" />
-      <el-table-column label="param4" align="center" prop="form4" />、
-      <el-table-column label="param5" align="center" prop="form5" />
-      <el-table-column label="param6" align="center" prop="form6" />
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column label="ID" align="center" prop="goodId" width="100" />
+      <el-table-column label="商品名" align="center" prop="goodName" :show-overflow-tooltip="true" />
+      <el-table-column label="价格" align="center" prop="price" width="100" />
+      <el-table-column label="数量" align="center" prop="quantity" width="200">
+        <template v-slot="scope">
+            <el-input v-model="scope.row.quantity" placeholder="请输入数量" size="small" style="width: 80%;" />
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="{ row }">
-          <el-button size="small" type="text" @click="handleUpdate(row)">
+          <el-button size="small" type="text" @click="handleCheck(row)">
           <edit />
-          修改
+          查看
           </el-button>
-          <el-button size="small" type="text"  @click="handleDeleteById(row)">
+          <el-button size="small" type="text" @click="handleBuy(row)">
+          <edit />
+          购买
+          </el-button>
+          <el-button size="small" type="text"  @click="handleFavorite(row)">
           <delete />  
-          删除
+          收藏
+          </el-button>
+          <el-button size="small" type="text"  @click="handleLike(row)">
+          <delete />  
+          点赞
           </el-button>
         </template>
       </el-table-column>
@@ -103,96 +115,27 @@
         <el-row :gutter="20">
         <el-col :span="8">
             <el-form-item label="ID">
-            <span>{{ form.Id }}</span>
+            <span>{{ form.goodId }}</span>
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="name">
-            <el-input v-model="form.Name" placeholder="请输入name" />
+            <el-form-item label="商品数量">
+            <span>{{ form.quantity }}</span>
             </el-form-item>
         </el-col>
-        <el-col :span="8">
-            <el-form-item label="param1">
-            <el-input v-model="form.form1" placeholder="请输入param1" />
-            </el-form-item>
-        </el-col>
+        
         </el-row>
 
         <!-- 第二行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="param2">
-            <el-input v-model="form.form2" placeholder="请输入param2" />
+            <el-form-item label="商品名">
+            <span>{{ form.goodName }}</span>
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="param3">
-            <el-input v-model="form.form3" placeholder="请输入param3" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param4">
-            <el-input v-model="form.form4" placeholder="请输入param4" />
-            </el-form-item>
-        </el-col>
-        </el-row>
-
-        <!-- 提交按钮 -->
-        <el-row>
-        <el-col :span="24">
-            <el-form-item>
-            <el-button type="primary" @click="editForm" size="small">提交</el-button>
-            </el-form-item>
-        </el-col>
-        </el-row>
-      </el-form>
-    </el-dialog>
-
-    <el-dialog :title="createTitle" v-model="createOn" width="780px">
-      <el-form :model="form" label-width="80px" ref="createFormRef">
-        <!-- 第一行 -->
-        <el-row :gutter="20">
-        <el-col :span="8">
-            <el-form-item label="ID">
-            <span>{{ form.Id }}</span>
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="name">
-            <el-input v-model="form.Name" placeholder="请输入name" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param1">
-            <el-input v-model="form.form1" placeholder="请输入param1" />
-            </el-form-item>
-        </el-col>
-        </el-row>
-
-        <!-- 第二行 -->
-        <el-row :gutter="20">
-        <el-col :span="8">
-            <el-form-item label="param2">
-            <el-input v-model="form.form2" placeholder="请输入param2" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param3">
-            <el-input v-model="form.form3" placeholder="请输入param3" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param4">
-            <el-input v-model="form.form4" placeholder="请输入param4" />
-            </el-form-item>
-        </el-col>
-        </el-row>
-
-        <!-- 提交按钮 -->
-        <el-row>
-        <el-col :span="24">
-            <el-form-item>
-            <el-button type="primary" @click="createForm" size="small">提交</el-button>
+            <el-form-item label="价格">
+            <span>{{ form.price }}</span>
             </el-form-item>
         </el-col>
         </el-row>
@@ -204,148 +147,133 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { createXX, getXXList, editXX, deleteXXByIds } from '@/api/template'
+import { getCategory, getGoodList, buyGood, favoriteGood, likeGood } from '@/api/good'
+import { useStore } from 'vuex'
+import { buildCategoryTree} from '@/utils/category'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
-
-const queryParams = reactive({
-  pageNum: 1,
-  pageSize: 6,
-  param1: null,
-  param2: null,
-  param3: null,
-})
-
-const form = reactive({
-  Id: null,
-  Name: '',
-  form1: '',
-  form2: '',
-  form3: '',
-  form4: '',
-  form5: '',
-  form6: '',
-})
-const EditformRef = ref(null)
-const createFormRef = ref(null)
-const editTitle = ref('XX信息编辑')
-const createTitle = ref('新增XX')
-const editOn = ref(false)
-const createOn = ref(false)
-
-const selectedRows = ref([])
-const XXList = ref([])
 
 const queryForm = ref(null)
 const showSearch = ref(true)
 const total = ref(0)
-
+const goodList = ref([])
 const loading = ref(false)
+const editOn = ref(false)
+const editTitle = ref('商品信息')
+const EditformRef = ref(null)
+const selectedRows = ref([]) // 用于存储选中的行
 
-const createForm = () => {
-  createXX(form).then(response => {
-    if (response.code === 200) {
-      ElMessage.success('XX信息创建成功')
-      createOn.value = false
-      handleQuery() // 刷新XX列表
-    } else {
-      ElMessage.error('XX信息创建失败: ' + response.message)
-    }
-  }).catch(error => {
-    ElMessage.error('创建XX信息失败: ' + error.message)
-  })
-}
+const store = useStore()
 
+const queryParams = reactive({
+  pageNum: 1,
+  pageSize: 6,
+  categoryId: null,
+  goodName: '',
+  priceHigh: null,
+  priceLow: null,
+})
 
+const form = reactive({
+  goodId: null,
+  goodName: '',
+  categoryId: null,
+  createdBy: null,
+  createdAt: null,
+  updatedBy: null,
+  updatedAt: null,
+  isDisabled: false,
+  quantity: 0,
+  price: null,
+})
 
-const editForm = () => {
-  editXX(form).then(response => {
-    if (response.code === 200) {
-      ElMessage.success('XX信息更新成功')
-      editOn.value = false
-      handleQuery() 
-    } else {
-      ElMessage.error('XX信息更新失败: ' + response.message)
-    }
-  }).catch(error => {
-    ElMessage.error('更新XX信息失败: ' + error.message)
-  })
-}
-
-const handlePageSelectionChange = (page) => {
-  queryParams.pageNum = page
-  handleQuery()
-}
-
-const handleDeleteById = (row) => {
-  ElMessageBox.confirm('是否确认删除该记录？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    deleteXXByIds([row.Id]).then(() => {
-      handleQuery() // 刷新商品列表
-      ElMessage.success('删除成功 ')
-    })
-  }).catch(() => {
-    ElMessageBox.alert('已取消删除操作')
-  })
-}
-
-const handleUpdate = (row) => {
-  if (row) {
+const handleCheck = (row) => {
+  if(row){
     Object.assign(form, row)
     editOn.value = true
   }
 }
 
-const handleSelectionChange = (row) => {
-    selectedRows.value = row
+const handleFavorite = (row) => {
+  if(row){
+    favoriteGood(row.goodId, store.state.operator.id).then(()=> {
+      ElMessage.success('收藏成功')
+    }).catch(error => {
+      ElMessage.error('收藏失败: ' + error.message)
+    })
+  }
 }
 
-const handleDelete = () => {
-    if (selectedRows.value.length === 0) {
-        ElMessageBox.warning('请至少选择一条记录')
-        return
+const handleLike = (row) => {
+  if(row){
+    likeGood(row.goodId, store.state.operator.id).then(()=> {
+      ElMessage.success('点赞成功')
+    }).catch(error => {
+      ElMessage.error('点赞失败: ' + error.message)
+    })
+  }
+}
+
+const handleBuy = (row) => {
+  if(row){
+    console.log(row)
+    if(row.quantity <= 0) {
+      ElMessage.error('商品数量不足')
+      return
     }
-    ElMessageBox.confirm('是否确认删除选中记录？', '提示', {
+    ElMessageBox.confirm('是否确认购买该商品？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
     }).then(() => {
-        // 调用删除接口
-        console.log('删除的记录:', selectedRows.value)
-        const ids = selectedRows.value.map(row => row.goodId)
-        console.log('删除的ID:', ids)
-        deleteXXByIds(ids).then(() => {
-          handleQuery() // 刷新商品列表
-          ElMessage.success('删除成功')
+        buyGood(row, store.state.operator.id).then(() => {
+            handleQuery() // 刷新商品列表
+            ElMessage.success('购买成功 ')
         })
     }).catch(() => {
-        ElMessageBox.alert('已取消删除操作')
+        ElMessageBox.alert('已取消购买操作')
     })
+  }
 }
 
-const handleAdd = () => {
-  clearForm()
-  createOn.value = true
+const handleBuyAll = () => {
+  if(selectedRows.value.length === 0) {
+    ElMessage.warning('请至少选择一件商品')
+    return
+  }
+  ElMessageBox.confirm('是否确认购买选中的商品？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+  }).then(() => {
+      selectedRows.value.forEach(row => {
+          if(row.quantity <= 0) {
+              ElMessage.error(`商品 ${row.goodName} 数量不足`)
+              return
+          }
+      })
+      selectedRows.value.forEach(row => {
+          buyGood(row, store.state.operator.id).then(() => {
+              handleQuery() // 刷新商品列表
+              ElMessage.success(`购买商品 ${row.goodName} 成功`)
+          })
+      })
+  }).catch(() => {
+      ElMessageBox.alert('已取消购买操作')
+  })
 }
-
-const resetQuery = () => {
-  queryParams.pageNum = 1
-  queryParams.pageSize = 6
-  queryParams.param1 = null
-  queryParams.param2 = null
-  queryParams.param3 = null
-}
-
 
 const handleQuery = () => {
   // 处理查询逻辑
+  console.log('查询参数:', queryParams)
   loading.value = true
-  XXList.value = []
-  getXXList(queryParams).then(response => {
-    XXList.value = response.rows
+  goodList.value = []
+  getGoodList(queryParams).then(response => {
+    // 假设 response.data 是商品列表
+    goodList.value = response.rows
+    for(let i = 0; i < goodList.value.length; i++) {
+      goodList.value[i].quantity = 1 // 初始化数量为1
+    }
     total.value = response.total
     loading.value = false
   }).catch(error => {
@@ -354,20 +282,51 @@ const handleQuery = () => {
   })
 }
 
-onMounted(() => {
+const resetQuery = () => {
+  queryParams.pageNum = 1
+  queryParams.pageSize = 6
+  queryParams.categoryId = null
+  queryParams.goodName = ''
+  queryParams.priceHigh = null
+  queryParams.priceLow = null
+}
 
+
+// 存储分类数据的树形结构
+const categoryTree = ref([])
+// 选中的分类
+const selectedCategories = ref([])
+
+// `el-cascader` 配置项，定义label、value和children的属性
+const cascaderProps = {
+  label: 'categoryName',
+  value: 'categoryId',
+  children: 'children',
+}
+
+const handleSelectionChange = (row) => {
+    selectedRows.value = row
+}
+
+const handlePageSelectionChange = (page) => {
+  queryParams.pageNum = page
+  handleQuery() // 刷新商品列表
+}
+
+
+onMounted(() => {
+  // 模拟请求商品分类数据
+  getCategory().then(response => {
+    // 假设 API 返回的数据是一个数组，按返回的数据结构
+    const categories = response.data // response 应该是分类数据数组
+
+    // 转换成树形结构
+    categoryTree.value = buildCategoryTree(categories)
+  }).catch(error => {
+    ElMessage.error('获取商品分类失败: ' + error.message)
+  })
 })
 
-const clearForm = () => {
-  form.Id = null
-  form.Name = ''
-  form.form1 = ''
-  form.form2 = ''
-  form.form3 = ''
-  form.form4 = ''
-  form.form5 = ''
-  form.form6 = ''
-}
 </script>
 
 <style scoped>

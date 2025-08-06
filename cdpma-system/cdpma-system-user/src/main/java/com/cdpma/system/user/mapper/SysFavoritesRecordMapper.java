@@ -14,4 +14,6 @@ public interface SysFavoritesRecordMapper {
     int updateFavoritesRecord(SysFavoritesRecord record);
 
     int deleteFavoritesRecordByIds(Long[] recordIds);
+
+    List<SysFavoritesRecord> selectFavoritesRecordListByOperatorId(Long operatorId);
 }
