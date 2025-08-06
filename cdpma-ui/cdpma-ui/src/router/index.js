@@ -84,6 +84,32 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/admin/loginLog',
+    component: Layout,
+    redirect: '/admin/loginLog/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/loginLogView.vue'),
+        name: 'admin-loginLog',
+        meta: { title: '登录日志', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/admin/runtimeLog',
+    component: Layout,
+    redirect: '/admin/runtimeLog/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/runtimeLogView.vue'),
+        name: 'admin-runtimeLog',
+        meta: { title: '运行日志', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({

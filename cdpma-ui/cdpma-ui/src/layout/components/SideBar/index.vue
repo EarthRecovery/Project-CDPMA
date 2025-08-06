@@ -18,7 +18,8 @@
             </template>
             <el-menu-item index="1-1">operator-admin</el-menu-item>
             <el-menu-item index="1-2">good-admin</el-menu-item>
-            <el-menu-item index="1-3">template</el-menu-item>
+            <el-menu-item index="1-3">runtime-log</el-menu-item>
+            <el-menu-item index="1-4">login/logout-log</el-menu-item>
           </el-sub-menu>
 
           <!-- Assistant -->
@@ -99,7 +100,10 @@ const handleSelect = (key) => {
     router.push({ path: '/admin/good' })
   }
   else if (key === '1-3'){
-    router.push({ path: '/admin/template' })
+    router.push({ path: '/admin/runtimeLog' })
+  }
+  else if (key === '1-4'){
+    router.push({ path: '/admin/loginLog' })
   }
   else if (key === '3-1'){
     router.push({ path: '/user/good' })

@@ -39,7 +39,7 @@
         SELECT <include refid="Base_Column_List"/> FROM cdpma_runtime_log
         <where>
             <if test="status != null">AND status = #{status}</if>
-            <if test="operatorName != null and operatorName != ''">AND operator_name = #{operatorName}</if>
+            <if test="operatorId != null and operatorId != ''">AND operator_id = #{operatorId}</if>
         </where>
         ORDER BY create_time DESC
     </select>

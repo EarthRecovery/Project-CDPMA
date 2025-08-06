@@ -28,8 +28,8 @@ public class SysLoginLogoutLogController extends BaseController {
     /**
      * 查询日志列表
      */
-    @GetMapping("/list")
-    public TableDataInfo list(SysLoginLogoutLog log) {
+    @PostMapping("/list")
+    public TableDataInfo list(@RequestBody SysLoginLogoutLog log) {
         startPage();
         List<SysLoginLogoutLog> list = logService.selectLogList(log);
         return getDataTable(list);

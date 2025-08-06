@@ -2,6 +2,7 @@ package com.cdpma.system.user.controller;
 
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysRuntimeLog;
 import com.cdpma.common.security.annotation.RequiresTags;
@@ -20,10 +21,11 @@ public class SysRuntimeLogController extends BaseController {
     /**
      * 查询运行日志列表
      */
-    @GetMapping("/list")
-    public AjaxResult list(SysRuntimeLog log) {
+    @PostMapping("/list")
+    public TableDataInfo list(@RequestBody SysRuntimeLog log) {
+        startPage();
         List<SysRuntimeLog> list = runtimeLogService.selectRuntimeLogList(log);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     /**
