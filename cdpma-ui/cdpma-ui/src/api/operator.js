@@ -34,3 +34,11 @@ export function addOperator(operator) {
     data: operator
   })
 }
+
+export function editOperator(operator) {
+  return request({
+    url: '/system-user/operator',
+    method: 'put',
+    data: operator
+  })
+}

@@ -8,46 +8,30 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="商品名" prop="goodName">
+      <el-form-item label="param1" prop="param1">
         <el-input
-          v-model="queryParams.goodName"
-          placeholder="请输入商品名"
+          v-model="queryParams.param1"
+          placeholder="请输入param1"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商品种类" prop="categoryId">
-        <el-cascader
-          v-model="selectedCategories"
-          :options="categoryTree"
-          :props="cascaderProps"
-          placeholder="请选择商品分类"
+      <el-form-item label="param2" prop="param2">
+        <el-input
+          v-model="queryParams.param2"
+          placeholder="请输入param2"
           clearable
+          @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="价格范围" prop="priceRange">
-      <el-row gutter={10}>
-        <el-col :span="11">
-          <el-input-number
-            v-model="queryParams.priceLow"
-            :min="0"
-            label="最低价格"
-            placeholder="最低价格"
-            style="width: 100%;"
-          />
-        </el-col>
-        <el-col :span="2" class="text-center" style="line-height: 32px;">至</el-col>
-        <el-col :span="11">
-          <el-input-number
-            v-model="queryParams.priceHigh"
-            :min="0"
-            label="最高价格"
-            placeholder="最高价格"
-            style="width: 100%;"
-          />
-        </el-col>
-      </el-row>
-    </el-form-item>
+      <el-form-item label="param3" prop="param3">
+        <el-input
+          v-model="queryParams.param3"
+          placeholder="请输入param3"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="handleQuery">
         <search />
@@ -81,18 +65,17 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="goodList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="XXList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="goodId" width="100" />
-      <el-table-column label="商品名" align="center" prop="goodName" :show-overflow-tooltip="true" />
-      <el-table-column label="商品种类" align="center" prop="categoryName" width="100" />
-      <el-table-column label="价格" align="center" prop="price" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createdAt" width="100">
-        <template #default="{ row }">
-          <span>{{ parseTime(row.createdAt, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="ID" align="center" prop="Id" width="100" />
+      <el-table-column label="名称" align="center" prop="Name" :show-overflow-tooltip="true" />
+      <el-table-column label="param1" align="center" prop="form1" />、
+      <el-table-column label="param2" align="center" prop="form2" />
+      <el-table-column label="param3" align="center" prop="form3" />
+      <el-table-column label="param4" align="center" prop="form4" />、
+      <el-table-column label="param5" align="center" prop="form5" />
+      <el-table-column label="param6" align="center" prop="form6" />
+      <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
           <el-button size="small" type="text" @click="handleUpdate(row)">
           <edit />
@@ -111,7 +94,7 @@
       :total="total"
       v-model:current-page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
-      @update:current-page="handleSelectionChange"
+      @update:current-page="handlePageSelectionChange"
     />
 
     <el-dialog :title="editTitle" v-model="editOn" width="780px">
@@ -120,36 +103,36 @@
         <el-row :gutter="20">
         <el-col :span="8">
             <el-form-item label="ID">
-            <span>{{ form.goodId }}</span>
+            <span>{{ form.Id }}</span>
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="商品分类">
-            <span>{{ categoryName }}</span>
+            <el-form-item label="name">
+            <el-input v-model="form.Name" placeholder="请输入name" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-cascader
-            v-model="form.categoryId"
-            :options="categoryTree"
-            :props="cascaderProps"
-            placeholder="修改商品分类"
-            clearable
-          />
+            <el-form-item label="param1">
+            <el-input v-model="form.form1" placeholder="请输入param1" />
+            </el-form-item>
         </el-col>
-        
         </el-row>
 
         <!-- 第二行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="商品名">
-            <el-input v-model="form.goodName" placeholder="请输入商品名" />
+            <el-form-item label="param2">
+            <el-input v-model="form.form2" placeholder="请输入param2" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="价格">
-            <el-input-number v-model="form.price" :min="0" placeholder="请输入价格" />
+            <el-form-item label="param3">
+            <el-input v-model="form.form3" placeholder="请输入param3" />
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
+            <el-form-item label="param4">
+            <el-input v-model="form.form4" placeholder="请输入param4" />
             </el-form-item>
         </el-col>
         </el-row>
@@ -171,31 +154,36 @@
         <el-row :gutter="20">
         <el-col :span="8">
             <el-form-item label="ID">
-            <span>{{ form.goodId }}</span>
+            <span>{{ form.Id }}</span>
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-cascader
-            v-model="form.categoryId"
-            :options="categoryTree"
-            :props="cascaderProps"
-            placeholder="修改商品分类"
-            clearable
-          />
+            <el-form-item label="name">
+            <el-input v-model="form.Name" placeholder="请输入name" />
+            </el-form-item>
         </el-col>
-        
+        <el-col :span="8">
+            <el-form-item label="param1">
+            <el-input v-model="form.form1" placeholder="请输入param1" />
+            </el-form-item>
+        </el-col>
         </el-row>
 
         <!-- 第二行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="商品名">
-            <el-input v-model="form.goodName" placeholder="请输入商品名" />
+            <el-form-item label="param2">
+            <el-input v-model="form.form2" placeholder="请输入param2" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="价格">
-            <el-input-number v-model="form.price" :min="0" placeholder="请输入价格" />
+            <el-form-item label="param3">
+            <el-input v-model="form.form3" placeholder="请输入param3" />
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
+            <el-form-item label="param4">
+            <el-input v-model="form.form4" placeholder="请输入param4" />
             </el-form-item>
         </el-col>
         </el-row>
@@ -216,66 +204,103 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { getCategory, getGoodList, getCategoryName, editGood, deleteGoodByIds, createGood } from '@/api/good'
-import { buildCategoryTree} from '@/utils/category'
+import { createXX, getXXList, editXX, deleteXXByIds } from '@/api/template'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
-
-const queryForm = ref(null)
-const showSearch = ref(true)
-const total = ref(0)
-const goodList = ref([])
-const loading = ref(false)
-const editOn = ref(false)
-const editTitle = ref('商品信息编辑')
-const EditformRef = ref(null)
-const categoryName = ref('')
-const selectedRows = ref([]) // 用于存储选中的行
-const createOn = ref(false)
-const createFormRef = ref(null)
-const createTitle = ref('新增商品')
 
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 6,
-  categoryId: null,
-  goodName: '',
-  priceHigh: null,
-  priceLow: null,
+  param1: null,
+  param2: null,
+  param3: null,
 })
 
 const form = reactive({
-  goodId: null,
-  goodName: '',
-  categoryId: null,
-  createdBy: null,
-  createdAt: null,
-  updatedBy: null,
-  updatedAt: null,
-  isDisabled: false,
-  price: null,
+  Id: null,
+  Name: '',
+  form1: '',
+  form2: '',
+  form3: '',
+  form4: '',
+  form5: '',
+  form6: '',
 })
+const EditformRef = ref(null)
+const createFormRef = ref(null)
+const editTitle = ref('XX信息编辑')
+const createTitle = ref('新增XX')
+const editOn = ref(false)
+const createOn = ref(false)
 
-const handleAdd = () => {
-  clearForm()
-  createOn.value = true
-}
+const selectedRows = ref([])
+const XXList = ref([])
+
+const queryForm = ref(null)
+const showSearch = ref(true)
+const total = ref(0)
+
+const loading = ref(false)
 
 const createForm = () => {
-  form.categoryId = form.categoryId[form.categoryId.length - 1] // 获取最后一个选中的分类ID
-  createGood(form).then(response => {
+  createXX(form).then(response => {
     if (response.code === 200) {
-      ElMessage.success('商品信息创建成功')
+      ElMessage.success('XX信息创建成功')
       createOn.value = false
-      handleQuery() // 刷新商品列表
+      handleQuery() // 刷新XX列表
     } else {
-      ElMessage.error('商品信息创建失败: ' + response.message)
+      ElMessage.error('XX信息创建失败: ' + response.message)
     }
   }).catch(error => {
-    ElMessage.error('创建商品信息失败: ' + error.message)
+    ElMessage.error('创建XX信息失败: ' + error.message)
   })
-  console.log('提交表单:', form)
-  categoryName.value = ''
+}
+
+
+
+const editForm = () => {
+  editXX(form).then(response => {
+    if (response.code === 200) {
+      ElMessage.success('XX信息更新成功')
+      editOn.value = false
+      handleQuery() 
+    } else {
+      ElMessage.error('XX信息更新失败: ' + response.message)
+    }
+  }).catch(error => {
+    ElMessage.error('更新XX信息失败: ' + error.message)
+  })
+}
+
+const handlePageSelectionChange = (page) => {
+  queryParams.pageNum = page
+  handleQuery()
+}
+
+const handleDeleteById = (row) => {
+  ElMessageBox.confirm('是否确认删除该记录？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    deleteXXByIds([row.Id]).then(() => {
+      handleQuery() // 刷新商品列表
+      ElMessage.success('删除成功 ')
+    })
+  }).catch(() => {
+    ElMessageBox.alert('已取消删除操作')
+  })
+}
+
+const handleUpdate = (row) => {
+  if (row) {
+    Object.assign(form, row)
+    editOn.value = true
+  }
+}
+
+const handleSelectionChange = (row) => {
+    selectedRows.value = row
 }
 
 const handleDelete = () => {
@@ -292,7 +317,7 @@ const handleDelete = () => {
         console.log('删除的记录:', selectedRows.value)
         const ids = selectedRows.value.map(row => row.goodId)
         console.log('删除的ID:', ids)
-        deleteGoodByIds(ids).then(() => {
+        deleteXXByIds(ids).then(() => {
           handleQuery() // 刷新商品列表
           ElMessage.success('删除成功')
         })
@@ -301,30 +326,26 @@ const handleDelete = () => {
     })
 }
 
-const handleDeleteById = (row) => {
-  ElMessageBox.confirm('是否确认删除该记录？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    deleteGoodByIds([row.goodId]).then(() => {
-      handleQuery() // 刷新商品列表
-      ElMessage.success('删除成功 ')
-    })
-  }).catch(() => {
-    ElMessageBox.alert('已取消删除操作')
-  })
+const handleAdd = () => {
+  clearForm()
+  createOn.value = true
+}
+
+const resetQuery = () => {
+  queryParams.pageNum = 1
+  queryParams.pageSize = 6
+  queryParams.param1 = null
+  queryParams.param2 = null
+  queryParams.param3 = null
 }
 
 
 const handleQuery = () => {
   // 处理查询逻辑
-  console.log('查询参数:', queryParams)
   loading.value = true
-  goodList.value = []
-  getGoodList(queryParams).then(response => {
-    // 假设 response.data 是商品列表
-    goodList.value = response.rows
+  XXList.value = []
+  getXXList(queryParams).then(response => {
+    XXList.value = response.rows
     total.value = response.total
     loading.value = false
   }).catch(error => {
@@ -333,85 +354,19 @@ const handleQuery = () => {
   })
 }
 
-const resetQuery = () => {
-  queryParams.pageNum = 1
-  queryParams.pageSize = 6
-  queryParams.categoryId = null
-  queryParams.goodName = ''
-  queryParams.priceHigh = null
-  queryParams.priceLow = null
-}
-
-
-// 存储分类数据的树形结构
-const categoryTree = ref([])
-// 选中的分类
-const selectedCategories = ref([])
-
-// `el-cascader` 配置项，定义label、value和children的属性
-const cascaderProps = {
-  label: 'categoryName',
-  value: 'categoryId',
-  children: 'children',
-}
-
-const editForm = () => {
-  form.categoryId = form.categoryId[form.categoryId.length - 1] // 获取最后一个选中的分类ID
-  editGood(form).then(response => {
-    if (response.code === 200) {
-      ElMessage.success('商品信息更新成功')
-      editOn.value = false
-      handleQuery() // 刷新商品列表
-    } else {
-      ElMessage.error('商品信息更新失败: ' + response.message)
-    }
-  }).catch(error => {
-    ElMessage.error('更新商品信息失败: ' + error.message)
-  })
-  console.log('提交表单:', form)
-  categoryName.value = ''
-}
-
-const handleUpdate = (row) => {
-  if (row) {
-    Object.assign(form, row)
-    getCategoryName(row.categoryId).then(response => {
-      categoryName.value = response.data.categoryName
-    }).catch(error => {
-      ElMessage.error('获取商品分类名称失败: ' + error.message)
-    })
-    editOn.value = true
-  }
-}
-
-const handleSelectionChange = (row) => {
-    queryParams.pageNum = row
-    handleQuery()
-}
-
-const parseTime = (time) => {
-  const date = new Date(time)
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-}
-
 onMounted(() => {
-  // 模拟请求商品分类数据
-  getCategory().then(response => {
-    // 假设 API 返回的数据是一个数组，按返回的数据结构
-    const categories = response.data // response 应该是分类数据数组
 
-    // 转换成树形结构
-    categoryTree.value = buildCategoryTree(categories)
-  }).catch(error => {
-    ElMessage.error('获取商品分类失败: ' + error.message)
-  })
 })
 
 const clearForm = () => {
-  form.goodId = null
-  form.goodName = ''
-  form.categoryId = null
-  form.price = null
+  form.Id = null
+  form.Name = ''
+  form.form1 = ''
+  form.form2 = ''
+  form.form3 = ''
+  form.form4 = ''
+  form.form5 = ''
+  form.form6 = ''
 }
 </script>
 

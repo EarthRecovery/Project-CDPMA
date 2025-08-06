@@ -63,6 +63,14 @@ public class SysOperatorController extends BaseController {
         return AjaxResult.success("操作员删除成功，删除").put("operatorNum", operatorNum);
     }
 
+    @PutMapping
+    @Log(title = "编辑操作员", businessType = BusinessType.UPDATE)
+    @RequiresTags(value = {Tag.ADMIN})
+    public AjaxResult updateOperator(@Valid @RequestBody SysOperator operator) {
+        sysOperatorService.updateOperator(operator);
+        return AjaxResult.success("操作员编辑成功");
+    }
+
     @DeleteMapping("/batch/{operatorIds}")
     @Log(title = "批量删除操作员", businessType = BusinessType.DELETE)
     @RequiresTags(value = {Tag.ADMIN})

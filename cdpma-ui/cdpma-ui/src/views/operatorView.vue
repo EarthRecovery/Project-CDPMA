@@ -106,7 +106,7 @@
       :total="total"
       v-model:current-page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
-      @update:current-page="handleSelectionChange"
+      @update:current-page="handlePageSelectionChange"
     />
 
     <el-dialog :title="title" v-model="EditOpen" width="780px" append-to-body>
@@ -318,7 +318,7 @@
 import { ref, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
 // import operator from '@/store/modules/operator'
-import { getOperatorList, deleteOperatorByIds, addOperator } from '@/api/operator'
+import { getOperatorList, deleteOperatorByIds, addOperator, editOperator } from '@/api/operator'
 import { ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import { nextTick } from 'vue'
 
@@ -477,6 +477,15 @@ const editForm = () => {
   EditformRef.value.validate((valid) => {
     if (valid) {
       console.log('提交表单', form)
+      editOperator(form).then(response => {
+        ElMessage.success('修改成功' + response)
+      }).catch(error => {
+        ElMessageBox.alert('修改失败: ' + error.message)
+      })
+      // AddOpen.value = false
+      getList()
+    } else {
+      console.log('表单验证失败')
     }
   })
 }
@@ -497,9 +506,13 @@ const addForm = () => {
     }
   })
 }
-const handleSelectionChange = (row) => {
+const handlePageSelectionChange = (row) => {
     queryParams.pageNum = row
     getList()
+}
+
+const handleSelectionChange = (row) => {
+    selectedRows.value = row
 }
 const getList = () => {
     loading.value = true

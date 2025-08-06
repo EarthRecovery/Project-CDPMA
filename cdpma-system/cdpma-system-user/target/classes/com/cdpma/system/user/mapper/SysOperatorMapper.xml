@@ -41,6 +41,26 @@
                )
     </insert>
 
+    <!-- 更新操作员信息 -->
+    <update id="updateOperator" parameterType="com.cdpma.common.pojo.pojo.SysOperator">
+        UPDATE cdpma_operator
+        <set>
+            <if test="operatorName != null">operator_name = #{operatorName},</if>
+            <if test="operatorNickname != null">operator_nickname = #{operatorNickname},</if>
+            <if test="operatorIdCard != null">operator_id_card = #{operatorIdCard},</if>
+            <if test="operatorPhone != null">operator_phone = #{operatorPhone},</if>
+            <if test="operatorGender != null">operator_gender = #{operatorGender},</if>
+            <if test="operatorAge != null">operator_age = #{operatorAge},</if>
+            <if test="operatorEmail != null">operator_email = #{operatorEmail},</if>
+            <if test="operatorRole != null">operator_role = #{operatorRole},</if>
+            <if test="operatorRegion != null">operator_region = #{operatorRegion},</if>
+            <if test="isDisabled != null">is_disabled = #{isDisabled},</if>
+            <if test="passwordHash != null">password_hash = #{passwordHash},</if>
+        </set>
+        WHERE operator_id = #{operatorId}
+    </update>
+
+
     <!-- 查询操作员列表（支持多条件） -->
     <select id="selectOperatorList" parameterType="com.cdpma.common.pojo.pojo.SysOperator" resultMap="SysOperatorResult">
         <include refid="selectOperatorVo"/>

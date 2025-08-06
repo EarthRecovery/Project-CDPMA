@@ -111,7 +111,7 @@
       :total="total"
       v-model:current-page="queryParams.pageNum"
       v-model:page-size="queryParams.pageSize"
-      @update:current-page="handleSelectionChange"
+      @update:current-page="handlePageSelectionChange"
     />
 
     <el-dialog :title="editTitle" v-model="editOn" width="780px">
@@ -385,8 +385,12 @@ const handleUpdate = (row) => {
 }
 
 const handleSelectionChange = (row) => {
-    queryParams.pageNum = row
-    handleQuery()
+    selectedRows.value = row
+}
+
+const handlePageSelectionChange = (page) => {
+  queryParams.pageNum = page
+  handleQuery() // 刷新商品列表
 }
 
 const parseTime = (time) => {
