@@ -18,4 +18,8 @@ public interface ISysFavoritesRecordService {
     int deleteFavoritesRecordByIds(Long[] recordIds);
 
     List<SysGood> selectGoodListByOperatorId(Long operatorId);
+
+    boolean hasFavoriteRecord(SysFavoritesRecord record);
+
+    void deleteFavoritesRecordByGoods(List<SysGood> goodList, Long operatorId);
 }

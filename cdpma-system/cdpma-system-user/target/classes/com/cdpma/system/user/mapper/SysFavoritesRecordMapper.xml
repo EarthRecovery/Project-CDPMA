@@ -68,4 +68,10 @@
         </foreach>
     </delete>
 
+    <delete id="deleteFavoritesRecordByGoodIdAndOperatorId" parameterType="map">
+        DELETE FROM cdpma_favorites_record
+        WHERE good_id = #{goodId}
+        AND operator_id = #{operatorId}
+    </delete>
+
 </mapper>

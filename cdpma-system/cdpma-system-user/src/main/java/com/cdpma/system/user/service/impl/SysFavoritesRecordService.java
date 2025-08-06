@@ -3,7 +3,6 @@ package com.cdpma.system.user.service.impl;
 import com.cdpma.common.pojo.pojo.SysFavoritesRecord;
 import com.cdpma.common.pojo.pojo.SysGood;
 import com.cdpma.system.user.mapper.SysFavoritesRecordMapper;
-import com.cdpma.system.user.mapper.SysGoodMapper;
 import com.cdpma.system.user.service.ISysFavoritesRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,8 @@ public class SysFavoritesRecordService implements ISysFavoritesRecordService {
 
     @Autowired
     private SysGoodService sysGoodService;
+    @Autowired
+    private SysFavoritesRecordMapper sysFavoritesRecordMapper;
 
     @Override
     public SysFavoritesRecord selectFavoritesRecordById(Long recordId) {
@@ -54,5 +55,29 @@ public class SysFavoritesRecordService implements ISysFavoritesRecordService {
             goodList.add(sysGoodService.selectGoodById(favoritesRecord.getGoodId()));
         }
         return goodList;
+    }
+
+    @Override
+    public boolean hasFavoriteRecord(SysFavoritesRecord record) {
+        SysFavoritesRecord sysFavoritesRecord = new SysFavoritesRecord();
+        sysFavoritesRecord.setGoodId(record.getGoodId());
+        sysFavoritesRecord.setOperatorId(record.getOperatorId());
+        List<SysFavoritesRecord> recordList =  selectFavoritesRecordList(sysFavoritesRecord);
+        if(recordList != null && !recordList.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public void deleteFavoritesRecordByGoods(List<SysGood> goodList, Long operatorId) {
+        for(SysGood good : goodList){
+            deleteFavoritesRecordByGoodIdAndOperatorId(good.getGoodId(), operatorId);
+        }
+    }
+
+    private void deleteFavoritesRecordByGoodIdAndOperatorId(Long goodId, Long operatorId) {
+        sysFavoritesRecordMapper.deleteFavoritesRecordByGoodIdAndOperatorId(goodId, operatorId);
     }
 }

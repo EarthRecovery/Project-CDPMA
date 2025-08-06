@@ -58,7 +58,7 @@ export function likeGood(goodId, operatorId) {
 
 export function favoriteGood(goodId, operatorId) {
     return request({
-        url: `/system-user/favorite`,
+        url: `/system-user/favorites`,
         method: 'post',
         data: { 
             "operatorId": operatorId,

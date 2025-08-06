@@ -7,9 +7,10 @@ export function getFavoriteList(operatorId, query) {
     })
 }
 
-export function deleteFavoriteByIds(favoriteIds) {
+export function deleteFavoriteByIds(operatorId, goods) {
     return request({
-        url: `/system-user/favorites/${favoriteIds}`,
-        method: 'delete'
+        url: `/system-user/favorites/delete/${operatorId}`,
+        method: 'post',
+        data: goods
     })
 }

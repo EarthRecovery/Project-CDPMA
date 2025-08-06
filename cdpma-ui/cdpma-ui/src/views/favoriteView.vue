@@ -130,7 +130,7 @@ const handleDeleteById = (row) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    deleteFavoriteByIds([row.Id]).then(() => {
+    deleteFavoriteByIds(store.state.operator.id, [row]).then(() => {
       handleQuery() // 刷新商品列表
       ElMessage.success('删除成功 ')
     })
@@ -154,10 +154,7 @@ const handleDelete = () => {
         type: 'warning'
     }).then(() => {
         // 调用删除接口
-        console.log('删除的记录:', selectedRows.value)
-        const ids = selectedRows.value.map(row => row.goodId)
-        console.log('删除的ID:', ids)
-        deleteFavoriteByIds(ids).then(() => {
+        deleteFavoriteByIds(store.state.operator.id, selectedRows.value).then(() => {
           handleQuery() // 刷新商品列表
           ElMessage.success('删除成功')
         })

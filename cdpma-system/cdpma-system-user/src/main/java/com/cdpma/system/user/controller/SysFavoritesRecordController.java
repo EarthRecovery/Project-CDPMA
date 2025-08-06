@@ -32,6 +32,9 @@ public class SysFavoritesRecordController extends BaseController {
 
     @PostMapping
     public AjaxResult add(@RequestBody SysFavoritesRecord record) {
+        if(favoritesRecordService.hasFavoriteRecord(record)){
+            return AjaxResult.error("已经存在收藏记录");
+        }
         record.setOperatorId(SecurityUtils.getOperatorId());
         record.setCreatedAt(new Date());
         record.setDeleted(false);
@@ -43,6 +46,12 @@ public class SysFavoritesRecordController extends BaseController {
     public AjaxResult edit(@RequestBody SysFavoritesRecord record) {
         favoritesRecordService.updateFavoritesRecord(record);
         return AjaxResult.success("修改收藏记录成功");
+    }
+
+    @PostMapping("/delete/{operatorId}")
+    public AjaxResult remove(@PathVariable Long operatorId, @RequestBody List<SysGood> goodList) {
+        favoritesRecordService.deleteFavoritesRecordByGoods(goodList, operatorId);
+        return AjaxResult.success("删除收藏记录成功");
     }
 
     @DeleteMapping("/{recordIds}")
