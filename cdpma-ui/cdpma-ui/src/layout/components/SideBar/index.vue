@@ -28,7 +28,7 @@
               <el-icon><IconMenu /></el-icon>
               <span>Assistant</span>
             </template>
-            <el-menu-item index="2-1">item one</el-menu-item>
+            <el-menu-item index="2-1">Immediate Action</el-menu-item>
             <el-menu-item index="2-2">item two</el-menu-item>
             <el-menu-item index="2-3">item three</el-menu-item>
           </el-sub-menu>
@@ -43,6 +43,12 @@
             <el-menu-item index="3-2">Favorite</el-menu-item>
             <el-menu-item index="3-3">item three</el-menu-item>
           </el-sub-menu>
+          <el-menu-item index="4" >
+            <template #title>
+              <el-icon><IconMenu /></el-icon>
+              <span>Notification</span>
+            </template>
+          </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
@@ -105,11 +111,17 @@ const handleSelect = (key) => {
   else if (key === '1-4'){
     router.push({ path: '/admin/loginLog' })
   }
+  else if (key === '2-1'){
+    router.push({ path: '/assistant/immediateAction' })
+  }
   else if (key === '3-1'){
     router.push({ path: '/user/good' })
   }
   else if (key === '3-2'){
     router.push({ path: '/user/favorite' })
+  }
+  else if (key === '4') {
+    router.push({ path: '/notification' })
   }
 }
 </script>

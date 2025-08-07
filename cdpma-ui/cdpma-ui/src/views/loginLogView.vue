@@ -182,9 +182,8 @@ const handleSelectionChange = (row) => {
 const resetQuery = () => {
   queryParams.pageNum = 1
   queryParams.pageSize = 6
-  queryParams.param1 = null
-  queryParams.param2 = null
-  queryParams.param3 = null
+  queryParams.operatorId = null
+  queryParams.action = null
 }
 
 

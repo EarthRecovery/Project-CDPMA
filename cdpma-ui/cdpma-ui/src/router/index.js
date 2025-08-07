@@ -110,6 +110,32 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/assistant/immediateAction',
+    component: Layout,
+    redirect: '/assistant/immediateAction/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/immediateActionView.vue'),
+        name: 'assistant-immediateAction',
+        meta: { title: '立即行动响应', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/notification',
+    component: Layout,
+    redirect: '/notification/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/notificationView.vue'),
+        name: 'notification',
+        meta: { title: '通知', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({

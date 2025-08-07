@@ -2,6 +2,7 @@ package com.cdpma.system.admin.controller;
 
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.pojo.pojo.SysNotification;
 import com.cdpma.system.admin.service.ISysNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,11 @@ public class SysNotificationController extends BaseController {
         return AjaxResult.success(notificationService.selectNotificationById(notificationId));
     }
 
-    @GetMapping("/list")
-    public AjaxResult list(SysNotification notification) {
+    @PostMapping("/list")
+    public TableDataInfo list(@RequestBody SysNotification notification) {
+        startPage();
         List<SysNotification> list = notificationService.selectNotificationList(notification);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     @PostMapping
