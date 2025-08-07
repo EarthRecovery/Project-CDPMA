@@ -37,4 +37,9 @@ public class SysOperationResponseService implements ISysOperationResponseService
     public int deleteResponseByIds(Long[] responseIds) {
         return responseMapper.deleteResponseByIds(responseIds);
     }
+
+    @Override
+    public List<SysOperationResponse> selectAllResponses() {
+        return responseMapper.selectAllResponses();
+    }
 }

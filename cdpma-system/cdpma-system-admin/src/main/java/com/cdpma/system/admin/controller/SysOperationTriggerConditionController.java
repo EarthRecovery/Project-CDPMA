@@ -20,9 +20,15 @@ public class SysOperationTriggerConditionController extends BaseController {
         return AjaxResult.success(conditionService.selectConditionById(conditionId));
     }
 
-    @GetMapping("/list")
-    public AjaxResult list(SysOperationTriggerCondition condition) {
+    @PostMapping("/list")
+    public AjaxResult list(@RequestBody SysOperationTriggerCondition condition) {
         List<SysOperationTriggerCondition> list = conditionService.selectConditionList(condition);
+        return AjaxResult.success(list);
+    }
+
+    @GetMapping("/all")
+    public AjaxResult getAllConditions() {
+        List<SysOperationTriggerCondition> list = conditionService.selectAllCondition();
         return AjaxResult.success(list);
     }
 

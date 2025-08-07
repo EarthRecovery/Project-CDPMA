@@ -22,6 +22,12 @@
         WHERE response_id = #{responseId}
     </select>
 
+    <select id="selectAllResponses"
+            resultMap="ResponseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cdpma_operation_response
+    </select>
+
     <select id="selectResponseList" resultMap="ResponseResultMap" parameterType="com.cdpma.common.pojo.pojo.SysOperationResponse">
         SELECT <include refid="Base_Column_List"/>
         FROM cdpma_operation_response

@@ -20,9 +20,16 @@ public class SysOperationResponseController extends BaseController {
         return AjaxResult.success(responseService.selectResponseById(responseId));
     }
 
-    @GetMapping("/list")
-    public AjaxResult list(SysOperationResponse response) {
+    @PostMapping("/list")
+    public AjaxResult list(@RequestBody SysOperationResponse response) {
         List<SysOperationResponse> list = responseService.selectResponseList(response);
+        return AjaxResult.success(list);
+    }
+
+    @GetMapping("/all")
+    public AjaxResult getAllResponses() {
+        List<SysOperationResponse> list = responseService.selectAllResponses();
+        System.out.println("Fetching all operation responses: " + list);
         return AjaxResult.success(list);
     }
 

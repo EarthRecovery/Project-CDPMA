@@ -14,4 +14,6 @@ public interface ISysOperationResponseService {
     int updateResponse(SysOperationResponse response);
 
     int deleteResponseByIds(Long[] responseIds);
+
+    List<SysOperationResponse> selectAllResponses();
 }

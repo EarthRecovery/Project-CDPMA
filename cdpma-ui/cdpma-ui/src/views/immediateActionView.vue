@@ -8,47 +8,68 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="param1" prop="param1">
-        <el-input
-          v-model="queryParams.param1"
-          placeholder="请输入param1"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="触发器" prop="triggerConditionId">
+        <el-select
+          v-model="queryParams.triggerConditionId"
+          placeholder="请选择触发器"
+          style="width: 200px;"
+        >
+          <el-option
+            v-for="item in operationTriggerList"
+            :key="item.conditionId"
+            :label="`${item.description} - ${item.conditionName}`"
+            :value="item.conditionId"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="param2" prop="param2">
-        <el-input
-          v-model="queryParams.param2"
-          placeholder="请输入param2"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="响应" prop="operationResponse">
+        <el-select
+          v-model="queryParams.operationResponse"
+          placeholder="请选择响应"
+          style="width: 200px;"
+        >
+          <el-option
+            v-for="item in operationResponseList"
+            :key="item.responseId"
+            :label="`${item.description} - ${item.responseName}`"
+            :value="item.responseId"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="param3" prop="param3">
-        <el-input
-          v-model="queryParams.param3"
-          placeholder="请输入param3"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="是否启用" prop="isEnabled">
+        <el-select
+            v-model="queryParams.isEnabled"
+            placeholder="请选择是否启用"
+            clearable
+            style="width: 140px;"
+            >
+            <el-option
+                label="是"
+                :value="true"
+            />
+            <el-option
+                label="否"
+                :value="false"
+            />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="handleQuery">
-        <search />
-        搜索
+          <search />
+          搜索
         </el-button>
         <el-button size="small" @click="resetQuery">
-        <refresh />
-        重置
+          <refresh />
+          重置
         </el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain size="small" @click="handleAdd">
+        <el-button type="primary" plain size="small" @click="handleTriggerAdd">
         <plus />
-        新增
+        新增触发器
         </el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,17 +86,20 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="XXList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="operationList" @selection-change="handleSelectionChange" :fit="true">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="Id" width="100" />
-      <el-table-column label="名称" align="center" prop="Name" :show-overflow-tooltip="true" />
-      <el-table-column label="param1" align="center" prop="form1" />、
-      <el-table-column label="param2" align="center" prop="form2" />
-      <el-table-column label="param3" align="center" prop="form3" />
-      <el-table-column label="param4" align="center" prop="form4" />、
-      <el-table-column label="param5" align="center" prop="form5" />
-      <el-table-column label="param6" align="center" prop="form6" />
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column label="ID" align="center" prop="operationId"/>
+      <el-table-column label="触发器" align="center" prop="triggerConditionName" />
+      <el-table-column label="响应" align="center" prop="operationResponseName"/>
+      <el-table-column label="描述" align="center" prop="operationDescription"/>
+      <el-table-column label="是否启用" align="center" prop="isEnabled">
+        <template #default="{ row }">
+          <el-tag :type="row.isEnabled ? 'true' : 'false'">
+            {{ row.isEnabled ? '是' : '否' }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" >
         <template #default="{ row }">
           <el-button size="small" type="text" @click="handleUpdate(row)">
           <edit />
@@ -148,42 +172,18 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog :title="createTitle" v-model="createOn" width="780px">
-      <el-form :model="form" label-width="80px" ref="createFormRef">
+    <el-dialog :title="triggerAddTitle" v-model="triggerAddOn" width="780px">
+      <el-form :model="triggerForm" label-width="80px" ref="createFormRef">
         <!-- 第一行 -->
         <el-row :gutter="20">
-        <el-col :span="8">
-            <el-form-item label="ID">
-            <span>{{ form.Id }}</span>
+        <el-col :span="8" style="padding-left:40px;">
+            <el-form-item label="conditionName">
+            <el-input v-model="triggerForm.conditionName" placeholder="请输入name" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="name">
-            <el-input v-model="form.Name" placeholder="请输入name" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param1">
-            <el-input v-model="form.form1" placeholder="请输入param1" />
-            </el-form-item>
-        </el-col>
-        </el-row>
-
-        <!-- 第二行 -->
-        <el-row :gutter="20">
-        <el-col :span="8">
-            <el-form-item label="param2">
-            <el-input v-model="form.form2" placeholder="请输入param2" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param3">
-            <el-input v-model="form.form3" placeholder="请输入param3" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param4">
-            <el-input v-model="form.form4" placeholder="请输入param4" />
+            <el-form-item label="description">
+            <el-input v-model="triggerForm.description" placeholder="请输入description" />
             </el-form-item>
         </el-col>
         </el-row>
@@ -192,7 +192,7 @@
         <el-row>
         <el-col :span="24">
             <el-form-item>
-            <el-button type="primary" @click="createForm" size="small">提交</el-button>
+            <el-button type="primary" @click="createTrigger" size="small">提交</el-button>
             </el-form-item>
         </el-col>
         </el-row>
@@ -204,37 +204,42 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { createXX, getXXList, editXX, deleteXXByIds } from '@/api/template'
+import { getOperationTriggerList, getOperationResponseList, getOperationList, addOperationTrigger } from '@/api/operation'
+import {  editXX, deleteXXByIds } from '@/api/template'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
 
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 6,
-  param1: null,
-  param2: null,
-  param3: null,
+  triggerConditionId: null,
+  operationResponse: null,
+  isEnabled: null,
 })
 
 const form = reactive({
-  Id: null,
-  Name: '',
-  form1: '',
-  form2: '',
-  form3: '',
-  form4: '',
-  form5: '',
-  form6: '',
+  operationId: null,
+  triggerCondition: '',
+  operationResponse: '',
+  operationDescription: '',
+  isEnabled: ''
 })
+
+const triggerForm = reactive({
+  conditionName: '',
+  description: '',
+  isUrgent: true,
+})
+
+const triggerAddOn = ref(false)
+const triggerAddTitle = ref("新增触发器")
 const EditformRef = ref(null)
 const createFormRef = ref(null)
 const editTitle = ref('XX信息编辑')
-const createTitle = ref('新增XX')
 const editOn = ref(false)
-const createOn = ref(false)
 
 const selectedRows = ref([])
-const XXList = ref([])
+const operationList = ref([])
 
 const queryForm = ref(null)
 const showSearch = ref(true)
@@ -242,20 +247,8 @@ const total = ref(0)
 
 const loading = ref(false)
 
-const createForm = () => {
-  createXX(form).then(response => {
-    if (response.code === 200) {
-      ElMessage.success('XX信息创建成功')
-      createOn.value = false
-      handleQuery() // 刷新XX列表
-    } else {
-      ElMessage.error('XX信息创建失败: ' + response.message)
-    }
-  }).catch(error => {
-    ElMessage.error('创建XX信息失败: ' + error.message)
-  })
-}
-
+const operationTriggerList = ref([])
+const operationResponseList = ref([])
 
 
 const editForm = () => {
@@ -325,27 +318,42 @@ const handleDelete = () => {
         ElMessageBox.alert('已取消删除操作')
     })
 }
-
-const handleAdd = () => {
-  clearForm()
-  createOn.value = true
-}
-
 const resetQuery = () => {
   queryParams.pageNum = 1
   queryParams.pageSize = 6
-  queryParams.param1 = null
-  queryParams.param2 = null
-  queryParams.param3 = null
+  queryParams.isEnabled = null
+  queryParams.triggerConditionId = null
+  queryParams.operationResponse = null
+}
+
+const handleTriggerAdd = () => {
+  clearTriggerForm()
+  triggerAddOn.value = true
+}
+
+const createTrigger = () => {
+  addOperationTrigger(triggerForm).then(response => {
+    if (response.code === 200) {
+      ElMessage.success('触发器创建成功')
+      triggerAddOn.value = false
+      fillOperationTriggerList() // 刷新触发器列表
+      handleQuery() // 刷新操作列表
+    } else {
+      ElMessage.error('触发器创建失败: ' + response.message)
+    }
+  }).catch(error => {
+    ElMessage.error('创建触发器失败: ' + error.message)
+  })
 }
 
 
 const handleQuery = () => {
   // 处理查询逻辑
   loading.value = true
-  XXList.value = []
-  getXXList(queryParams).then(response => {
-    XXList.value = response.rows
+  operationList.value = []
+  getOperationList(queryParams).then(response => {
+    operationList.value = response.rows
+    editOperationList(operationList.value)
     total.value = response.total
     loading.value = false
   }).catch(error => {
@@ -354,20 +362,46 @@ const handleQuery = () => {
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await Promise.all([
+    fillOperationTriggerList(),
+    fillOperationResponseList()
+  ])
 
+  handleQuery()
 })
 
-const clearForm = () => {
-  form.Id = null
-  form.Name = ''
-  form.form1 = ''
-  form.form2 = ''
-  form.form3 = ''
-  form.form4 = ''
-  form.form5 = ''
-  form.form6 = ''
+const clearTriggerForm = () => {
+  triggerForm.conditionName = ''
+  triggerForm.description = ''
+  triggerForm.isUrgent = true
 }
+
+const fillOperationTriggerList = async () => {
+  try {
+    const response = await getOperationTriggerList()
+    operationTriggerList.value = response.data.filter(item => item.isUrgent !== false)
+  } catch (error) {
+    console.error('获取 OperationTriggerList 失败:', error)
+  }
+}
+
+const fillOperationResponseList = async () => {
+  try {
+    const response = await getOperationResponseList()
+    operationResponseList.value = response.data
+  } catch (error) {
+    console.error('获取 OperationResponseList 失败:', error)
+  }
+}
+
+const editOperationList = (list) => {
+  list.forEach(item => {
+    item.triggerConditionName = operationTriggerList.value.find(trigger => trigger.conditionId === item.triggerConditionId)?.conditionName || ''
+    item.operationResponseName = operationResponseList.value.find(response => response.responseId === item.operationResponse)?.responseName || ''
+  })
+}
+
 </script>
 
 <style scoped>

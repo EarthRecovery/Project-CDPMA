@@ -15,4 +15,6 @@ public interface SysOperationResponseMapper {
     int updateResponse(SysOperationResponse response);
 
     int deleteResponseByIds(Long[] responseIds);
+
+    List<SysOperationResponse> selectAllResponses();
 }

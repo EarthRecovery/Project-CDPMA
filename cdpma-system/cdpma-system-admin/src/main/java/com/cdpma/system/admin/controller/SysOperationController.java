@@ -1,6 +1,8 @@
 package com.cdpma.system.admin.controller;
 
+import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.system.admin.service.ISysOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/operation")
-public class SysOperationController {
+public class SysOperationController extends BaseController {
     @Autowired
     private ISysOperationService operationService;
 
@@ -19,10 +21,11 @@ public class SysOperationController {
         return AjaxResult.success(operationService.selectOperationById(operationId));
     }
 
-    @GetMapping("/list")
-    public AjaxResult list(SysOperation operation) {
+    @PostMapping("/list")
+    public TableDataInfo list(@RequestBody SysOperation operation) {
+        startPage();
         List<SysOperation> list = operationService.selectOperationList(operation);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     @PostMapping

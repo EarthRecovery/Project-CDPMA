@@ -23,7 +23,7 @@
     </select>
 
     <select id="selectAllCondition"
-            resultType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
+            resultMap="ConditionResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM cdpma_operation_trigger_condition
     </select>
