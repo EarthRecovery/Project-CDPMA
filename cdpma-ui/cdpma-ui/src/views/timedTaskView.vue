@@ -22,16 +22,17 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="jobList.data" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="Id" width="100" />
-      <el-table-column label="名称" align="center" prop="Name" :show-overflow-tooltip="true" />
-      <el-table-column label="param1" align="center" prop="form1" />、
-      <el-table-column label="param2" align="center" prop="form2" />
-      <el-table-column label="param3" align="center" prop="form3" />
-      <el-table-column label="param4" align="center" prop="form4" />、
-      <el-table-column label="param5" align="center" prop="form5" />
-      <el-table-column label="param6" align="center" prop="form6" />
+      <el-table-column label="jobDesc" align="center" prop="jobDesc" width="100" />
+      <el-table-column label="scheduleConf" align="center" prop="scheduleConf" :show-overflow-tooltip="true" />
+      <el-table-column label="executorHandler" align="center" prop="executorHandler" />
+      <el-table-column label="executorParam" align="center" prop="executorParam" />
+      <el-table-column label="triggerStatus" align="center" prop="triggerStatus">
+        <template #default="{ row }">
+          <span>{{ row.triggerStatus === 0 ? '中止' : row.triggerStatus === 1 ? '运行' : '未知' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
           <el-button size="small" type="text" @click="handleUpdate(row)">
@@ -166,10 +167,31 @@ const queryParams = reactive({
 })
 
 const form = reactive({
+  id: 0,
+  jobGroup: 0,
   jobDesc: '',
+  addTime: null,
+  updateTime: null,
+  author: '',
+  alarmEmail: '',
+  scheduleType: '',
   scheduleConf: '',
+  misfireStrategy: '',
+  executorRouteStrategy: '',
   executorHandler: '',
-})
+  executorParam: '',
+  executorBlockStrategy: '',
+  executorTimeout: 0,
+  executorFailRetryCount: 0,
+  glueType: '',
+  glueSource: '',
+  glueRemark: '',
+  glueUpdatetime: null,
+  childJobId: '',
+  triggerStatus: 0,
+  triggerLastTime: 0,
+  triggerNextTime: 0,
+});
 
 const EditformRef = ref(null)
 const createFormRef = ref(null)
@@ -179,7 +201,11 @@ const editOn = ref(false)
 const createOn = ref(false)
 
 const selectedRows = ref([])
-const jobList = ref([])
+const jobList = reactive({
+  code: 0,
+  msg: '',
+  data: []
+})
 
 const total = ref(0)
 
@@ -275,19 +301,20 @@ const handleAdd = () => {
 }
 
 
-const handleQuery = () => {
+const handleQuery = async () => {
   // 处理查询逻辑
   loading.value = true
   jobList.value = []
-  getJobList(queryParams).then(response => {
-    jobList.value = response.rows
-    total.value = response.total
-    loading.value = false
+  try {
+    const response = await getJobList(queryParams)
+    Object.assign(jobList, response)
     console.log('Job List:', response)
-  }).catch(error => {
+    loading.value = false
+    total.value = jobList.data.length
+  } catch (error) {
     ElMessage.error('查询失败: ' + error.message)
     loading.value = false
-  })
+  }
 }
 
 onMounted(() => {
