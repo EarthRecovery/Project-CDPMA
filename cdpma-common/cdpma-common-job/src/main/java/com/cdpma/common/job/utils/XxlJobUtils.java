@@ -1,8 +1,10 @@
 package com.cdpma.common.job.utils;
 
+import com.cdpma.common.core.exception.ServiceException;
 import com.cdpma.common.job.constant.XxlJobConstant;
 import com.cdpma.common.job.domain.JobInfoResponse;
 import com.cdpma.common.job.domain.XxlJobInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -15,10 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class XxlJobUtils {
@@ -48,22 +47,16 @@ public class XxlJobUtils {
         JSONObject jsonObject = JSON.parseObject(result);
         String groupId = jsonObject.getString("content");
         jobInfo.setJobGroup(Integer.parseInt(groupId));
+        jobInfo.setTriggerStatus(0); // 设置触发状态为未触发
         String json2 = JSON.toJSONString(jobInfo);
-        System.out.println(json2);
         return doPost(adminAddresses + ADD_URL, json2);
     }
 
     public String update(XxlJobInfo jobInfo){
         Map<String,Object> param = new HashMap<>();
         param.put("appname", appname);
-        String json = JSON.toJSONString(param);
-        String result = doPost(adminAddresses + GET_GROUP_ID, json);
-
-        JSONObject jsonObject = JSON.parseObject(result);
-        String groupId = jsonObject.getString("content");
-        jobInfo.setJobGroup(Integer.parseInt(groupId));
-        String json2 = JSON.toJSONString(jobInfo);
-        return doPost(adminAddresses + UPDATE_URL, json2);
+        String json = JSON.toJSONString(jobInfo);
+        return doPost(adminAddresses + UPDATE_URL, json);
     }
 
     public String remove(int id){
@@ -113,11 +106,19 @@ public class XxlJobUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(json ,headers);
-        System.out.println("Request URL: " + url);
-        System.out.println("Request Body: " + json);
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(url, entity, String.class);
         if(stringResponseEntity.getBody() == null) {
             return "Error: Response body is null";
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            resultMap = mapper.readValue(stringResponseEntity.getBody(), Map.class);
+        }catch(JsonProcessingException e){
+            System.out.println("Error parsing JSON response: " + e.getMessage());
+        }
+        if(!Objects.equals(String.valueOf(resultMap.get("code")), "200")){
+            throw new ServiceException("Error: " + resultMap.get("msg"));
         }
         return stringResponseEntity.getBody().toString();
     }

@@ -23,7 +23,7 @@ public class JobInfoService implements IJobInfoService {
         jobInfo.setMisfireStrategy("DO_NOTHING");
         jobInfo.setExecutorRouteStrategy("FIRST");
         jobInfo.setExecutorHandler(executorHandler);
-        jobInfo.setExecutorParam("param1=value1,param2=value2");
+        jobInfo.setExecutorParam("");
         jobInfo.setExecutorBlockStrategy("SERIAL_EXECUTION");
         jobInfo.setExecutorTimeout(60);
         jobInfo.setExecutorFailRetryCount(3);

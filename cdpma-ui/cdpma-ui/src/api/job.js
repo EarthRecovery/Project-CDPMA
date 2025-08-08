@@ -13,3 +13,32 @@ export function getJobList(queryParams) {
         method: 'get',
     })
 }
+
+export function deleteJobById(jobId) {
+    return request({
+        url: `/job/job-info?jobId=${jobId}`,
+        method: 'delete'
+    })
+}
+
+export function updateJob(params) {
+    return request({
+        url: `/job/job-info/update`,
+        method: 'post',
+        data: params
+    })
+}
+
+export function startJob(jobId) {
+    return request({
+        url: `/job/job-info/start?jobId=${jobId}`,
+        method: 'get'
+    })
+}
+
+export function pauseJob(jobId) {
+    return request({
+        url: `/job/job-info/pause?jobId=${jobId}`,
+        method: 'get'
+    })
+}

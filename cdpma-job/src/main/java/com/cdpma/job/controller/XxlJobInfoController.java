@@ -32,9 +32,33 @@ public class XxlJobInfoController extends BaseController {
         return AjaxResult.success("新增任务成功");
     }
 
+    @DeleteMapping
+    public AjaxResult deleteJobInfo(@RequestParam int jobId) {
+        xxlJobUtils.remove(jobId);
+        return AjaxResult.success("删除任务成功");
+    }
+
     @GetMapping("/getAllJobInfo")
     public AjaxResult getAllJobInfo(@RequestParam String pageNum,
                                     @RequestParam String pageSize) {
         return AjaxResult.success(xxlJobUtils.getAllJobs(Integer.parseInt(pageNum), Integer.parseInt(pageSize)));
+    }
+
+    @PostMapping("/update")
+    public AjaxResult updateJobInfo(@RequestBody XxlJobInfo xxlJobInfo) {
+        xxlJobUtils.update(xxlJobInfo);
+        return AjaxResult.success("更新任务成功");
+    }
+
+    @GetMapping("/start")
+    public AjaxResult startJob(@RequestParam int jobId) {
+        xxlJobUtils.start(jobId);
+        return AjaxResult.success("任务启动成功");
+    }
+
+    @GetMapping("/pause")
+    public AjaxResult pauseJob(@RequestParam int jobId) {
+        xxlJobUtils.pause(jobId);
+        return AjaxResult.success("任务暂停成功");
     }
 }

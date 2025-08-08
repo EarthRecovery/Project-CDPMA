@@ -43,6 +43,15 @@
           <delete />  
           删除
           </el-button>
+          <!-- 开启 / 关闭 动态按钮 -->
+          <el-button
+            size="small"
+            type="text"
+            @click="handleToggleStatus(row)"
+          >
+            <delete />
+            {{ row.triggerStatus === 0 ? '开启' : '关闭' }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,38 +69,28 @@
         <!-- 第一行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="ID">
-            <span>{{ form.Id }}</span>
+            <el-form-item label="jobDesc">
+            <el-input v-model="form.jobDesc" placeholder="请输入jobDesc" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="name">
-            <el-input v-model="form.Name" placeholder="请输入name" />
+            <el-form-item label="scheduleConf">
+            <el-input v-model="form.scheduleConf" placeholder="请输入scheduleConf" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="param1">
-            <el-input v-model="form.form1" placeholder="请输入param1" />
-            </el-form-item>
-        </el-col>
-        </el-row>
-
-        <!-- 第二行 -->
-        <el-row :gutter="20">
-        <el-col :span="8">
-            <el-form-item label="param2">
-            <el-input v-model="form.form2" placeholder="请输入param2" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param3">
-            <el-input v-model="form.form3" placeholder="请输入param3" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param4">
-            <el-input v-model="form.form4" placeholder="请输入param4" />
-            </el-form-item>
+            <el-select
+            v-model="form.executorHandler"
+            placeholder="请选择执行器"
+            style="width: 80%;"
+            >
+            <el-option
+                v-for="item in operationResponseList"
+                :key="item.responseName"
+                :label="item.responseName"
+                :value="item.responseName"
+            />
+            </el-select>
         </el-col>
         </el-row>
 
@@ -107,17 +106,17 @@
     </el-dialog>
 
     <el-dialog :title="createTitle" v-model="createOn" width="780px">
-      <el-form :model="form" label-width="80px" ref="createFormRef">
+      <el-form :model="createJobForm" label-width="80px" ref="createFormRef">
         <!-- 第一行 -->
         <el-row :gutter="20">
         <el-col>
-            <el-form-item label="jobDesc">
-            <el-input v-model="form.jobDesc" placeholder="请输入任务描述" />
+            <el-form-item label="任务描述">
+            <el-input v-model="createJobForm.jobDesc" placeholder="请输入任务描述" style="width: 80%;" />
             </el-form-item>
         </el-col>
         <el-col>
-            <el-form-item label="scheduleConf">
-            <el-input v-model="form.scheduleConf" placeholder="请输入调度配置" />
+            <el-form-item label="调度配置">
+            <el-input v-model="createJobForm.scheduleConf" placeholder="请输入调度配置" style="width: 80%;" />
             </el-form-item>
         </el-col>
         </el-row>
@@ -126,12 +125,12 @@
         <el-row :gutter="20">
         <el-col :span="8">
             <el-select
-            v-model="form.executorHandler"
-            placeholder="请选择触发器"
-            style="width: 200px;"
+            v-model="createJobForm.executorHandler"
+            placeholder="请选择执行器"
+            style="width: 80%;"
             >
             <el-option
-                v-for="item in executorHandlerList"
+                v-for="item in operationResponseList"
                 :key="item.responseName"
                 :label="item.responseName"
                 :value="item.responseName"
@@ -141,7 +140,7 @@
         </el-row>
 
         <!-- 提交按钮 -->
-        <el-row>
+        <el-row style="margin-top: 20px;">
         <el-col :span="24">
             <el-form-item>
             <el-button type="primary" @click="createForm" size="small">提交</el-button>
@@ -156,8 +155,8 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus } from '@element-plus/icons-vue'
-import {editXX, deleteXXByIds } from '@/api/template'
-import { addJob, getJobList } from '@/api/job'
+import { addJob, getJobList, deleteJobById, updateJob, startJob, pauseJob } from '@/api/job'
+import {  getOperationResponseList } from '@/api/operation'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
 
@@ -193,12 +192,19 @@ const form = reactive({
   triggerNextTime: 0,
 });
 
+const createJobForm = reactive({
+  jobDesc: '',
+  scheduleConf: '',
+  executorHandler: ''
+})
+
 const EditformRef = ref(null)
 const createFormRef = ref(null)
-const editTitle = ref('XX信息d编辑')
-const createTitle = ref('新增XX')
+const editTitle = ref('定时任务编辑')
+const createTitle = ref('新增定时任务')
 const editOn = ref(false)
 const createOn = ref(false)
+const operationResponseList = ref([])
 
 const selectedRows = ref([])
 const jobList = reactive({
@@ -212,7 +218,7 @@ const total = ref(0)
 const loading = ref(false)
 
 const createForm = () => {
-  addJob(form).then(response => {
+  addJob(createJobForm).then(response => {
     if (response.code === 200) {
       ElMessage.success('任务创建成功')
       createOn.value = false
@@ -225,19 +231,18 @@ const createForm = () => {
   })
 }
 
-
-
 const editForm = () => {
-  editXX(form).then(response => {
+  console.log('Editing Job:', form)
+  updateJob(form).then(response => {
     if (response.code === 200) {
-      ElMessage.success('XX信息更新成功')
+      ElMessage.success('任务更新成功')
       editOn.value = false
       handleQuery() 
     } else {
-      ElMessage.error('XX信息更新失败: ' + response.message)
+      ElMessage.error('任务更新失败: ' + response.message)
     }
   }).catch(error => {
-    ElMessage.error('更新XX信息失败: ' + error.message)
+    ElMessage.error('更新任务失败: ' + error.message)
   })
 }
 
@@ -252,7 +257,7 @@ const handleDeleteById = (row) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    deleteXXByIds([row.Id]).then(() => {
+    deleteJobById(row.id).then(() => {
       handleQuery() // 刷新商品列表
       ElMessage.success('删除成功 ')
     })
@@ -265,6 +270,30 @@ const handleUpdate = (row) => {
   if (row) {
     Object.assign(form, row)
     editOn.value = true
+  }
+}
+
+const handleToggleStatus = (row) => {
+  if(row.triggerStatus === 0) {
+    // 开启任务
+    startJob(row.id)
+      .then(() => {
+        ElMessage.success('任务已开启')
+        handleQuery() // 刷新任务列表
+      })
+      .catch(error => {
+        ElMessage.error('开启任务失败: ' + error.message)
+      })
+  } else {
+    // 关闭任务
+    pauseJob(row.id)
+      .then(() => {
+        ElMessage.success('任务已暂停')
+        handleQuery() // 刷新任务列表
+      })
+      .catch(error => {
+        ElMessage.error('暂停任务失败: ' + error.message)
+      })
   }
 }
 
@@ -282,21 +311,24 @@ const handleDelete = () => {
         cancelButtonText: '取消',
         type: 'warning'
     }).then(() => {
-        // 调用删除接口
-        console.log('删除的记录:', selectedRows.value)
-        const ids = selectedRows.value.map(row => row.goodId)
-        console.log('删除的ID:', ids)
-        deleteXXByIds(ids).then(() => {
-          handleQuery() // 刷新商品列表
-          ElMessage.success('删除成功')
-        })
+        const ids = selectedRows.value.map(row => row.id)
+        for(const id of ids) {
+            deleteJobById(id).then(() => {
+              handleQuery() // 刷新任务列表
+            }).catch(error => {
+              ElMessage.error('删除任务失败: ' + error.message)
+            })
+        }
+        
+        ElMessage.success('删除成功')
     }).catch(() => {
         ElMessageBox.alert('已取消删除操作')
     })
+    
 }
 
 const handleAdd = () => {
-  clearForm()
+  clearCreateJobForm()
   createOn.value = true
 }
 
@@ -317,14 +349,28 @@ const handleQuery = async () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+    await Promise.all([
+      fillOperationResponseList()
+    ])
     handleQuery()
 })
 
-const clearForm = () => {
-    form.jobDesc = ''
-    form.scheduleConf = ''
-    form.executorHandler = ''
+const fillOperationResponseList = async () => {
+  try {
+    const response = await getOperationResponseList()
+    operationResponseList.value = response.data
+    console.log('OperationResponseList:', operationResponseList.value)
+    operationResponseList.value = operationResponseList.value.filter(item => item.isUrgent == false)
+  } catch (error) {
+    console.error('获取 OperationResponseList 失败:', error)
+  }
+}
+
+const clearCreateJobForm = () => {
+    createJobForm.jobDesc = ''
+    createJobForm.scheduleConf = ''
+    createJobForm.executorHandler = ''
 }
 </script>
 

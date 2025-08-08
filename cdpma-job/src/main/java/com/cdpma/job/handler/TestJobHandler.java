@@ -1,4 +1,4 @@
-package com.cdpma.system.admin.handler.job;
+package com.cdpma.job.handler;
 
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
