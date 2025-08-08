@@ -48,15 +48,17 @@ public interface ISysOpratorService {
     /**
      * 根据操作员name 查询操作员信息
      */
-    SysOperator selectOperatorByOperatorName(String operatorName);
+    List<SysOperator> selectOperatorByOperatorName(String operatorName);
 
     /**
      * 根据操作员邮箱查看操作员信息
      */
-    SysOperator selectOperatorByOperatorEmail(String operatorEmail);
+    List<SysOperator> selectOperatorByOperatorEmail(String operatorEmail);
 
     /**
      * 根据操作员手机号查看操作员信息
      */
-    SysOperator selectOperatorByOperatorPhone(String operatorPhone);
+    List<SysOperator> selectOperatorByOperatorPhone(String operatorPhone);
+
+    List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard);
 }

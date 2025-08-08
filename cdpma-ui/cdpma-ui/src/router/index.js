@@ -136,6 +136,23 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/assistant/timedTask',
+    component: Layout,
+    redirect: '/assistant/timedTask/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/timedTaskView.vue'),
+        name: 'timedTask',
+        meta: { title: '定时任务', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/registerView.vue'), // 异步加载 Register 组件
+  },
 ]
 
 const router = createRouter({

@@ -16,13 +16,13 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="favoriteList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="favoriteList" @selection-change="handleSelectionChange" >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="goodId" width="100" />
-      <el-table-column label="商品名" align="center" prop="goodName" width="100" />
-      <el-table-column label="价格" align="center" prop="price" width="100" />
-      <el-table-column label="商品种类" align="center" prop="categoryId" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createdAt" width="200" />
+      <el-table-column label="ID" align="center" prop="goodId"  />
+      <el-table-column label="商品名" align="center" prop="goodName"  />
+      <el-table-column label="价格" align="center" prop="price"/>
+      <el-table-column label="商品种类" align="center" prop="categoryId" />
+      <el-table-column label="创建时间" align="center" prop="createdAt"  />
 
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">

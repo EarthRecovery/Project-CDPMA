@@ -34,7 +34,13 @@
                 AND operator_id = #{operatorId}
             </if>
             <if test="notificationType != null">
-                AND notification_type = #{notificationType}
+                AND notifiction_type = #{notificationType}
+            </if>
+            <if test="sender != null">
+                AND sender = #{sender}
+            </if>
+            <if test="receiver != null">
+                AND receiver = #{receiver}
             </if>
         </where>
         ORDER BY timestamp DESC

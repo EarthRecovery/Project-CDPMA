@@ -49,17 +49,22 @@ public class SysOperatorService implements ISysOpratorService {
     }
 
     @Override
-    public SysOperator selectOperatorByOperatorName(String operatorName) {
+    public List<SysOperator> selectOperatorByOperatorName(String operatorName) {
         return sysOperatorMapper.selectOperatorByOperatorName(operatorName);
     }
 
     @Override
-    public SysOperator selectOperatorByOperatorEmail(String operatorEmail) {
+    public List<SysOperator> selectOperatorByOperatorEmail(String operatorEmail) {
         return sysOperatorMapper.selectOperatorByOperatorEmail(operatorEmail);
     }
 
     @Override
-    public SysOperator selectOperatorByOperatorPhone(String operatorPhone) {
+    public List<SysOperator> selectOperatorByOperatorPhone(String operatorPhone) {
         return sysOperatorMapper.selectOperatorByOperatorPhone(operatorPhone);
+    }
+
+    @Override
+    public List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard) {
+        return sysOperatorMapper.selectOperatorByOperatorIdCard(operatorIdCard);
     }
 }

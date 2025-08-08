@@ -48,6 +48,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
         // 白名单路径直接放行
         for (String whitePath : ignoreWhiteListProperties.getWhites()) {
+            System.out.println("白名单路径: " + whitePath);
             if (Objects.equals(whitePath, request.getURI().getPath())) {
                 return chain.filter(exchange);
             }

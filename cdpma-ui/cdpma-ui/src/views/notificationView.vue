@@ -139,6 +139,7 @@ const handleQuery = () => {
   // 处理查询逻辑
   loading.value = true
   notificationList.value = []
+  console.log('Query Params:', queryParams)
   getNotificationList(queryParams).then(response => {
     notificationList.value = response.rows
     total.value = response.total

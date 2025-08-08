@@ -51,9 +51,16 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
+      </el-form-item>
+      <el-form-item style="width: 100%;">
+        <el-button
+          type="primary"
+          size="default"
+          style="width: 100%; "
+          @click.prevent="jumpToRegister"
+        >
+        <span>没有账号？立即注册！</span>
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -73,10 +80,10 @@ const route = useRoute()
 
 // 2. 登录表单数据
 const loginForm = reactive({
-  username: 'admin',
-  password: 'admin123',
-  phoneNumber: '18989352240',
-  email: 'ssyyl35@nottingham.ac.uk',
+  username: '',
+  password: '',
+  phoneNumber: '',
+  email: '',
   rememberMe: false,
   uuid: ''
 })
@@ -88,6 +95,10 @@ const redirect = ref(undefined)
 
 // 4. 表单引用
 const loginFormRef = ref(null)
+
+const jumpToRegister = () => {
+  router.push({ path: '/register' })
+}
 
 const atLeastOneValidator = (rule, value, callback) => {
   const { username, phoneNumber, email } = loginForm

@@ -39,22 +39,38 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.mchange</groupId>
-                    <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- Mysql Connector -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-job</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cdpma</groupId>
+            <artifactId>cdpma-api-system-user</artifactId>
         </dependency>
     </dependencies>
 

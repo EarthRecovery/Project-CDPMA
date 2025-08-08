@@ -42,3 +42,11 @@ export function editOperator(operator) {
     data: operator
   })
 }
+
+export function register(operator) {
+  return request({
+    url: '/auth/register',
+    method: 'post',
+    data: operator
+  })
+}

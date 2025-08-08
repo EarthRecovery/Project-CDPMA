@@ -122,6 +122,11 @@
         WHERE operator_phone = #{operatorPhone}
     </select>
 
+    <select id="selectOperatorByOperatorIdCard" parameterType="String" resultMap="SysOperatorResult">
+        <include refid="selectOperatorVo"/>
+        WHERE operator_id_card = #{operatorIdCard}
+    </select>
+
 
 
 </mapper>

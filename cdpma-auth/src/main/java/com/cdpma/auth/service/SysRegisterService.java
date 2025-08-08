@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -46,20 +47,28 @@ public class SysRegisterService {
     {
         //检查是否存在重复的name or phone or email
         AjaxResult aj_name = remoteOperatorService.getOperatorByName(operator.getOperatorName(), SecurityConstants.INNER);
-        if(aj_name.get(AjaxResult.DATA_TAG) != null){
+        if(!((ArrayList) aj_name.get(AjaxResult.DATA_TAG)).isEmpty()){
             throw new ServiceException("操作员名称已存在");
         }
         AjaxResult aj_phone = remoteOperatorService.getOperatorByPhone(operator.getOperatorPhone(), SecurityConstants.INNER);
-        if(aj_phone.get(AjaxResult.DATA_TAG) != null){
+        if(!((ArrayList) aj_phone.get(AjaxResult.DATA_TAG)).isEmpty()){
+            throw new ServiceException("操作员电话号码已存在");
+        }
+        AjaxResult aj_id_card = remoteOperatorService.getOperatorByPhone(operator.getOperatorPhone(), SecurityConstants.INNER);
+        if(!((ArrayList) aj_id_card.get(AjaxResult.DATA_TAG)).isEmpty()){
             throw new ServiceException("操作员电话号码已存在");
         }
         AjaxResult aj_email = remoteOperatorService.getOperatorByEmail(operator.getOperatorEmail(), SecurityConstants.INNER);
-        if(aj_email.get(AjaxResult.DATA_TAG) != null){
+        if(!((ArrayList) aj_email.get(AjaxResult.DATA_TAG)).isEmpty()){
             throw new ServiceException("操作员邮箱已存在");
         }
 
         // 创建operator 表
         AjaxResult operatorResult = remoteOperatorService.insertOperator(operator, SecurityConstants.INNER);
+
+        if(!operatorResult.isSuccess()){
+            throw new ServiceException("注册失败: " + operatorResult.get(AjaxResult.MSG_TAG));
+        }
 
         // 检查角色，如果是用户就创建用户表
         System.out.println(operator.getOperatorRole());

@@ -1,0 +1,28 @@
+# Tomcat
+server:
+  port: 11120
+
+# Spring
+spring:
+  application:
+    # ????
+      name: cdpma-job
+  profiles:
+    # ????
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # ??????
+        server-addr: 127.0.0.1:8848
+        group: CDPMA-GROUP
+      config:
+        # ??????
+        server-addr: 127.0.0.1:8848
+        # ??????
+        file-extension: yml
+        # ????
+        shared-configs:
+          - dataId: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        namespace: 554e482e-1c74-4e5f-844a-9c43b16f5678
+        refresh-enabled: true

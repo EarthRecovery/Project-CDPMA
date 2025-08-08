@@ -81,20 +81,26 @@ public class SysOperatorController extends BaseController {
 
     @GetMapping("/name/{operatorName}")
     public AjaxResult getOperatorByName(@PathVariable String operatorName) {
-        SysOperator operator = sysOperatorService.selectOperatorByOperatorName(operatorName);
-        return AjaxResult.success(operator);
+        List<SysOperator> operatorList = sysOperatorService.selectOperatorByOperatorName(operatorName);
+        return AjaxResult.success(operatorList);
     }
 
     @GetMapping("/email/{operatorEmail}")
     public AjaxResult getOperatorByEmail(@PathVariable String operatorEmail) {
-        SysOperator operator = sysOperatorService.selectOperatorByOperatorEmail(operatorEmail);
-        return AjaxResult.success(operator);
+        List<SysOperator> operatorList = sysOperatorService.selectOperatorByOperatorEmail(operatorEmail);
+        return AjaxResult.success(operatorList);
     }
 
     @GetMapping("/phone/{operatorPhone}")
     public AjaxResult getOperatorByPhone(@PathVariable String operatorPhone) {
-        SysOperator operator = sysOperatorService.selectOperatorByOperatorPhone(operatorPhone);
-        return AjaxResult.success(operator);
+        List<SysOperator> operatorList = sysOperatorService.selectOperatorByOperatorPhone(operatorPhone);
+        return AjaxResult.success(operatorList);
+    }
+
+    @GetMapping("/idCard/{idCardNum}")
+    public AjaxResult getOperatorByIdCard(@PathVariable String idCardNum) {
+        List<SysOperator> operatorList = sysOperatorService.selectOperatorByOperatorIdCard(idCardNum);
+        return AjaxResult.success(operatorList);
     }
 
 

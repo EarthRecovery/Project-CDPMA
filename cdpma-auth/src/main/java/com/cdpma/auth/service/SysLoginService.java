@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class SysLoginService {
 
@@ -43,7 +45,7 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，用户名长度不能超过" + OperatorConstants.MAX_OPERATOR_NAME_LENGTH + "个字符");
             }
             AjaxResult result = remoteOperatorService.getOperatorByName(operatorName, SecurityConstants.INNER);
-            Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = ((ArrayList)result.get(AjaxResult.DATA_TAG)).get(0);
             if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorName, this.targetOperator.getOperatorId(),
@@ -58,7 +60,7 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，电话号码必须为11位");
             }
             AjaxResult result = remoteOperatorService.getOperatorByPhone(operatorPhone, SecurityConstants.INNER);
-            Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = ((ArrayList)result.get(AjaxResult.DATA_TAG)).get(0);
             if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorPhone, this.targetOperator.getOperatorId(),
@@ -73,7 +75,7 @@ public class SysLoginService {
                 throw new ServiceException("登录失败，邮箱格式不正确");
             }
             AjaxResult result = remoteOperatorService.getOperatorByEmail(operatorEmail, SecurityConstants.INNER);
-            Object data = result.get(AjaxResult.DATA_TAG);
+            Object data = ((ArrayList)result.get(AjaxResult.DATA_TAG)).get(0);
             if(result.isSuccess() && data != null){
                 this.targetOperator = mapper.convertValue(data, SysOperator.class);
                 sysRecordAuthService.recordinfo(operatorEmail, this.targetOperator.getOperatorId(),
