@@ -18,4 +18,6 @@ public interface ISysCouponsService {
     int distributeCouponsById(Long couponId, Long userId);
 
     int useCouponsById(Long couponId);
+
+    List<SysCoupons> userSearchCoupons(boolean isExpired, Long operatorId);
 }

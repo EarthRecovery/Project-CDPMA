@@ -89,4 +89,9 @@ public class SysCouponsService implements ISysCouponsService {
         updateCoupons(coupons);
         return 1; // Successfully used coupon
     }
+
+    @Override
+    public List<SysCoupons> userSearchCoupons(boolean isExpired, Long operatorId) {
+        return couponsMapper.userSearchCoupons(isExpired, operatorId);
+    }
 }

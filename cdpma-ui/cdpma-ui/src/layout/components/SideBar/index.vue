@@ -41,7 +41,7 @@
             </template>
             <el-menu-item index="3-1">Good</el-menu-item>
             <el-menu-item index="3-2">Favorite</el-menu-item>
-            <el-menu-item index="3-3">item three</el-menu-item>
+            <el-menu-item index="3-3">Coupons</el-menu-item>
           </el-sub-menu>
           <el-menu-item index="4" >
             <template #title>
@@ -122,6 +122,9 @@ const handleSelect = (key) => {
   }
   else if (key === '3-2'){
     router.push({ path: '/user/favorite' })
+  }
+  else if (key === '3-3'){
+    router.push({ path: '/user/coupons' })
   }
   else if (key === '4') {
     router.push({ path: '/notification' })

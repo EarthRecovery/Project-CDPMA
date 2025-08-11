@@ -3,6 +3,7 @@ package com.cdpma.system.user.controller;
 import com.cdpma.common.core.utils.uuid.UUID;
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
+import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.log.enums.BusinessType;
 import com.cdpma.common.pojo.enums.Tag;
@@ -33,6 +34,13 @@ public class SysCouponsController extends BaseController {
     public AjaxResult list(SysCoupons coupons) {
         List<SysCoupons> list = couponsService.selectCouponsList(coupons);
         return AjaxResult.success(list);
+    }
+
+    @GetMapping("/userSearch/{isExpired}/{operatorId}")
+    public TableDataInfo userSearch(@PathVariable boolean isExpired, @PathVariable Long operatorId) {
+        startPage();
+        List<SysCoupons> list = couponsService.userSearchCoupons(isExpired, operatorId);
+        return getDataTable(list);
     }
 
     @PostMapping

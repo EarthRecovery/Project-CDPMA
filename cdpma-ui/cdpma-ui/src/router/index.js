@@ -150,6 +150,19 @@ const routes = [
     ]
   },
   {
+    path: '/user/coupons',
+    component: Layout,
+    redirect: '/user/coupons/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/couponsView.vue'),
+        name: 'coupons',
+        meta: { title: '用户优惠券', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
     path: '/register',
     component: () => import('@/views/registerView.vue'), // 异步加载 Register 组件
   },

@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item label="action" prop="action">
         <el-select
-            v-model="queryParams.status"
+            v-model="queryParams.action"
             placeholder="请选择操作类型"
             clearable
             style="width: 100px;"
@@ -137,7 +137,7 @@ const queryParams = reactive({
   pageNum: 1,
   pageSize: 6,
   operatorId: null,
-  action: null
+  action: null,
 })
 
 const form = reactive({
