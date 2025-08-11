@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item label="商品种类" prop="categoryId">
         <el-cascader
-          v-model="selectedCategories"
+          v-model="queryParams.categoryId"
           :options="categoryTree"
           :props="cascaderProps"
           placeholder="请选择商品分类"
@@ -286,10 +286,13 @@ const handleBuyAll = () => {
 }
 
 const handleQuery = () => {
-  // 处理查询逻辑
-  console.log('查询参数:', queryParams)
   loading.value = true
   goodList.value = []
+  if (Array.isArray(queryParams.categoryId)) {
+    queryParams.categoryId = queryParams.categoryId.length > 0 ? queryParams.categoryId[queryParams.categoryId.length - 1] : null;
+  } else {
+    queryParams.categoryId = queryParams.categoryId || null;
+  }
   getGoodList(queryParams).then(response => {
     // 假设 response.data 是商品列表
     goodList.value = response.rows
@@ -316,8 +319,6 @@ const resetQuery = () => {
 
 // 存储分类数据的树形结构
 const categoryTree = ref([])
-// 选中的分类
-const selectedCategories = ref([])
 
 // `el-cascader` 配置项，定义label、value和children的属性
 const cascaderProps = {
@@ -332,6 +333,7 @@ const handleSelectionChange = (row) => {
 
 const handlePageSelectionChange = (page) => {
   queryParams.pageNum = page
+  console.log(queryParams)
   handleQuery() // 刷新商品列表
 }
 

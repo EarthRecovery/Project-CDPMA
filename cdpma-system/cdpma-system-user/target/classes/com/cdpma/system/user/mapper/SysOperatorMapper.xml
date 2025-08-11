@@ -127,6 +127,13 @@
         WHERE operator_id_card = #{operatorIdCard}
     </select>
 
-
+    <select id="getOperatorUserStatData" resultType="map">
+        SELECT
+            operator_region AS region,
+            COUNT(*) AS count
+        FROM cdpma_operator
+        WHERE operator_role = 'USER'
+        GROUP BY operator_region
+    </select>
 
 </mapper>

@@ -33,6 +33,8 @@
     <file url="file://$PROJECT_DIR$/cdpma-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-job/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-stat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cdpma-stat/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-system/cdpma-system-admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-system/cdpma-system-admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cdpma-system/cdpma-system-user/src/main/java" charset="UTF-8" />

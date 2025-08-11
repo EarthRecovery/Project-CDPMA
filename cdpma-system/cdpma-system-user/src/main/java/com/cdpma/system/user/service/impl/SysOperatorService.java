@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysOperatorService implements ISysOpratorService {
@@ -66,5 +67,10 @@ public class SysOperatorService implements ISysOpratorService {
     @Override
     public List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard) {
         return sysOperatorMapper.selectOperatorByOperatorIdCard(operatorIdCard);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOperatorUserStatData() {
+        return sysOperatorMapper.getOperatorUserStatData();
     }
 }

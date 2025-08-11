@@ -3,6 +3,7 @@ package com.cdpma.system.user.service;
 import com.cdpma.common.pojo.pojo.SysOperator;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ISysOpratorService {
     /**
@@ -61,4 +62,6 @@ public interface ISysOpratorService {
     List<SysOperator> selectOperatorByOperatorPhone(String operatorPhone);
 
     List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard);
+
+    List<Map<String, Object>> getOperatorUserStatData();
 }

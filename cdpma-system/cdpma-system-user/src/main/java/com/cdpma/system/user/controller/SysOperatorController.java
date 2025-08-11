@@ -5,6 +5,7 @@ import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.log.annotation.Log;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperator;
+import com.cdpma.common.security.annotation.Logical;
 import com.cdpma.common.security.annotation.RequiresTags;
 import com.cdpma.common.security.utils.SecurityUtils;
 import com.cdpma.system.user.service.impl.SysOperatorService;
@@ -101,6 +102,12 @@ public class SysOperatorController extends BaseController {
     public AjaxResult getOperatorByIdCard(@PathVariable String idCardNum) {
         List<SysOperator> operatorList = sysOperatorService.selectOperatorByOperatorIdCard(idCardNum);
         return AjaxResult.success(operatorList);
+    }
+
+    @GetMapping("/statData")
+    @RequiresTags(value = {Tag.ADMIN, Tag.ASSISTANT}, logical = Logical.OR)
+    public AjaxResult getOperatorUserStatData() {
+        return AjaxResult.success(sysOperatorService.getOperatorUserStatData());
     }
 
 

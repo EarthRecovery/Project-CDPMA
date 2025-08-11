@@ -1,5 +1,6 @@
 package com.cdpma.common.security.aspect;
 
+import com.cdpma.common.core.constant.SecurityConstants;
 import com.cdpma.common.security.annotation.RequiresTags;
 import com.cdpma.common.security.auth.AuthUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,7 +9,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -63,6 +67,17 @@ public class PreAuthorizeAspect {
     public void checkMethodAnnotation(Method method)
     {
         // 校验 @RequiresTags 注解
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attrs != null) {
+            HttpServletRequest request = attrs.getRequest();
+            String source = request.getHeader(SecurityConstants.FROM_SOURCE);
+
+            // 这里判断source，决定是否绕过鉴权
+            if (SecurityConstants.INNER.equals(source)) {
+                // 绕过鉴权，直接返回，不抛异常
+                return;
+            }
+        }
         RequiresTags requiresTags = method.getAnnotation(RequiresTags.class);
         if (requiresTags != null)
         {

@@ -176,6 +176,19 @@ const routes = [
     ]
   },
   {
+    path: '/assistant/statistic',
+    component: Layout,
+    redirect: '/assistant/statistic/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/statisticView.vue'),
+        name: 'statistic',
+        meta: { title: '统计', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
     path: '/register',
     component: () => import('@/views/registerView.vue'), // 异步加载 Register 组件
   },

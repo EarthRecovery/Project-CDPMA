@@ -30,7 +30,7 @@
             </template>
             <el-menu-item index="2-1">Immediate Action</el-menu-item>
             <el-menu-item index="2-2">Timed Task</el-menu-item>
-            <el-menu-item index="2-3">item three</el-menu-item>
+            <el-menu-item index="2-3">Statistic</el-menu-item>
           </el-sub-menu>
 
           <!-- User -->
@@ -117,6 +117,9 @@ const handleSelect = (key) => {
   }
   else if (key === '2-2'){
     router.push({ path: '/assistant/timedTask' })
+  }
+    else if (key === '2-3'){
+    router.push({ path: '/assistant/statistic' })
   }
   else if (key === '3-1'){
     router.push({ path: '/user/good' })

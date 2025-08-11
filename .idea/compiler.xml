@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cdpma-common-pojo" />
+        <module name="stat" />
         <module name="auth" />
         <module name="log" />
         <module name="admin" />
@@ -49,6 +50,7 @@
       <module name="rabbitmq" options="" />
       <module name="redis" options="" />
       <module name="security" options="" />
+      <module name="stat" options="" />
       <module name="swagger" options="" />
       <module name="system" options="" />
       <module name="systemuser" options="" />

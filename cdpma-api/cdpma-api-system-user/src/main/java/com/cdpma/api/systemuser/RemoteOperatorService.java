@@ -45,4 +45,8 @@ public interface RemoteOperatorService {
     @GetMapping("/operator/phone/{operatorPhone}")
     public AjaxResult getOperatorByPhone(@PathVariable("operatorPhone") String operatorPhone,
                                             @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+
+    @GetMapping("/operator/statData")
+    public AjaxResult getOperatorStatData(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

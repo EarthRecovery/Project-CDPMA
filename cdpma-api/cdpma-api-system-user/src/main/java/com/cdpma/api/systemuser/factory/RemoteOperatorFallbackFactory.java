@@ -38,6 +38,11 @@ public class RemoteOperatorFallbackFactory implements FallbackFactory<RemoteOper
                 return AjaxResult.error("获取用户:" + throwable.getMessage());
             }
 
+            @Override
+            public AjaxResult getOperatorStatData(String source) {
+                return AjaxResult.error("获取操作员统计数据失败:" + throwable.getMessage());
+            }
+
         };
     }
 }

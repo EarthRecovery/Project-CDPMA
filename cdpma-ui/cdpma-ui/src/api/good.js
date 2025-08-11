@@ -76,8 +76,8 @@ export function buyGood(form, operatorId){
             "goodId": form.goodId,
             "quantity": form.quantity,
             "unitPrice": form.price,
-            "isPaid": false,
-            "isCancelled": false,
+            "paid": false,
+            "cancelled": false,
             "feedback": null,
         }
     })
