@@ -163,6 +163,19 @@ const routes = [
     ]
   },
   {
+    path: '/user/orders',
+    component: Layout,
+    redirect: '/user/orders/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ordersView.vue'),
+        name: 'orders',
+        meta: { title: '用户订单', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
     path: '/register',
     component: () => import('@/views/registerView.vue'), // 异步加载 Register 组件
   },

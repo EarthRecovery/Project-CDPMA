@@ -1,5 +1,6 @@
 package com.cdpma.system.user.service;
 
+import com.cdpma.common.pojo.dto.OrderResponseDTO;
 import com.cdpma.common.pojo.pojo.SysOrder;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ISysOrderService {
     SysOrder getOrderById(Long orderId);
 
     List<SysOrder> getAllOrders();
+
+    List<OrderResponseDTO> userSearchOrders(String goodName, Boolean isPaid, Boolean isCancelled, Long operatorId);
 }

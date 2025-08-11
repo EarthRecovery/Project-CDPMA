@@ -16,6 +16,22 @@
         <result property="feedbackScore" column="feedback_score"/>
     </resultMap>
 
+    <resultMap id="OrderResponseMap" type="com.cdpma.common.pojo.dto.OrderResponseDTO">
+        <id property="orderId" column="order_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="goodId" column="good_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="isPaid" column="is_paid"/>
+        <result property="isCancelled" column="is_cancelled"/>
+        <result property="feedback" column="feedback"/>
+        <result property="feedbackScore" column="feedback_score"/>
+        <!-- 关联的商品名 -->
+        <result property="goodName" column="good_name"/>
+    </resultMap>
+
+
     <insert id="insert" parameterType="com.cdpma.common.pojo.pojo.SysOrder">
         INSERT INTO cdpma_order (operator_id, good_id, quantity, unit_price, order_time, is_paid, is_cancelled, feedback, feedback_score)
         VALUES (#{operatorId}, #{goodId}, #{quantity}, #{unitPrice}, #{orderTime}, #{isPaid}, #{isCancelled}, #{feedback}, #{feedbackScore})
@@ -41,6 +57,25 @@
 
     <select id="selectById" resultMap="SysOrderResultMap" parameterType="long">
         SELECT * FROM cdpma_order WHERE order_id = #{orderId}
+    </select>
+
+    <select id="userSearchOrders" resultMap="OrderResponseMap" parameterType="map">
+        SELECT o.*, g.good_name
+        FROM cdpma_order o
+        LEFT JOIN cdpma_good g ON o.good_id = g.good_id
+        WHERE 1=1
+        <if test="goodName != null and goodName != ''">
+            AND g.good_name LIKE CONCAT('%', #{goodName}, '%')
+        </if>
+        <if test="operatorId != null">
+            AND o.operator_id = #{operatorId}
+        </if>
+        <if test="isPaid != null">
+            AND o.is_paid = #{isPaid}
+        </if>
+        <if test="isCancelled != null">
+            AND o.is_cancelled = #{isCancelled}
+        </if>
     </select>
 
     <select id="selectAll" resultMap="SysOrderResultMap">

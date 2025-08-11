@@ -1,6 +1,8 @@
 package com.cdpma.system.user.mapper;
 
+import com.cdpma.common.pojo.dto.OrderResponseDTO;
 import com.cdpma.common.pojo.pojo.SysOrder;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +22,7 @@ public interface SysOrderMapper {
 
     /** 查询所有订单 */
     List<SysOrder> selectAll();
+
+    List<OrderResponseDTO> userSearchOrders(@Param("goodName") String goodName, @Param("isPaid") Boolean isPaid
+            , @Param("isCancelled") Boolean isCancelled, @Param("operatorId") Long operatorId);
 }
