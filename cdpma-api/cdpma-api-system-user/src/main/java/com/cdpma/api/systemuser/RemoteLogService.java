@@ -10,6 +10,7 @@ import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.pojo.pojo.SysRuntimeLog;
 import com.cdpma.common.pojo.pojo.SysUserAction;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,4 +38,7 @@ public interface RemoteLogService {
     @PostMapping("/user-action")
     public AjaxResult insertUserAction(@RequestBody SysUserAction sysUserAction,
                                       @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/log-runtime/stat")
+    public AjaxResult getRuntimeLogStat(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

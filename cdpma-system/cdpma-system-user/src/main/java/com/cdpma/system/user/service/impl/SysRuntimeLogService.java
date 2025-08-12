@@ -6,7 +6,9 @@ import com.cdpma.system.user.service.ISysRuntimeLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysRuntimeLogService implements ISysRuntimeLogService {
@@ -31,5 +33,10 @@ public class SysRuntimeLogService implements ISysRuntimeLogService {
     @Override
     public int deleteRuntimeLogByIds(Long[] logIds) {
         return runtimeLogMapper.deleteRuntimeLogByIds(logIds);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRuntimeLogStat() {
+        return runtimeLogMapper.getRuntimeLogStat();
     }
 }

@@ -55,4 +55,9 @@ public class SysRuntimeLogController extends BaseController {
         runtimeLogService.deleteRuntimeLogByIds(logIds);
         return AjaxResult.success("运行日志删除成功");
     }
+
+    @GetMapping("/stat")
+    public AjaxResult getRuntimeLogStat() {
+        return AjaxResult.success(runtimeLogService.getRuntimeLogStat());
+    }
 }

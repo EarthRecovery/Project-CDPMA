@@ -14,3 +14,17 @@ export function refresh(){
     })
 }
 
+export function timeCostStat(){
+    return request({
+        url: `/stat/logstat/timeCost`,
+        method: 'get'
+    })
+}
+
+export function timeCostStatRefresh(){
+    return request({
+        url: `/stat/logstat/refresh`,
+        method: 'get'
+    })
+}
+

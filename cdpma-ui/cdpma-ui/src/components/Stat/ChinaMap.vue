@@ -52,6 +52,10 @@ onMounted(async () => {
     console.log('地图省份名称列表：', mapData.default.features.map(f => f.properties.name))
 
     const option = {
+      title: {
+        text: '用户省份分布',
+        left: 'center'
+      },
       tooltip: {
         trigger: 'item',
         formatter: '{b} : {c}'

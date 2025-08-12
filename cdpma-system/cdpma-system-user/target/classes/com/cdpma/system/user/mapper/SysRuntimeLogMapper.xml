@@ -63,4 +63,11 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getRuntimeLogStat" resultType="map">
+        SELECT title, AVG(cost_time) AS count
+        FROM cdpma_runtime_log
+        WHERE cost_time &lt; 3000
+        GROUP BY title
+    </select>
 </mapper>

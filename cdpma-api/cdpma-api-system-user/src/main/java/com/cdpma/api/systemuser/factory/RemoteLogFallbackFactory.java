@@ -31,6 +31,11 @@ public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogServic
                 return AjaxResult.error("添加用户行为日志: " + throwable.getMessage());
             }
 
+            @Override
+            public AjaxResult getRuntimeLogStat(String source) {
+                return AjaxResult.error("获取运行日志统计信息失败: " + throwable.getMessage());
+            }
+
         };
     }
 }

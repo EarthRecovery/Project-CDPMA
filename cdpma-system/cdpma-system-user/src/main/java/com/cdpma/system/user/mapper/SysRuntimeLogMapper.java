@@ -3,6 +3,7 @@ package com.cdpma.system.user.mapper;
 import com.cdpma.common.pojo.pojo.SysRuntimeLog;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysRuntimeLogMapper {
     /**
@@ -24,4 +25,6 @@ public interface SysRuntimeLogMapper {
      * 删除运行日志（支持批量）
      */
     int deleteRuntimeLogByIds(Long[] logIds);
+
+    List<Map<String, Object>> getRuntimeLogStat();
 }
