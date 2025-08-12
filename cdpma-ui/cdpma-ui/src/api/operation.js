@@ -7,6 +7,21 @@ export function getOperationTriggerList() {
   })
 }
 
+export function getTriggerById(id) {
+  return request({
+    url: `/system-admin/operation-trigger-condition/${id}`,
+    method: 'get',
+  })
+}
+
+export function editTriggerAPI(data){
+  return request({
+    url: `/system-admin/operation-trigger-condition`,
+    method: 'put',
+    data: data,
+  })
+}
+
 export function addOperationTrigger(data) {
   return request({
     url: '/system-admin/operation-trigger-condition',

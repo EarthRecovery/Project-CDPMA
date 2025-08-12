@@ -13,4 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface UserAction {
 
     UserActionType value() default UserActionType.DEFAULT;
+
+    boolean hasRule() default false;
 }

@@ -73,6 +73,12 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="primary" plain size="small" @click="handleTriggerEdit">
+        <plus />
+        修改触发器
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button type="primary" plain size="small" @click="handleImmediateActionAdd">
         <plus />
         新增ImmediateAction
@@ -247,6 +253,15 @@
         </el-col>
         </el-row>
 
+
+        <!-- 第三行 -->
+        <el-row>
+          <el-col>
+            <el-form-item label="规则">
+            {{ operationRule }}
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 提交按钮 -->
         <el-row>
         <el-col :span="24">
@@ -274,6 +289,15 @@
         </el-col>
         </el-row>
 
+        <!-- 第二行 -->
+        <el-row :gutter="20">
+        <el-col :span="8">
+            <el-form-item label="规则">
+            <el-input v-model="triggerForm.rule" placeholder="请输入规则" />
+            </el-form-item>
+        </el-col>
+        </el-row>
+
         <!-- 提交按钮 -->
         <el-row>
         <el-col :span="24">
@@ -284,13 +308,69 @@
         </el-row>
       </el-form>
     </el-dialog>
+
+
+    <el-dialog :title="triggerEditTitle" v-model="triggerEdit" width="780px">
+      <el-form :model="triggerEditForm" label-width="80px" ref="createFormRef">
+        <el-row>
+          <el-col>
+            <el-select
+              v-model="selectedTriggerConditionId"
+              placeholder="请选择触发器"
+              style="width: 200px;"
+            >
+              <el-option
+                v-for="item in operationTriggerList"
+                :key="item.conditionId"
+                :label="`${item.description} - ${item.conditionName}`"
+                :value="item.conditionId"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
+
+
+        <!-- 第一行 -->
+        <el-row :gutter="20">
+        <el-col :span="8" style="padding-left:40px;">
+            <el-form-item label="conditionName">
+            <el-input v-model="triggerEditForm.conditionName" placeholder="请输入name" />
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
+            <el-form-item label="description">
+            <el-input v-model="triggerEditForm.description" placeholder="请输入description" />
+            </el-form-item>
+        </el-col>
+        </el-row>
+
+        <!-- 第二行 -->
+        <el-row :gutter="20">
+        <el-col :span="8">
+            <el-form-item label="规则">
+            <el-input v-model="triggerEditForm.rule" placeholder="请输入规则" />
+            </el-form-item>
+        </el-col>
+        </el-row>
+
+        <!-- 提交按钮 -->
+        <el-row>
+        <el-col :span="24">
+            <el-form-item>
+            <el-button type="primary" @click="editTrigger" size="small">提交</el-button>
+            </el-form-item>
+        </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, watch } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { getOperationTriggerList, getOperationResponseList, getOperationList, addOperationTrigger, addOperation, editOperation } from '@/api/operation'
+import { getOperationTriggerList, getOperationResponseList,editTriggerAPI,
+   getOperationList, addOperationTrigger, addOperation, editOperation, getTriggerById } from '@/api/operation'
 import {  deleteXXByIds } from '@/api/template'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
@@ -307,14 +387,55 @@ const form = reactive({
   triggerCondition: '',
   operationResponse: '',
   operationDescription: '',
-  isEnabled: ''
+  isEnabled: '',
 })
 
 const triggerForm = reactive({
   conditionName: '',
   description: '',
   isUrgent: true,
+  rule: ''
 })
+
+const triggerEditForm = reactive({
+  conditionId: null,
+  conditionName: '',
+  description: '',
+  isUrgent: true,
+  rule: ''
+})
+
+const operationRule = ref('')
+const selectedTriggerConditionId = ref(null)
+
+watch(selectedTriggerConditionId, (newVal) => {
+  console.log('selectedTriggerConditionId 改变了:', newVal);
+  getTriggerById(newVal).then(response => {
+    if (response.code === 200) {
+      Object.assign(triggerEditForm, response.data);
+      triggerEditForm.conditionId = newVal;
+    } else {
+      ElMessage.error('获取触发器信息失败: ' + response.message);
+    }
+  }).catch(error => {
+    ElMessage.error('获取触发器信息失败: ' + error.message);
+  });
+});
+
+const editTrigger = () => {
+  editTriggerAPI(triggerEditForm).then(response => {
+    if (response.code === 200) {
+      ElMessage.success('触发器编辑成功')
+      triggerEdit.value = false
+      fillOperationTriggerList() // 刷新触发器列表
+      handleQuery() // 刷新操作列表
+    } else {
+      ElMessage.error('触发器编辑失败: ' + response.message)
+    }
+  }).catch(error => {
+    ElMessage.error('编辑触发器失败: ' + error.message)
+  });
+}
 
 const triggerAddOn = ref(false)
 const triggerAddTitle = ref("新增触发器")
@@ -324,6 +445,8 @@ const addOperationTitle = ref('增加操作')
 const addOperationOn = ref(false)
 const editOperationOn = ref(false)
 const editOperationTitle = ref('编辑操作')
+const triggerEdit = ref(false)
+const triggerEditTitle = ref('编辑触发器')
 
 const selectedRows = ref([])
 const operationList = ref([])
@@ -361,8 +484,22 @@ const handleDeleteById = (row) => {
 const handleUpdate = (row) => {
   if (row) {
     Object.assign(form, row)
+    getTriggerById(row.triggerConditionId).then(response => {
+      if (response.code === 200) {
+        operationRule.value = response.data.rule
+      } else {
+        ElMessage.error('获取触发器信息失败: ' + response.message)
+      }
+    }).catch(error => {
+      ElMessage.error('获取触发器信息失败: ' + error.message)
+    })
     editOperationOn.value = true
   }
+}
+
+const handleTriggerEdit = () => {
+  clearTriggerEditForm()
+  triggerEdit.value = true
 }
 
 const handleSelectionChange = (row) => {
@@ -513,6 +650,13 @@ const clearForm = () => {
   form.operationResponse = ''
   form.operationDescription = ''
   form.isEnabled = ''
+}
+
+const clearTriggerEditForm = () => {
+  triggerEditForm.conditionId = null,
+  triggerEditForm.conditionName = ''
+  triggerEditForm.description = ''
+  triggerEditForm.isEnabled = ''
 }
 
 </script>

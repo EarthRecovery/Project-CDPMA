@@ -1,5 +1,6 @@
 package com.cdpma.system.admin.service.impl;
 
+import com.cdpma.common.pojo.dto.OperationMapperDTO;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.security.utils.SecurityUtils;
@@ -47,16 +48,24 @@ public class SysOperationService implements ISysOperationService {
     }
 
     @Override
-    public Map<String, List<String>> getOperationMap() {
-        Map<String, List<String>> operationMap = new HashMap<>();
+    public Map<OperationMapperDTO, List<String>> getOperationMap() {
+        Map<OperationMapperDTO, List<String>> operationMap = new HashMap<>();
         List<HashMap<String, String>> retList = operationMapper.getOperationMap();
 
         for (HashMap<String, String> map : retList) {
-            String key = map.get("conditionName");
-            String value = map.get("responseName");
+            String conditionName = map.get("conditionName");
+            String responseName = map.get("responseName");
+            String rule = map.get("rule");
 
-            // 如果 key 已存在，直接添加；否则新建 List
-            operationMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+            OperationMapperDTO operationMapperDTO = new OperationMapperDTO();
+            operationMapperDTO.setConditionName(conditionName);
+            operationMapperDTO.setRule(rule);
+            if(!operationMap.containsKey(operationMapperDTO)) {
+                operationMap.put(operationMapperDTO, new ArrayList<>());
+                operationMap.get(operationMapperDTO).add(responseName);
+            }else{
+                operationMap.get(operationMapperDTO).add(responseName);
+            }
         }
         return operationMap;
     }

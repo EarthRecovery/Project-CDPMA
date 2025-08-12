@@ -10,10 +10,11 @@
         <result property="conditionName" column="condition_name"/>
         <result property="isUrgent" column="is_urgent"/>
         <result property="description" column="description"/>
+        <result property="rule" column="rule"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        condition_id, condition_name, is_urgent, description
+        condition_id, condition_name, is_urgent, description, rule
     </sql>
 
     <select id="selectConditionById" resultMap="ConditionResultMap" parameterType="Long">
@@ -43,15 +44,28 @@
     </select>
 
     <insert id="insertCondition" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
-        INSERT INTO cdpma_operation_trigger_condition (condition_name, is_urgent, description)
-        VALUES (#{conditionName}, #{isUrgent}, #{description})
+        INSERT INTO cdpma_operation_trigger_condition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conditionName != null and conditionName != ''">condition_name,</if>
+            <if test="isUrgent != null">is_urgent,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="rule != null and rule != ''">rule,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="conditionName != null and conditionName != ''">#{conditionName},</if>
+            <if test="isUrgent != null">#{isUrgent},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="rule != null and rule != ''">#{rule},</if>
+        </trim>
     </insert>
+
 
     <update id="updateCondition" parameterType="com.cdpma.common.pojo.pojo.SysOperationTriggerCondition">
         UPDATE cdpma_operation_trigger_condition
         SET condition_name = #{conditionName},
             is_urgent = #{isUrgent},
-            description = #{description}
+            description = #{description},
+            rule = #{rule}
         WHERE condition_id = #{conditionId}
     </update>
 

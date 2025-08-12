@@ -1,5 +1,7 @@
 package com.cdpma.system.admin.handler;
 
+import com.cdpma.common.core.utils.RuleUtils;
+import com.cdpma.common.pojo.dto.OperationMapperDTO;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.pojo.pojo.SysOperationTriggerCondition;
 import com.cdpma.common.pojo.pojo.SysUserAction;
@@ -21,18 +23,21 @@ public class TriggerHandler {
     @Autowired
     private StartUpExecutor startUpExecutor;
 
-    public void trigger(SysUserAction action, Object args) {
+    public void trigger(SysUserAction action, Object args) throws Exception {
         // 处理触发逻辑
         // 这里可以添加具体的业务逻辑代码
 
         // 查看是否对应操作触发条件
-        Map<String, List<String>> operationMap = sysOperationService.getOperationMap();
+        Map<OperationMapperDTO, List<String>> operationMap = sysOperationService.getOperationMap();
 
         Boolean isTrigger = false;
         // 这里可以满足多个触发条件的情况
-        for(Map.Entry<String, List<String>> entry : operationMap.entrySet()) {
-            // 检查条件是否满足
-            if (Objects.equals(entry.getKey(), action.getActionType())) {
+        for(Map.Entry<OperationMapperDTO, List<String>> entry : operationMap.entrySet()) {
+            if (Objects.equals(entry.getKey().getConditionName(), action.getActionType())) {
+                // 检查条件是否满足
+                if(entry.getKey().getRule() != null){
+                    if(!RuleUtils.meetRule(entry.getKey().getRule(), args)) continue;
+                }
                 // 执行相应的操作
                 for(String value : entry.getValue()) {
                     startUpExecutor.execute(value, args, action);

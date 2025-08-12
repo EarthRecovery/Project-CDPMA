@@ -75,6 +75,7 @@
     <select id="getOperationMap" resultType="java.util.HashMap">
         SELECT
             tc.condition_name AS conditionName,
+            tc.rule           AS rule,
             r.response_name   AS responseName
         FROM cdpma_operation o
                  JOIN cdpma_operation_trigger_condition tc

@@ -8,6 +8,7 @@ public class SysOperationTriggerCondition extends BaseEntity {
     private String conditionName;   // 触发条件名称
     private Boolean isUrgent;       // 及时/非及时
     private String description;     // 解释
+    private String rule;          // 规则
 
     public Long getConditionId() {
         return conditionId;
@@ -43,6 +44,14 @@ public class SysOperationTriggerCondition extends BaseEntity {
         this.description = description;
     }
 
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
+    }
+
     @Override
     public String toString() {
         return "SysOperationTriggerCondition{" +
@@ -50,6 +59,7 @@ public class SysOperationTriggerCondition extends BaseEntity {
                 ", conditionName='" + conditionName + '\'' +
                 ", isUrgent=" + isUrgent +
                 ", description='" + description + '\'' +
+                ", rule='" + rule + '\'' +
                 '}';
     }
 }

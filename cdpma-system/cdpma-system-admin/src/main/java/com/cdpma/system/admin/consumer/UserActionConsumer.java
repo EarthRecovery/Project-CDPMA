@@ -26,7 +26,7 @@ public class UserActionConsumer {
     TriggerHandler triggerHandler;
 
     @RabbitListener(queues = RabbitMQConfig.RABBITMQ_USER_ACTION_TOPIC, containerFactory = "rabbitListenerContainerFactory")
-    public void handleUserAction(Message message) throws JsonProcessingException {
+    public void handleUserAction(Message message) throws Exception {
         String json = new String(message.getBody(), StandardCharsets.UTF_8);
         ObjectMapper mapper = new ObjectMapper();
         JavaType type = mapper.getTypeFactory().constructParametricType(BaseDTO.class, SysUserAction.class);
