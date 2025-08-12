@@ -1,10 +1,24 @@
 <template>
+  <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          size="small"
+          @click="handleQuery"
+        >
+        <search />
+        查询
+        </el-button>
+      </el-col>
+    </el-row>
+
   <div ref="chartRef" style="width: 100%; height: 400px;"></div>
 </template>
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, getCurrentInstance } from 'vue'
-import { operatorMapStat } from '@/api/stat'
+import { operatorMapStat, refresh } from '@/api/stat'
 
 // 省份示例数据
 var data = [
@@ -115,6 +129,13 @@ onBeforeUnmount(() => {
     chart.dispose()
   }
 })
+
+const handleQuery = () => {
+  refresh().then(response => {
+    console.log('刷新后的统计数据:', response.data)
+    data = transfer(response.data)
+  })
+}
 
 const transfer = (data) => {
     console.log('原始数据:', data);

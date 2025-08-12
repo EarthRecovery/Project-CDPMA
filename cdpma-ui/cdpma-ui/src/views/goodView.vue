@@ -349,6 +349,8 @@ onMounted(() => {
   }).catch(error => {
     ElMessage.error('获取商品分类失败: ' + error.message)
   })
+
+  handleQuery() // 初始加载商品列表
 })
 
 </script>

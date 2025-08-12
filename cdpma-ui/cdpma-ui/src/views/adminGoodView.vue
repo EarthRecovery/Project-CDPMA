@@ -411,6 +411,8 @@ onMounted(() => {
   }).catch(error => {
     ElMessage.error('获取商品分类失败: ' + error.message)
   })
+
+  handleQuery() 
 })
 
 const clearForm = () => {

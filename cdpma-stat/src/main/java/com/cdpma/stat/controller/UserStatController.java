@@ -23,4 +23,11 @@ public class UserStatController extends BaseController {
         return AjaxResult.success(result);
     }
 
+    @GetMapping("/refresh")
+    private AjaxResult refresh() {
+        // 清除缓存
+        Map<String, Integer> result = userStatService.refresh();
+        return AjaxResult.success(result);
+    }
+
 }
