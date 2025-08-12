@@ -26,7 +26,7 @@
         />
       </el-form-item>
       <el-form-item label="价格范围" prop="priceRange">
-      <el-row gutter={10}>
+      <el-row :gutter="10">
         <el-col :span="11">
           <el-input-number
             v-model="queryParams.priceLow"
@@ -90,7 +90,7 @@
           <edit />
           购买
           </el-button>
-          <el-button size="small" type="text"  @click="handleFavorite(row)">
+          <el-button size="small" type="text" @click="handleFavorite(row)">
           <delete />  
           收藏
           </el-button>

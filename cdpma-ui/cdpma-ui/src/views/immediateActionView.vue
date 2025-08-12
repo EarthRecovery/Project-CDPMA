@@ -89,7 +89,6 @@
           type="danger"
           plain
           size="small"
-          :disabled="multiple"
           @click="handleDelete"
         >
         <delete />
@@ -106,7 +105,7 @@
       <el-table-column label="描述" align="center" prop="operationDescription"/>
       <el-table-column label="是否启用" align="center" prop="isEnabled">
         <template #default="{ row }">
-          <el-tag :type="row.isEnabled ? 'true' : 'false'">
+          <el-tag :type="row.isEnabled ? 'success' : 'danger'">
             {{ row.isEnabled ? '是' : '否' }}
           </el-tag>
         </template>

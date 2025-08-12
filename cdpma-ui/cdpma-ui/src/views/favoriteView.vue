@@ -7,7 +7,6 @@
           type="danger"
           plain
           size="small"
-          :disabled="multiple"
           @click="handleDelete"
         >
         <delete />

@@ -1,11 +1,9 @@
 <template>
   <section class="head-bar">
     <el-menu
-    :default-active="activeIndex"
     class="el-menu-demo"
     mode="horizontal"
     :ellipsis="false"
-    @select="handleSelect"
   >
     <el-menu-item index="0">
         <h1>CDPMA</h1>

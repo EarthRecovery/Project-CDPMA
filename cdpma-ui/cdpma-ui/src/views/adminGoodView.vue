@@ -26,7 +26,7 @@
         />
       </el-form-item>
       <el-form-item label="价格范围" prop="priceRange">
-      <el-row gutter={10}>
+      <el-row :gutter="10">
         <el-col :span="11">
           <el-input-number
             v-model="queryParams.priceLow"
@@ -72,7 +72,7 @@
           type="danger"
           plain
           size="small"
-          :disabled="multiple"
+
           @click="handleDelete"
         >
         <delete />
@@ -98,7 +98,7 @@
           <edit />
           修改
           </el-button>
-          <el-button size="small" type="text"  @click="handleDeleteById(row)">
+          <el-button size="small" type="text" @click="handleDeleteById(row)">
           <delete />  
           删除
           </el-button>

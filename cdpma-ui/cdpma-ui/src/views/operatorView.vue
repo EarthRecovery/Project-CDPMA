@@ -66,7 +66,6 @@
           type="danger"
           plain
           size="small"
-          :disabled="multiple"
           @click="handleDelete"
         >
         <delete />
@@ -93,8 +92,8 @@
           <edit />
           修改
           </el-button>
-          <el-button size="small" type="text"  @click="handleDeleteById(row)">
-          <delete />  
+          <el-button size="small" type="text" @click="handleDeleteById(row)">
+          <delete />
           删除
           </el-button>
         </template>
@@ -338,7 +337,6 @@ const title = ref('')
 const EditOpen = ref(false)
 const AddOpen = ref(false)
 const loading = ref(false)
-const multiple = ref(false)
 const total = ref(0)
 const EditformRef = ref(null)
 const AddformRef = ref(null)

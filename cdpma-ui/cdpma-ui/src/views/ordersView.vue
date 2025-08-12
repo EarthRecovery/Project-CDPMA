@@ -62,8 +62,8 @@
           <delete />  
           详情
           </el-button>
-          <el-button size="small" type="text"  @click="handleCancel(row) " v-if="row.paid == false && row.cancelled == false">
-          <delete />  
+          <el-button size="small" type="text"  @click="handleCancel(row)" v-if="row.paid == false && row.cancelled == false">
+          <delete />
           取消
           </el-button>
         </template>
@@ -212,6 +212,7 @@ const showSearch = ref(true)
 const total = ref(0)
 
 const loading = ref(false)
+const detailTitle = ref('订单详情')
 
 const handlePageSelectionChange = (page) => {
   queryParams.pageNum = page

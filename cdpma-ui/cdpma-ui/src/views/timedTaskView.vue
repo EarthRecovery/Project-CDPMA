@@ -13,7 +13,6 @@
           type="danger"
           plain
           size="small"
-          :disabled="multiple"
           @click="handleDelete"
         >
         <delete />
@@ -39,7 +38,7 @@
           <edit />
           修改
           </el-button>
-          <el-button size="small" type="text"  @click="handleDeleteById(row)">
+          <el-button size="small" type="text" @click="handleDeleteById(row)">
           <delete />  
           删除
           </el-button>
