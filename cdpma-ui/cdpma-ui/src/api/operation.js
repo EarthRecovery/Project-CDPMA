@@ -15,6 +15,22 @@ export function addOperationTrigger(data) {
   })
 }
 
+export function addOperation(data) {
+  return request({
+    url: '/system-admin/operation',
+    method: 'post',
+    data: data,
+  })
+}
+
+export function editOperation(data) {
+  return request({
+    url: `/system-admin/operation`,
+    method: 'put',
+    data: data,
+  })
+}
+
 export function getOperationResponseList() {
   return request({
     url: '/system-admin/operation-response/all',

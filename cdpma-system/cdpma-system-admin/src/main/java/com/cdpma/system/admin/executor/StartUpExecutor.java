@@ -1,6 +1,7 @@
 package com.cdpma.system.admin.executor;
 
 import com.cdpma.api.systemuser.RemoteNotificationService;
+import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.system.admin.constant.ClassNameConstant;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class StartUpExecutor {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public void execute(String target, Object args) {
+    public void execute(String target, Object args, SysUserAction sysUserAction) {
         List<String> targetList = Arrays.asList(target.split(":"));
         if (targetList.size() < 2) {
             throw new IllegalArgumentException("Invalid target format. Expected format: 'className:methodName'");
@@ -31,8 +32,9 @@ public class StartUpExecutor {
             throw new RuntimeException("Class not found: " + className, e);
         }
 
-        Class<?>[] paramTypes = new Class[1];
+        Class<?>[] paramTypes = new Class[2];
         paramTypes[0] = Object.class;
+        paramTypes[1] = SysUserAction.class;
 
         Object bean = applicationContext.getBean(clazz);
         Method method;
@@ -43,7 +45,7 @@ public class StartUpExecutor {
         }
 
         try{
-            method.invoke(bean, args);
+            method.invoke(bean,(Object) args, sysUserAction);
         }catch(Exception e){
             throw new RuntimeException("Failed to invoke method: " + methodName + " in class " + className, e);
         }

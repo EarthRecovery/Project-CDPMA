@@ -81,5 +81,6 @@
                       ON o.trigger_condition_id = tc.condition_id
                  JOIN cdpma_operation_response r
                       ON o.operation_response = r.response_id
+        WHERE o.is_enabled = 1
     </select>
 </mapper>

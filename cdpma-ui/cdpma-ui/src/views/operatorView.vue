@@ -315,12 +315,13 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,onMounted } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
 // import operator from '@/store/modules/operator'
 import { getOperatorList, deleteOperatorByIds, addOperator, editOperator } from '@/api/operator'
 import { ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import { nextTick } from 'vue'
+
 
 
 const dictStore = reactive({
@@ -537,12 +538,16 @@ const openEditDialog = () => {
   })
 }
 
-  const openAddDialog = () => {
-    AddOpen.value = true
-    nextTick(() => {
-      AddformRef.value?.clearValidate()
-    })
-  }
+const openAddDialog = () => {
+  AddOpen.value = true
+  nextTick(() => {
+    AddformRef.value?.clearValidate()
+  })
+}
+
+onMounted(() => {
+  getList()
+})
 
 const clearForm = () => {
   form.operatorId = ''

@@ -202,7 +202,7 @@ const handleQuery = () => {
 }
 
 onMounted(() => {
-
+  handleQuery()
 })
 
 </script>

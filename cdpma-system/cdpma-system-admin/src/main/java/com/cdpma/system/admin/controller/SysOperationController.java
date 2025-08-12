@@ -3,7 +3,11 @@ package com.cdpma.system.admin.controller;
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.core.web.page.TableDataInfo;
+import com.cdpma.common.log.annotation.Log;
+import com.cdpma.common.log.enums.BusinessType;
+import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperation;
+import com.cdpma.common.security.annotation.RequiresTags;
 import com.cdpma.system.admin.service.ISysOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +33,8 @@ public class SysOperationController extends BaseController {
     }
 
     @PostMapping
+    @RequiresTags(value = {Tag.ASSISTANT, Tag.ADMIN})
+    @Log(title = "新增操作", businessType = BusinessType.INSERT)
     public AjaxResult add(@RequestBody SysOperation operation) {
         operationService.insertOperation(operation);
         return AjaxResult.success("新增操作成功");

@@ -1,5 +1,6 @@
 package com.cdpma.system.admin.service.impl;
 
+import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.security.utils.SecurityUtils;
 import com.cdpma.system.admin.mapper.SysOperationMapper;
@@ -29,6 +30,7 @@ public class SysOperationService implements ISysOperationService {
     public int insertOperation(SysOperation operation) {
         operation.setCreatedBy(SecurityUtils.getOperatorId());
         operation.setCreateTime(new Date());
+        operation.setOperationPermission(Tag.ASSISTANT);
         return operationMapper.insertOperation(operation);
     }
 

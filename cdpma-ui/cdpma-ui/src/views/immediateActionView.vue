@@ -73,6 +73,12 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="primary" plain size="small" @click="handleImmediateActionAdd">
+        <plus />
+        新增ImmediateAction
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button
           type="danger"
           plain
@@ -121,43 +127,57 @@
       @update:current-page="handlePageSelectionChange"
     />
 
-    <el-dialog :title="editTitle" v-model="editOn" width="780px">
+    <el-dialog :title="addOperationTitle" v-model="addOperationOn" width="780px">
       <el-form :model="form" label-width="80px" ref="EditformRef">
         <!-- 第一行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="ID">
-            <span>{{ form.Id }}</span>
-            </el-form-item>
+            <el-select
+            v-model="form.triggerConditionId"
+            placeholder="请选择触发器"
+            style="width: 200px;"
+          >
+            <el-option
+              v-for="item in operationTriggerList"
+              :key="item.conditionId"
+              :label="`${item.description} - ${item.conditionName}`"
+              :value="item.conditionId"
+            />
+          </el-select>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="name">
-            <el-input v-model="form.Name" placeholder="请输入name" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param1">
-            <el-input v-model="form.form1" placeholder="请输入param1" />
-            </el-form-item>
+            <el-select
+            v-model="form.operationResponse"
+            placeholder="请选择响应"
+            style="width: 200px;"
+          >
+            <el-option
+              v-for="item in operationResponseList"
+              :key="item.responseId"
+              :label="`${item.description} - ${item.responseName}`"
+              :value="item.responseId"
+            />
+          </el-select>
         </el-col>
         </el-row>
 
         <!-- 第二行 -->
         <el-row :gutter="20">
         <el-col :span="8">
-            <el-form-item label="param2">
-            <el-input v-model="form.form2" placeholder="请输入param2" />
+            <el-form-item label="description">
+            <el-input v-model="form.operationDescription" placeholder="请输入description" />
             </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="param3">
-            <el-input v-model="form.form3" placeholder="请输入param3" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="8">
-            <el-form-item label="param4">
-            <el-input v-model="form.form4" placeholder="请输入param4" />
-            </el-form-item>
+          <el-form-item label="是否启用">
+            <el-switch
+              v-model="form.isEnabled"
+              active-text="是"
+              inactive-text="否"
+              :active-value="true"
+              :inactive-value="false"
+            />
+          </el-form-item>
         </el-col>
         </el-row>
 
@@ -165,7 +185,73 @@
         <el-row>
         <el-col :span="24">
             <el-form-item>
-            <el-button type="primary" @click="editForm" size="small">提交</el-button>
+            <el-button type="primary" @click="addFormOperation" size="small">提交</el-button>
+            </el-form-item>
+        </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
+
+
+    <el-dialog :title="editOperationTitle" v-model="editOperationOn" width="780px">
+      <el-form :model="form" label-width="80px" ref="EditformRef">
+        <!-- 第一行 -->
+        <el-row :gutter="20">
+        <el-col :span="8">
+            <el-select
+            v-model="form.triggerConditionId"
+            placeholder="请选择触发器"
+            style="width: 200px;"
+          >
+            <el-option
+              v-for="item in operationTriggerList"
+              :key="item.conditionId"
+              :label="`${item.description} - ${item.conditionName}`"
+              :value="item.conditionId"
+            />
+          </el-select>
+        </el-col>
+        <el-col :span="8">
+            <el-select
+            v-model="form.operationResponse"
+            placeholder="请选择响应"
+            style="width: 200px;"
+          >
+            <el-option
+              v-for="item in operationResponseList"
+              :key="item.responseId"
+              :label="`${item.description} - ${item.responseName}`"
+              :value="item.responseId"
+            />
+          </el-select>
+        </el-col>
+        </el-row>
+
+        <!-- 第二行 -->
+        <el-row :gutter="20">
+        <el-col :span="8">
+            <el-form-item label="description">
+            <el-input v-model="form.operationDescription" placeholder="请输入description" />
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否启用">
+            <el-switch
+              v-model="form.isEnabled"
+              active-text="是"
+              inactive-text="否"
+              :active-value="true"
+              :inactive-value="false"
+            />
+          </el-form-item>
+        </el-col>
+        </el-row>
+
+        <!-- 提交按钮 -->
+        <el-row>
+        <el-col :span="24">
+            <el-form-item>
+            <el-button type="primary" @click="editFormOperation" size="small">提交</el-button>
             </el-form-item>
         </el-col>
         </el-row>
@@ -204,8 +290,8 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { Edit, Delete, Plus, Search, Refresh } from '@element-plus/icons-vue'
-import { getOperationTriggerList, getOperationResponseList, getOperationList, addOperationTrigger } from '@/api/operation'
-import {  editXX, deleteXXByIds } from '@/api/template'
+import { getOperationTriggerList, getOperationResponseList, getOperationList, addOperationTrigger, addOperation, editOperation } from '@/api/operation'
+import {  deleteXXByIds } from '@/api/template'
 
 import { ElMessage, ElPagination, ElMessageBox } from 'element-plus'
 
@@ -218,7 +304,6 @@ const queryParams = reactive({
 })
 
 const form = reactive({
-  operationId: null,
   triggerCondition: '',
   operationResponse: '',
   operationDescription: '',
@@ -235,8 +320,10 @@ const triggerAddOn = ref(false)
 const triggerAddTitle = ref("新增触发器")
 const EditformRef = ref(null)
 const createFormRef = ref(null)
-const editTitle = ref('XX信息编辑')
-const editOn = ref(false)
+const addOperationTitle = ref('增加操作')
+const addOperationOn = ref(false)
+const editOperationOn = ref(false)
+const editOperationTitle = ref('编辑操作')
 
 const selectedRows = ref([])
 const operationList = ref([])
@@ -250,20 +337,6 @@ const loading = ref(false)
 const operationTriggerList = ref([])
 const operationResponseList = ref([])
 
-
-const editForm = () => {
-  editXX(form).then(response => {
-    if (response.code === 200) {
-      ElMessage.success('XX信息更新成功')
-      editOn.value = false
-      handleQuery() 
-    } else {
-      ElMessage.error('XX信息更新失败: ' + response.message)
-    }
-  }).catch(error => {
-    ElMessage.error('更新XX信息失败: ' + error.message)
-  })
-}
 
 const handlePageSelectionChange = (page) => {
   queryParams.pageNum = page
@@ -288,12 +361,17 @@ const handleDeleteById = (row) => {
 const handleUpdate = (row) => {
   if (row) {
     Object.assign(form, row)
-    editOn.value = true
+    editOperationOn.value = true
   }
 }
 
 const handleSelectionChange = (row) => {
     selectedRows.value = row
+}
+
+const handleImmediateActionAdd = () => {
+  clearForm()
+  addOperationOn.value = true
 }
 
 const handleDelete = () => {
@@ -346,6 +424,34 @@ const createTrigger = () => {
   })
 }
 
+const addFormOperation = () => {
+  addOperation(form).then(response => {
+    if (response.code === 200) {
+      ElMessage.success('操作添加成功')
+      addOperationOn.value = false
+      handleQuery() // 刷新操作列表
+    } else {
+      ElMessage.error('操作添加失败: ' + response.message)
+    }
+  }).catch(error => {
+    ElMessage.error('添加操作失败: ' + error.message)
+  })
+}
+
+
+const editFormOperation = () => {
+  editOperation(form).then(response => {
+    if (response.code === 200) {
+      ElMessage.success('操作编辑成功')
+      editOperationOn.value = false
+      handleQuery() // 刷新操作列表
+    } else {
+      ElMessage.error('操作编辑失败: ' + response.message)
+    }
+  }).catch(error => {
+    ElMessage.error('编辑操作失败: ' + error.message)
+  })
+}
 
 const handleQuery = () => {
   // 处理查询逻辑
@@ -400,6 +506,13 @@ const editOperationList = (list) => {
     item.triggerConditionName = operationTriggerList.value.find(trigger => trigger.conditionId === item.triggerConditionId)?.conditionName || ''
     item.operationResponseName = operationResponseList.value.find(response => response.responseId === item.operationResponse)?.responseName || ''
   })
+}
+
+const clearForm = () => {
+  form.triggerCondition = ''
+  form.operationResponse = ''
+  form.operationDescription = ''
+  form.isEnabled = ''
 }
 
 </script>

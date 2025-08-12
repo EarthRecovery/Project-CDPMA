@@ -3,6 +3,8 @@ package com.cdpma.system.user.controller;
 import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.core.web.page.TableDataInfo;
+import com.cdpma.common.log.annotation.UserAction;
+import com.cdpma.common.log.enums.UserActionType;
 import com.cdpma.common.pojo.pojo.SysFavoritesRecord;
 import com.cdpma.common.pojo.pojo.SysGood;
 import com.cdpma.common.security.utils.SecurityUtils;
@@ -31,6 +33,7 @@ public class SysFavoritesRecordController extends BaseController {
     }
 
     @PostMapping
+    @UserAction(value= UserActionType.FAVORITE_ADD)
     public AjaxResult add(@RequestBody SysFavoritesRecord record) {
         if(favoritesRecordService.hasFavoriteRecord(record)){
             return AjaxResult.error("已经存在收藏记录");

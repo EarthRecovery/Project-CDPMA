@@ -35,7 +35,7 @@ public class TriggerHandler {
             if (Objects.equals(entry.getKey(), action.getActionType())) {
                 // 执行相应的操作
                 for(String value : entry.getValue()) {
-                    startUpExecutor.execute(value, args);
+                    startUpExecutor.execute(value, args, action);
                 }
                 // 成功触发
                 isTrigger = true;

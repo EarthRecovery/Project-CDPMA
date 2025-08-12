@@ -54,7 +54,7 @@
       <el-table-column label="取消状态" align="center" prop="cancelled" />
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
-          <el-button size="small" type="text" @click="handlePay(row)" v-if="row.paid == false">
+          <el-button size="small" type="text" @click="handlePay(row)" v-if="row.paid == false && row.cancelled == false">
           <edit />
           支付
           </el-button>
@@ -84,7 +84,7 @@
             <el-row :gutter="20">
             <el-col :span="8">
                 <el-form-item label="订单ID">
-                <span>{{ form.goodId }}</span>
+                <span>{{ form.orderId }}</span>
                 </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -271,34 +271,38 @@ const editForm = () => {
         type: 'warning'
     }).then(() => {
         // 处理编辑逻辑
-        if(!form.feedback || !form.feedbackScore) {
-            ElMessage.error('反馈内容和评分不能为空')
+        if(!form.feedback && !form.feedbackScore) {
+            ElMessage.error('反馈内容和评分不能都为空')
             return
         }
-        if(isNaN(form.feedbackScore) || form.feedbackScore < 0 || form.feedbackScore > 5) {
-            ElMessage.error('反馈评分必须在0到5之间')
-            return
+        if(form.feedback) {
+          if( form.feedback.length > 200) {
+                ElMessage.error('反馈内容不能超过200字')
+                return
+            }
+            editFeedBack(form.orderId, form.feedback).then(() => {
+                showOn.value = false
+                ElMessage.success('编辑成功')
+                handleQuery() // 刷新订单列表
+            }).catch(error => {
+                ElMessage.error('编辑失败: ' + error.message)
+            })
         }
-        if(form.feedback.length > 200) {
-            ElMessage.error('反馈内容不能超过200字')
-            return
+        if(form.feedbackScore) {
+          if( form.feedbackScore < 0 || form.feedbackScore > 5) {
+              ElMessage.error('反馈评分必须在0到5之间')
+              return
+          }
+            editScore(form.orderId, form.feedbackScore).then(() => {
+                showOn.value = false
+                ElMessage.success('评分已更新')
+                handleQuery() // 刷新订单列表
+            }).catch(error => {
+                ElMessage.error('评分更新失败: ' + error.message)
+            })
         }
-        editFeedBack(form.goodId, form.feedback).then(() => {
-            showOn.value = false
-            ElMessage.success('编辑成功')
-            handleQuery() // 刷新订单列表
-        }).catch(error => {
-            ElMessage.error('编辑失败: ' + error.message)
-        })
-        editScore(form.goodId, form.feedbackScore).then(() => {
-            showOn.value = false
-            ElMessage.success('评分已更新')
-            handleQuery() // 刷新订单列表
-        }).catch(error => {
-            ElMessage.error('评分更新失败: ' + error.message)
-        })
-        ElMessage.success('编辑成功')
-    }).catch(() => {
+    }).catch((e) => {
+        console.log('编辑操作被取消:', e)
         ElMessage.info('已取消编辑')
     })
 }

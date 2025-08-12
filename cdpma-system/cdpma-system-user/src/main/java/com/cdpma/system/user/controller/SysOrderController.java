@@ -4,7 +4,9 @@ import com.cdpma.common.core.web.controller.BaseController;
 import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.core.web.page.TableDataInfo;
 import com.cdpma.common.log.annotation.Log;
+import com.cdpma.common.log.annotation.UserAction;
 import com.cdpma.common.log.enums.BusinessType;
+import com.cdpma.common.log.enums.UserActionType;
 import com.cdpma.common.pojo.dto.OrderResponseDTO;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOrder;
@@ -25,6 +27,7 @@ public class SysOrderController extends BaseController {
 
     @PostMapping
     @Log(title = "新增订单", businessType = BusinessType.INSERT)
+    @UserAction(UserActionType.ORDER_ADD)
     public AjaxResult addOrder(@RequestBody SysOrder order) {
         sysOrderService.addOrder(order);
         return AjaxResult.success("增加订单成功");
@@ -65,6 +68,7 @@ public class SysOrderController extends BaseController {
 
     @GetMapping("/pay/{orderId}")
     @Log(title = "支付订单", businessType = BusinessType.UPDATE)
+    @UserAction(value = UserActionType.ORDER_PAY)
     public AjaxResult payOrder(@PathVariable Long orderId) {
         SysOrder order = sysOrderService.getOrderById(orderId);
         if (order == null || order.getPaid() == true) {
@@ -77,6 +81,7 @@ public class SysOrderController extends BaseController {
 
     @GetMapping("/cancel/{orderId}")
     @Log(title = "取消订单", businessType = BusinessType.UPDATE)
+    @UserAction(value=UserActionType.ORDER_CANCEL)
     public AjaxResult cancelOrder(@PathVariable Long orderId) {
         SysOrder order = sysOrderService.getOrderById(orderId);
         if (order == null || order.getCancelled() == true) {
@@ -89,6 +94,7 @@ public class SysOrderController extends BaseController {
 
     @GetMapping("/score/{orderId}/{score}")
     @Log(title = "编辑订单评分", businessType = BusinessType.UPDATE)
+    @UserAction(value=UserActionType.ORDER_SCORE)
     public AjaxResult editOrderScore(@PathVariable Long orderId, @PathVariable Integer score) {
         SysOrder order = sysOrderService.getOrderById(orderId);
         if (order == null) {
@@ -101,6 +107,7 @@ public class SysOrderController extends BaseController {
 
     @GetMapping("/feedback/{orderId}/{feedback}")
     @Log(title = "编辑订单反馈", businessType = BusinessType.UPDATE)
+    @UserAction(value = UserActionType.ORDER_COMMENT)
     public AjaxResult editOrderFeedback(@PathVariable Long orderId, @PathVariable String feedback) {
         SysOrder order = sysOrderService.getOrderById(orderId);
         if (order == null) {

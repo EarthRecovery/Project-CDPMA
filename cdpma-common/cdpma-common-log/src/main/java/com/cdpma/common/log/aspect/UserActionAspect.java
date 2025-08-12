@@ -8,6 +8,7 @@ import com.cdpma.common.log.enums.ActionStatus;
 import com.cdpma.common.pojo.bo.SysNotificationBO;
 import com.cdpma.common.pojo.enums.NotificationType;
 import com.cdpma.common.pojo.pojo.SysLikeRecord;
+import com.cdpma.common.pojo.pojo.SysOrder;
 import com.cdpma.common.pojo.pojo.SysUser;
 import com.cdpma.common.pojo.pojo.SysUserAction;
 import com.cdpma.common.rabbitmq.config.RabbitMQConfig;
@@ -109,6 +110,14 @@ public class UserActionAspect {
         if (actionName.startsWith("LIKERECORD")) {
             SysLikeRecord sysLikeRecord = (SysLikeRecord) joinPoint.getArgs()[0];
             sysUserAction.setGoodId(sysLikeRecord.getGoodId());
+        }
+        if(actionName.startsWith("ORDER") && !actionName.startsWith("ORDER_ADD")) {
+            Long orderId = (Long) joinPoint.getArgs()[0];
+            sysUserAction.setOrderId(orderId);
+        }
+        if(actionName.startsWith("ORDER_ADD")){
+            SysOrder sysOrder = (SysOrder) joinPoint.getArgs()[0];
+            sysUserAction.setOrderId(sysOrder.getOrderId());
         }
     }
 
