@@ -64,4 +64,6 @@ public interface ISysOpratorService {
     List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard);
 
     List<Map<String, Object>> getOperatorUserStatData();
+
+    List<Long> selectAllUserId();
 }

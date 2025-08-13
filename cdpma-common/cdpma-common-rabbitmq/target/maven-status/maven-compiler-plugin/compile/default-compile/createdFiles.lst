@@ -1,0 +1,5 @@
+com\cdpma\common\rabbitmq\constant\BaseDTO.class
+com\cdpma\common\rabbitmq\handler\RabbitHandler.class
+com\cdpma\common\rabbitmq\config\DirectRabbitConfig.class
+com\cdpma\common\rabbitmq\config\RabbitListenerConfig.class
+com\cdpma\common\rabbitmq\config\RabbitMQConfig.class

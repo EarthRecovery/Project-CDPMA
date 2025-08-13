@@ -2,6 +2,7 @@ package com.cdpma.system.admin.handler;
 
 import com.cdpma.common.core.utils.RuleUtils;
 import com.cdpma.common.pojo.dto.OperationMapperDTO;
+import com.cdpma.common.pojo.dto.ResponseMapperDTO;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.pojo.pojo.SysOperationTriggerCondition;
 import com.cdpma.common.pojo.pojo.SysUserAction;
@@ -28,19 +29,19 @@ public class TriggerHandler {
         // 这里可以添加具体的业务逻辑代码
 
         // 查看是否对应操作触发条件
-        Map<OperationMapperDTO, List<String>> operationMap = sysOperationService.getOperationMap();
+        Map<OperationMapperDTO, List<ResponseMapperDTO>> operationMap = sysOperationService.getOperationMap();
 
         Boolean isTrigger = false;
         // 这里可以满足多个触发条件的情况
-        for(Map.Entry<OperationMapperDTO, List<String>> entry : operationMap.entrySet()) {
+        for(Map.Entry<OperationMapperDTO, List<ResponseMapperDTO>> entry : operationMap.entrySet()) {
             if (Objects.equals(entry.getKey().getConditionName(), action.getActionType())) {
                 // 检查条件是否满足
                 if(entry.getKey().getRule() != null){
                     if(!RuleUtils.meetRule(entry.getKey().getRule(), args)) continue;
                 }
                 // 执行相应的操作
-                for(String value : entry.getValue()) {
-                    startUpExecutor.execute(value, args, action);
+                for(ResponseMapperDTO value : entry.getValue()) {
+                    startUpExecutor.execute(value.getResponseName(), args, action, value.getParam());
                 }
                 // 成功触发
                 isTrigger = true;

@@ -1,6 +1,7 @@
 package com.cdpma.system.admin.service;
 
 import com.cdpma.common.pojo.dto.OperationMapperDTO;
+import com.cdpma.common.pojo.dto.ResponseMapperDTO;
 import com.cdpma.common.pojo.pojo.SysOperation;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface ISysOperationService {
 
     int deleteOperationByIds(Long[] operationIds);
 
-    Map<OperationMapperDTO, List<String>> getOperationMap();
+    Map<OperationMapperDTO, List<ResponseMapperDTO>> getOperationMap();
 }

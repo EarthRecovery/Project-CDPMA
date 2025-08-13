@@ -1,0 +1,20 @@
+2025-08-13 10:43:53 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-14-1755053033670] <br>----------- xxl-job job execute start -----------<br>----------- Param:params
+2025-08-13 10:43:53 [com.xxl.job.core.thread.JobThread#run]-[204]-[xxl-job, JobThread-14-1755053033670] <br>----------- JobThread Exception:java.util.concurrent.ExecutionException: java.lang.reflect.InvocationTargetException
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:205)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:153)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at com.xxl.job.core.handler.impl.MethodJobHandler.execute(MethodJobHandler.java:29)
+	at com.xxl.job.core.thread.JobThread$1.call(JobThread.java:146)
+	at com.xxl.job.core.thread.JobThread$1.call(JobThread.java:139)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Long (java.lang.Integer and java.lang.Long are in module java.base of loader 'bootstrap')
+	at com.cdpma.job.handler.TestJobHandler.sendMessageToAllMembers(TestJobHandler.java:38)
+	... 9 more
+<br>----------- xxl-job job execute end(error) -----------
+2025-08-13 10:43:53 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.

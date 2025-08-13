@@ -93,6 +93,14 @@
         </el-col>
         </el-row>
 
+        <el-row>
+          <el-col>
+            <el-form-item label="执行参数">
+              <el-input v-model="form.executorParam" placeholder="请输入执行参数" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <!-- 提交按钮 -->
         <el-row>
         <el-col :span="24">
@@ -135,6 +143,11 @@
                 :value="item.responseName"
             />
             </el-select>
+        </el-col>
+        <el-col>
+          <el-form-item label="执行参数">
+            <el-input v-model="createJobForm.executorParam" placeholder="请输入执行参数" style="width: 80%;" />
+          </el-form-item>
         </el-col>
         </el-row>
 
@@ -194,7 +207,8 @@ const form = reactive({
 const createJobForm = reactive({
   jobDesc: '',
   scheduleConf: '',
-  executorHandler: ''
+  executorHandler: '',
+  executorParam: ''
 })
 
 const EditformRef = ref(null)

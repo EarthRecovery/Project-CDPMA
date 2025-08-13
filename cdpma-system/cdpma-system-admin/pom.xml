@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.cdpma</groupId>
-        <artifactId>cdpma-common</artifactId>
+        <artifactId>cdpma-system</artifactId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>cdpma-system-damin</artifactId>
+    <artifactId>cdpma-system-admin</artifactId>
     <description>
         cdpma-system-admin管理模块
     </description>
@@ -83,10 +83,6 @@
         <dependency>
             <groupId>com.cdpma</groupId>
             <artifactId>cdpma-common-operation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cdpma</groupId>
-            <artifactId>cdpma-common-job</artifactId>
         </dependency>
     </dependencies>
 

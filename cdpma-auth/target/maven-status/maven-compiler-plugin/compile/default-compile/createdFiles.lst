@@ -1,0 +1,5 @@
+com\cdpma\auth\service\SysRegisterService.class
+com\cdpma\auth\controller\TokenController.class
+com\cdpma\auth\service\SysLoginService.class
+com\cdpma\auth\service\SysRecordAuthService.class
+com\cdpma\auth\CdpmaAuthApplication.class

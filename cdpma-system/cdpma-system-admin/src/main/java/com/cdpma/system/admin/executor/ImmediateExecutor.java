@@ -26,7 +26,7 @@ public class ImmediateExecutor {
     @Autowired
     private RemoteCouponsService remoteCouponsService;
 
-    public void sendNotification(Object args, SysUserAction sysUserAction) {
+    public void sendNotification(Object args, SysUserAction sysUserAction, String param) {
         SysNotification sysNotification = new SysNotification();
         sysNotification.setTimestamp(new Date());
         sysNotification.setSendTime(new Date());
@@ -34,12 +34,12 @@ public class ImmediateExecutor {
         Long operatorId = sysUserAction.getOperatorId();
         sysNotification.setOperatorId(operatorId);
         sysNotification.setSender(operatorId);
-        sysNotification.setContent(sysUserAction.getActionType()  + " 已经记录！");
+        sysNotification.setContent(param);
         sysNotification.setReceiver(operatorId);
         remoteNotificationService.insertNotification(sysNotification, SecurityConstants.INNER);
     }
 
-    public void sendCoupons(Object args, SysUserAction sysUserAction) {
+    public void sendCoupons(Object args, SysUserAction sysUserAction, String param) {
         SysCoupons sysCoupons = new SysCoupons();
         sysCoupons.setExpirationDuration(30); // 设置优惠券有效期为30天
         sysCoupons.setCouponName("特殊99折优惠券");

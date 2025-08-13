@@ -110,5 +110,12 @@ public class SysOperatorController extends BaseController {
         return AjaxResult.success(sysOperatorService.getOperatorUserStatData());
     }
 
+    @GetMapping("/allUserId")
+    @RequiresTags(value = {Tag.ADMIN, Tag.ASSISTANT}, logical = Logical.OR)
+    public AjaxResult getAllUserId() {
+        List<Long> operatorList = sysOperatorService.selectAllUserId();
+        return AjaxResult.success(operatorList);
+    }
+
 
 }

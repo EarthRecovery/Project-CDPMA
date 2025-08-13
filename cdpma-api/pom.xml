@@ -9,6 +9,7 @@
     </parent>
 
     <modules>
+        <module>cdpma-api-system-user</module>
     </modules>
 
     <artifactId>cdpma-api</artifactId>

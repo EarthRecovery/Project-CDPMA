@@ -16,11 +16,12 @@
         <result property="operationPermission" column="operation_permission"/>
         <result property="operationDescription" column="operation_description"/>
         <result property="isEnabled" column="is_enabled"/>
+        <result property="arg" column="arg" />
     </resultMap>
 
     <sql id="Base_Column_List">
         operation_id, trigger_condition_id, operation_response, create_time, created_by,
-        update_time, updated_by, operation_permission, operation_description, is_enabled
+        update_time, updated_by, operation_permission, operation_description, is_enabled, arg
     </sql>
 
     <select id="selectOperationById" resultMap="OperationResultMap" parameterType="Long">
@@ -45,9 +46,9 @@
 
     <insert id="insertOperation" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
         INSERT INTO cdpma_operation (trigger_condition_id, operation_response, create_time, created_by,
-                                     update_time, updated_by, operation_permission, operation_description, is_enabled)
+                                     update_time, updated_by, operation_permission, operation_description, is_enabled, arg)
         VALUES (#{triggerConditionId}, #{operationResponse}, #{createTime}, #{createdBy},
-                #{updateTime}, #{updatedBy}, #{operationPermission}, #{operationDescription}, #{isEnabled})
+                #{updateTime}, #{updatedBy}, #{operationPermission}, #{operationDescription}, #{isEnabled}, #{arg})
     </insert>
 
     <update id="updateOperation" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
@@ -60,7 +61,10 @@
             updated_by = #{updatedBy},
             operation_permission = #{operationPermission},
             operation_description = #{operationDescription},
-            is_enabled = #{isEnabled}
+            is_enabled = #{isEnabled},
+            <if test="arg != null">
+                arg = #{arg}
+            </if>
         WHERE operation_id = #{operationId}
     </update>
 
@@ -76,6 +80,7 @@
         SELECT
             tc.condition_name AS conditionName,
             tc.rule           AS rule,
+            o.arg             AS arg,
             r.response_name   AS responseName
         FROM cdpma_operation o
                  JOIN cdpma_operation_trigger_condition tc

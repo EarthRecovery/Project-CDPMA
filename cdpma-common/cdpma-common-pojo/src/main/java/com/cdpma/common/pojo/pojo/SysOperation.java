@@ -18,6 +18,7 @@ public class SysOperation extends BaseEntity {
     private String operationDescription;// 操作说明
 
     private Boolean isEnabled;
+    private String arg;
 
     public Long getOperationId() {
         return operationId;
@@ -101,6 +102,14 @@ public class SysOperation extends BaseEntity {
         this.isEnabled = isEnabled;
     }
 
+    public String getArg() {
+        return arg;
+    }
+
+    public void setArg(String arg) {
+        this.arg = arg;
+    }
+
     @Override
     public String toString() {
         return "SysOperation{" +
@@ -114,6 +123,7 @@ public class SysOperation extends BaseEntity {
                 ", operationPermission=" + operationPermission +
                 ", operationDescription='" + operationDescription + '\'' +
                 ", isEnabled=" + isEnabled +
+                ", arg='" + arg + '\'' +
                 '}';
     }
 }

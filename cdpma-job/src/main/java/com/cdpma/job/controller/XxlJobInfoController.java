@@ -27,8 +27,9 @@ public class XxlJobInfoController extends BaseController {
     @GetMapping("/addJob")
     public AjaxResult addJob(@RequestParam String jobDesc,
                              @RequestParam String scheduleConf,
-                             @RequestParam String executorHandler) {
-        jobInfoService.addJob(jobDesc, scheduleConf, executorHandler);
+                             @RequestParam String executorHandler,
+                             @RequestParam String executorParam) {
+        jobInfoService.addJob(jobDesc, scheduleConf, executorHandler, executorParam);
         return AjaxResult.success("新增任务成功");
     }
 

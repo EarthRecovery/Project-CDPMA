@@ -49,4 +49,7 @@ public interface RemoteOperatorService {
 
     @GetMapping("/operator/statData")
     public AjaxResult getOperatorStatData(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/operator/allUserId")
+    public AjaxResult getAllUserId(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

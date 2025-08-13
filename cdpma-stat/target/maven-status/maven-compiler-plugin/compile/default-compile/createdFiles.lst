@@ -1,0 +1,5 @@
+com\cdpma\stat\service\LogStatService.class
+com\cdpma\stat\controller\LogStatController.class
+com\cdpma\stat\CdpmaStatApplication.class
+com\cdpma\stat\controller\UserStatController.class
+com\cdpma\stat\service\UserStatService.class

@@ -2,7 +2,8 @@ import request from '@/utils/request'
 
 export function addJob(params) {
     return request({
-        url: `/job/job-info/addJob?jobDesc=${params.jobDesc}&scheduleConf=${params.scheduleConf}&executorHandler=${params.executorHandler}`,
+        url: `/job/job-info/addJob?jobDesc=${params.jobDesc}&scheduleConf=
+        ${params.scheduleConf}&executorHandler=${params.executorHandler}&executorParam=${params.executorParam}`,
         method: 'get'
     })
 }

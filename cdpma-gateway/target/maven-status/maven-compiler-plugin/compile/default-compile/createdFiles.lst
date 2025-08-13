@@ -1,0 +1,4 @@
+com\cdpma\gateway\config\CorsConfig.class
+com\cdpma\gateway\CdpmaGatewayApplication.class
+com\cdpma\gateway\filter\AuthFilter.class
+com\cdpma\gateway\config\IgnoreWhiteListProperties.class

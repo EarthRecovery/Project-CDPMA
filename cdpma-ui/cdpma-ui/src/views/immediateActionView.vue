@@ -186,6 +186,14 @@
         </el-col>
         </el-row>
 
+        <el-col>
+          <el-row>
+             <el-form-item label="参数">
+              <el-input v-model="form.arg" placeholder="请输入参数" />
+            </el-form-item>
+          </el-row>
+        </el-col>
+
         <!-- 提交按钮 -->
         <el-row>
         <el-col :span="24">
@@ -258,6 +266,11 @@
           <el-col>
             <el-form-item label="规则">
             {{ operationRule }}
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <el-form-item label="参数">
+              <el-input v-model="form.arg" placeholder="请输入参数" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -387,6 +400,7 @@ const form = reactive({
   operationResponse: '',
   operationDescription: '',
   isEnabled: '',
+  arg: ''
 })
 
 const triggerForm = reactive({

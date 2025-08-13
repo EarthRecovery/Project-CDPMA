@@ -64,7 +64,7 @@
     <!-- 查询操作员列表（支持多条件） -->
     <select id="selectOperatorList" parameterType="com.cdpma.common.pojo.pojo.SysOperator" resultMap="SysOperatorResult">
         <include refid="selectOperatorVo"/>
-        <where>
+        <where> 1=1
             <if test="operatorName != null and operatorName != ''">
                 AND operator_name LIKE CONCAT('%', #{operatorName}, '%')
             </if>
@@ -134,6 +134,12 @@
         FROM cdpma_operator
         WHERE operator_role = 'USER'
         GROUP BY operator_region
+    </select>
+
+    <select id="selectAllUserId" resultMap="SysOperatorResult">
+        <include refid="selectOperatorVo"/>
+        WHERE operator_role = 'USER'
+        ORDER BY operator_id DESC
     </select>
 
 </mapper>

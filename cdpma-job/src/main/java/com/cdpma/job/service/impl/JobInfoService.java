@@ -13,7 +13,7 @@ public class JobInfoService implements IJobInfoService {
     private XxlJobUtils xxlJobUtils;
 
     @Override
-    public void addJob(String jobDesc, String scheduleConf, String executorHandler) {
+    public void addJob(String jobDesc, String scheduleConf, String executorHandler, String executorParam) {
         XxlJobInfo jobInfo = new XxlJobInfo();
         jobInfo.setJobDesc(jobDesc);
         jobInfo.setAuthor(SecurityUtils.getOperatorName());
@@ -23,7 +23,7 @@ public class JobInfoService implements IJobInfoService {
         jobInfo.setMisfireStrategy("DO_NOTHING");
         jobInfo.setExecutorRouteStrategy("FIRST");
         jobInfo.setExecutorHandler(executorHandler);
-        jobInfo.setExecutorParam("");
+        jobInfo.setExecutorParam(executorParam);
         jobInfo.setExecutorBlockStrategy("SERIAL_EXECUTION");
         jobInfo.setExecutorTimeout(60);
         jobInfo.setExecutorFailRetryCount(3);

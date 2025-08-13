@@ -1,0 +1,5 @@
+com\cdpma\job\controller\XxlJobInfoController.class
+com\cdpma\job\handler\TestJobHandler.class
+com\cdpma\job\service\IJobInfoService.class
+com\cdpma\job\service\impl\JobInfoService.class
+com\cdpma\job\CdpmaJobApplication.class

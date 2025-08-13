@@ -1,0 +1,5 @@
+com\cdpma\common\job\constant\XxlJobConstant.class
+com\cdpma\common\job\domain\XxlJobInfo.class
+com\cdpma\common\job\utils\XxlJobUtils.class
+com\cdpma\common\job\domain\JobInfoResponse.class
+com\cdpma\common\job\config\XxlJobConfig.class

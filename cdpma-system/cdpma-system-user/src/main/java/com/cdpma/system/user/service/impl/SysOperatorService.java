@@ -7,6 +7,7 @@ import com.cdpma.system.user.service.ISysOpratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -72,5 +73,15 @@ public class SysOperatorService implements ISysOpratorService {
     @Override
     public List<Map<String, Object>> getOperatorUserStatData() {
         return sysOperatorMapper.getOperatorUserStatData();
+    }
+
+    @Override
+    public List<Long> selectAllUserId() {
+        List<SysOperator> operatorList =  sysOperatorMapper.selectAllUserId();
+        List<Long> operatorIdList = new ArrayList<Long>();
+        for (SysOperator operator : operatorList) {
+            operatorIdList.add(operator.getOperatorId());
+        }
+        return operatorIdList;
     }
 }

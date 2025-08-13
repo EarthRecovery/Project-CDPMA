@@ -1,6 +1,7 @@
 package com.cdpma.system.admin.service.impl;
 
 import com.cdpma.common.pojo.dto.OperationMapperDTO;
+import com.cdpma.common.pojo.dto.ResponseMapperDTO;
 import com.cdpma.common.pojo.enums.Tag;
 import com.cdpma.common.pojo.pojo.SysOperation;
 import com.cdpma.common.security.utils.SecurityUtils;
@@ -48,23 +49,30 @@ public class SysOperationService implements ISysOperationService {
     }
 
     @Override
-    public Map<OperationMapperDTO, List<String>> getOperationMap() {
-        Map<OperationMapperDTO, List<String>> operationMap = new HashMap<>();
+    public Map<OperationMapperDTO, List<ResponseMapperDTO>> getOperationMap() {
+        Map<OperationMapperDTO, List<ResponseMapperDTO>> operationMap = new HashMap<>();
         List<HashMap<String, String>> retList = operationMapper.getOperationMap();
 
         for (HashMap<String, String> map : retList) {
             String conditionName = map.get("conditionName");
             String responseName = map.get("responseName");
             String rule = map.get("rule");
+            String arg = map.get("arg");
 
             OperationMapperDTO operationMapperDTO = new OperationMapperDTO();
             operationMapperDTO.setConditionName(conditionName);
             operationMapperDTO.setRule(rule);
             if(!operationMap.containsKey(operationMapperDTO)) {
                 operationMap.put(operationMapperDTO, new ArrayList<>());
-                operationMap.get(operationMapperDTO).add(responseName);
+                ResponseMapperDTO responseMapperDTO = new ResponseMapperDTO();
+                responseMapperDTO.setResponseName(responseName);
+                responseMapperDTO.setParam(arg);
+                operationMap.get(operationMapperDTO).add(responseMapperDTO);
             }else{
-                operationMap.get(operationMapperDTO).add(responseName);
+                ResponseMapperDTO responseMapperDTO = new ResponseMapperDTO();
+                responseMapperDTO.setResponseName(responseName);
+                responseMapperDTO.setParam(arg);
+                operationMap.get(operationMapperDTO).add(responseMapperDTO);
             }
         }
         return operationMap;

@@ -18,7 +18,7 @@ public class StartUpExecutor {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public void execute(String target, Object args, SysUserAction sysUserAction) {
+    public void execute(String target, Object args, SysUserAction sysUserAction, String param) {
         List<String> targetList = Arrays.asList(target.split(":"));
         if (targetList.size() < 2) {
             throw new IllegalArgumentException("Invalid target format. Expected format: 'className:methodName'");
@@ -32,9 +32,10 @@ public class StartUpExecutor {
             throw new RuntimeException("Class not found: " + className, e);
         }
 
-        Class<?>[] paramTypes = new Class[2];
+        Class<?>[] paramTypes = new Class[3];
         paramTypes[0] = Object.class;
         paramTypes[1] = SysUserAction.class;
+        paramTypes[2] = String.class;
 
         Object bean = applicationContext.getBean(clazz);
         Method method;
@@ -45,7 +46,7 @@ public class StartUpExecutor {
         }
 
         try{
-            method.invoke(bean,(Object) args, sysUserAction);
+            method.invoke(bean,(Object) args, sysUserAction, param);
         }catch(Exception e){
             throw new RuntimeException("Failed to invoke method: " + methodName + " in class " + className, e);
         }

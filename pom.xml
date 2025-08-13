@@ -306,6 +306,18 @@
                 <artifactId>cdpma-api-system-user</artifactId>
                 <version>${cdpma.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.cdpma</groupId>
+                <artifactId>cdpma-api</artifactId>
+                <version>${cdpma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.cdpma</groupId>
+                <artifactId>cdpma-stat</artifactId>
+                <version>${cdpma.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -317,6 +329,7 @@
         <module>cdpma-auth</module>
         <module>cdpma-job</module>
         <module>cdpma-api</module>
+        <module>cdpma-stat</module>
     </modules>
     <packaging>pom</packaging>
 

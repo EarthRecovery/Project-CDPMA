@@ -49,4 +49,6 @@ public interface SysOperatorMapper {
     List<SysOperator> selectOperatorByOperatorIdCard(String operatorIdCard);
 
     List<Map<String, Object>> getOperatorUserStatData();
+
+    List<SysOperator> selectAllUserId();
 }

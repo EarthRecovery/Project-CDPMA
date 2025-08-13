@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.cdpma</groupId>
-        <artifactId>cdpma-common</artifactId>
+        <artifactId>cdpma-system</artifactId>
         <version>1.0.0</version>
     </parent>
     <artifactId>cdpma-system-user</artifactId>
