@@ -51,7 +51,7 @@ const initChart = () => {
     },
     xAxis: {
       type: 'value',
-      name: '平均时间',
+      name: '平均时间(ms)',
       axisLine: { show: true }
     },
     yAxis: {

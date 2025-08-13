@@ -9,10 +9,7 @@ import com.cdpma.common.core.web.domain.AjaxResult;
 import com.cdpma.common.pojo.pojo.SysOperator;
 import com.cdpma.common.pojo.pojo.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(contextId = "remoteUserService",
         value = ServiceNameConstants.SYSTEM_USER_SERVICE,
@@ -28,5 +25,14 @@ public interface RemoteUserService {
      */
     @PostMapping("/user")
     public AjaxResult insertUser(@RequestBody SysUser sysUser,
+                                 @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/user/operator/{operatorId}")
+    public AjaxResult getUserByOperatorId(
+            @RequestHeader(SecurityConstants.FROM_SOURCE) String source,
+            @PathVariable("operatorId") Long operatorId);
+
+    @PutMapping("/user")
+    public AjaxResult updateUser(@RequestBody SysUser sysUser,
                                  @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

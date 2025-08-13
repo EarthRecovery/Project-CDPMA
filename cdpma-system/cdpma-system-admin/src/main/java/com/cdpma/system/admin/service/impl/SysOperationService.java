@@ -25,6 +25,7 @@ public class SysOperationService implements ISysOperationService {
 
     @Override
     public List<SysOperation> selectOperationList(SysOperation operation) {
+        System.out.println("查询操作列表: " + operation.toString());
         return operationMapper.selectOperationList(operation);
     }
 

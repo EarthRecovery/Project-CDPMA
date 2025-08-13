@@ -20,6 +20,16 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             {
                 return AjaxResult.error("远程调用失败，无法添加用户信息。错误信息：" + throwable.getMessage());
             }
+
+            @Override
+            public AjaxResult getUserByOperatorId(String source, Long operatorId) {
+                return AjaxResult.error("远程调用失败，无法获取用户信息。错误信息：" + throwable.getMessage());
+            }
+
+            @Override
+            public AjaxResult updateUser(SysUser sysUser, String source) {
+                return AjaxResult.error("远程调用失败，无法更新用户信息。错误信息：" + throwable.getMessage());
+            }
         };
     }
 }

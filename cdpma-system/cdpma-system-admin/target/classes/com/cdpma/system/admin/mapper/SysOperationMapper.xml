@@ -40,6 +40,12 @@
             <if test="isEnabled != null">
                 AND is_enabled = #{isEnabled}
             </if>
+            <if test="triggerConditionId != null">
+                AND trigger_condition_id = #{triggerConditionId}
+            </if>
+            <if test="operationResponse != null">
+                AND operation_response = #{operationResponse}
+            </if>
         </where>
         ORDER BY operation_id DESC
     </select>
@@ -53,7 +59,8 @@
 
     <update id="updateOperation" parameterType="com.cdpma.common.pojo.pojo.SysOperation">
         UPDATE cdpma_operation
-        SET trigger_condition_id = #{triggerConditionId},
+        <set>
+            trigger_condition_id = #{triggerConditionId},
             operation_response = #{operationResponse},
             create_time = #{createTime},
             created_by = #{createdBy},
@@ -63,10 +70,12 @@
             operation_description = #{operationDescription},
             is_enabled = #{isEnabled},
             <if test="arg != null">
-                arg = #{arg}
+                arg = #{arg},
             </if>
+        </set>
         WHERE operation_id = #{operationId}
     </update>
+
 
     <delete id="deleteOperationByIds" parameterType="Long">
         DELETE FROM cdpma_operation

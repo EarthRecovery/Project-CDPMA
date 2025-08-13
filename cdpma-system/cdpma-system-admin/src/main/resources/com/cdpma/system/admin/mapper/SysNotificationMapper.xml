@@ -34,7 +34,7 @@
                 AND operator_id = #{operatorId}
             </if>
             <if test="notificationType != null">
-                AND notifiction_type = #{notificationType}
+                AND notification_type = #{notificationType}
             </if>
             <if test="sender != null">
                 AND sender = #{sender}
